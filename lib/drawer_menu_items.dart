@@ -4,10 +4,17 @@ import 'package:prototipo_navegacao/routes.dart';
 class MenuItensList
 {
   static List<DrawerMenuItem> itens = [
+    //HomePage
     DrawerMenuItem(
       text: const Text('Home', style: TextStyle(color: Colors.blue)),
       icon: const Icon(Icons.home, color: Colors.blue),
       pageRoute: Routes.homePage,
+    ),
+    //Gerenciar professores
+    DrawerMenuItem(
+      text: const Text('Professores', style: TextStyle(color: Colors.blue)),
+      icon: const Icon(Icons.person, color: Colors.blue),
+      pageRoute: Routes.professores,
     ),
     DrawerMenuItem(
       text: const Text('Menu Expandido', style: TextStyle(color: Colors.blue)),
