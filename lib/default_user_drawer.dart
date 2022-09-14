@@ -32,13 +32,14 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
           children: [
             Container(
               padding: const EdgeInsets.all(8.0),
-              child: const Icon(Icons.logout, color: Colors.white),
+              child: const Icon(Icons.logout, color: Colors.blue),
             ),
+            //Botão de logout
             Container(
               padding: const EdgeInsets.all(8.0),
               child: const Text(
                 'Logout', 
-                //style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.blue),
               ),
             ),
           ],
