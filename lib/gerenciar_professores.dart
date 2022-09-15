@@ -49,16 +49,6 @@ class _ProfessoresViewState extends State<ProfessoresView> {
                                   });
                                 },
                               ),
-                              //Botão de remover
-                              IconButton(
-                                icon: const Icon(Icons.remove),
-                                onPressed: () {
-                                  setState(() {
-                                    items.remove(_ctrTxfPesquisa.text);
-                                    _ctrTxfPesquisa.clear();
-                                  });
-                                },
-                              ),
                             ],
                           )
                         ),
@@ -78,6 +68,15 @@ class _ProfessoresViewState extends State<ProfessoresView> {
                           contentPadding: const EdgeInsets.all(8),
                           leading: const FlutterLogo(),
                           title: Text(item),
+                          trailing:  IconButton( //Botão de remover
+                            icon: const Icon(Icons.remove),
+                            onPressed: () {
+                              setState(() {
+                                items.remove(item);
+                                _ctrTxfPesquisa.clear();
+                              });
+                            },
+                          ),
                         );
                       }),
                 )
