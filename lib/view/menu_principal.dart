@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prototipo_navegacao/default_user_drawer.dart';
+
+import '../widgets/default_user_drawer.dart';
 
 class MenuPrincipalView extends StatefulWidget {
   const MenuPrincipalView({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _MenuPrincipalViewState extends State<MenuPrincipalView> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   //Texto de boas vindas
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 25, left: 50),
                     child: Text(
                       "Olá, bem vindo\nao sistema",
