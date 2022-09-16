@@ -20,7 +20,7 @@ class _MenuPrincipalViewState extends State<MenuPrincipalView> {
             children: [
               Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: const [ //atenção ao const
                   //Texto de boas vindas
                   Padding(
                     padding: EdgeInsets.only(top: 25, left: 50),

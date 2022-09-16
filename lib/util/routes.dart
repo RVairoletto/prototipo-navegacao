@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:prototipo_navegacao/gerenciar_professores.dart';
-import 'package:prototipo_navegacao/menu_principal.dart';
-import 'package:prototipo_navegacao/professores_form.dart';
+import 'package:prototipo_navegacao/view/professores/gerenciar_professores.dart';
+import 'package:prototipo_navegacao/view/menu_principal.dart';
+import 'package:prototipo_navegacao/view/professores/professores_form.dart';
 
-import 'login.dart';
-import 'modal.dart';
+import '../view/login.dart';
+import '../view/modal.dart';
 
 class Routes {
   static const String login = '/login';
@@ -17,9 +17,9 @@ class Routes {
     return {
       login: (context) => const LoginView(),
       homePage: (context) => const MenuPrincipalView(),
-      modal: (context) => const Modal(),
       professores: (context) => const ProfessoresView(),
       professoresForm: (context) => const ProfessoresFormView(),
+      modal: (context) => const Modal(),
     };
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
-import 'widgets/default_user_drawer.dart';
+import '../../widgets/default_user_drawer.dart';
 
 class ProfessoresView extends StatefulWidget {
   const ProfessoresView({super.key});
@@ -114,9 +114,13 @@ class _ProfessoresViewState extends State<ProfessoresView> {
                       padding: EdgeInsets.symmetric(
                           horizontal: (MediaQuery.of(context).size.width / 10)),
                       onPressed: () async {
-                        await Navigator.pushNamed(context, Routes.modal) != null
-                          ? print("true") //deletar
-                          : print("false"); //cancelar o delete
+                        //16/09 ternário não funciona, tem que ser if
+                        if(await Navigator.pushNamed(context, Routes.modal) == true){
+                          //confirmar exclusão
+                        }
+                        else{
+                          //cancelar exclusão
+                        }
                       },
                     )
                   ],
