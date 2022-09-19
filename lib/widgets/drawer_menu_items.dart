@@ -16,6 +16,12 @@ class MenuItensList
       icon: const Icon(Icons.person, color: Colors.blue),
       pageRoute: Routes.professores,
     ),
+    //Tela de testes
+    DrawerMenuItem(
+      text: const Text('Testes', style: TextStyle(color: Colors.blue)),
+      icon: const Icon(Icons.person, color: Colors.blue),
+      pageRoute: Routes.telaTestes,
+    ),
     DrawerMenuItem(
       text: const Text('Menu Expandido', style: TextStyle(color: Colors.blue)),
       icon: const Icon(Icons.home, color: Colors.blue),

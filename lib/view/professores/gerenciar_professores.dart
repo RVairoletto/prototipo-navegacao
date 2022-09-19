@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
+import '../../widgets/default_alert_dialog.dart';
 import '../../widgets/default_user_drawer.dart';
 
 class ProfessoresView extends StatefulWidget {
@@ -60,27 +61,37 @@ class _ProfessoresViewState extends State<ProfessoresView> {
                 //Listgrid com os resultados
                 Flexible(
                   child: ListView.builder(
-                      padding: const EdgeInsets.all(8),
-                      itemCount: items.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final item = items[index];
+                    padding: const EdgeInsets.all(8),
+                    itemCount: items.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final item = items[index];
 
-                        return ListTile(
-                          contentPadding: const EdgeInsets.all(8),
-                          leading: const FlutterLogo(),
-                          title: Text(item),
-                          trailing: IconButton(
-                            //Botão de remover
-                            icon: const Icon(Icons.remove),
-                            onPressed: () {
+                      return ListTile(
+                        contentPadding: const EdgeInsets.all(8),
+                        leading: const FlutterLogo(),
+                        title: Text(item),
+                        trailing: IconButton(
+                          //Botão de remover
+                          icon: const Icon(Icons.remove),
+                          onPressed: () async {
+                            final confirmarExclusao = await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const DefaultAlertDialog();
+                              },
+                            );
+
+                            if(confirmarExclusao == true){
                               setState(() {
                                 items.remove(item);
                                 _ctrTxfPesquisa.clear();
                               });
-                            },
-                          ),
-                        );
-                      }),
+                            }
+                          },
+                        ),
+                      );
+                    }
+                  ),
                 ),
                 //Linha com os botões de adicionar, alterar e excluir um registro
                 Row(
@@ -112,14 +123,18 @@ class _ProfessoresViewState extends State<ProfessoresView> {
                       icon: const Icon(Icons.remove_circle),
                       iconSize: 80,
                       padding: EdgeInsets.symmetric(
-                          horizontal: (MediaQuery.of(context).size.width / 10)),
+                        horizontal: (MediaQuery.of(context).size.width / 10)
+                      ),
                       onPressed: () async {
-                        //16/09 ternário não funciona, tem que ser if
-                        if(await Navigator.pushNamed(context, Routes.modal) == true){
-                          //confirmar exclusão
-                        }
-                        else{
-                          //cancelar exclusão
+                        final confirmarExclusao = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const DefaultAlertDialog();
+                          },
+                        );
+
+                        if(confirmarExclusao == true){
+                          //realizar exclusão e dar setState
                         }
                       },
                     )
