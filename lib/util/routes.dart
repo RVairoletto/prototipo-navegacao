@@ -5,7 +5,6 @@ import 'package:prototipo_navegacao/view/menu_principal.dart';
 import 'package:prototipo_navegacao/view/professores/professores_form.dart';
 
 import '../view/login.dart';
-import '../view/modal.dart';
 
 class Routes {
   static const String login = '/login';
@@ -21,7 +20,6 @@ class Routes {
       homePage: (context) => const MenuPrincipalView(),
       professores: (context) => const ProfessoresView(),
       professoresForm: (context) => const ProfessoresFormView(),
-      modal: (context) => const Modal(),
       telaTestes: (context) => const TestesView(),
     };
   }
