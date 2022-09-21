@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototipo_navegacao/routes.dart';
+import 'package:prototipo_navegacao/util/routes.dart';
 
 class MenuItensList
 {
@@ -15,6 +15,12 @@ class MenuItensList
       text: const Text('Professores', style: TextStyle(color: Colors.blue)),
       icon: const Icon(Icons.person, color: Colors.blue),
       pageRoute: Routes.professores,
+    ),
+    //Tela de testes
+    DrawerMenuItem(
+      text: const Text('Testes', style: TextStyle(color: Colors.blue)),
+      icon: const Icon(Icons.person, color: Colors.blue),
+      pageRoute: Routes.telaTestes,
     ),
     DrawerMenuItem(
       text: const Text('Menu Expandido', style: TextStyle(color: Colors.blue)),
