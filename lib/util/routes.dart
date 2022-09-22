@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:prototipo_navegacao/tela_testes.dart';
+import 'package:prototipo_navegacao/view/disciplinas/gerenciar_disciplinas.dart';
 import 'package:prototipo_navegacao/view/professores/gerenciar_professores.dart';
 import 'package:prototipo_navegacao/view/menu_principal.dart';
 import 'package:prototipo_navegacao/view/professores/professores_form.dart';
@@ -13,6 +14,7 @@ class Routes {
   static const String professoresForm = '/professoresForm';
   static const String modal = '/modal';
   static const String telaTestes = '/telaTestes';
+  static const String disciplinas = '/disciplinas';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -21,6 +23,7 @@ class Routes {
       professores: (context) => const ProfessoresView(),
       professoresForm: (context) => const ProfessoresFormView(),
       telaTestes: (context) => const TestesView(),
+      disciplinas: (context) => const DisciplinasView(),
     };
   }
 }

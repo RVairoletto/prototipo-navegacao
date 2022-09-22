@@ -16,6 +16,12 @@ class MenuItensList
       icon: const Icon(Icons.person, color: Colors.blue),
       pageRoute: Routes.professores,
     ),
+    //Gerenciar Disciplinas
+    DrawerMenuItem(
+      text: const Text('Disciplinas', style: TextStyle(color: Colors.blue)),
+      icon: const Icon(Icons.person, color: Colors.blue),
+      pageRoute: Routes.disciplinas,
+    ),
     //Tela de testes
     DrawerMenuItem(
       text: const Text('Testes', style: TextStyle(color: Colors.blue)),

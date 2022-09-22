@@ -96,6 +96,7 @@ class _ProfessoresFormViewState extends State<ProfessoresFormView> {
                   splashRadius: 45,
                   onPressed: () {
                     //cancelar o cadastro e retornar pra tela anterior
+                    Navigator.pop(context, false);
                   },
                 ),
               ],
