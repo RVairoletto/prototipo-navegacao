@@ -13,6 +13,7 @@ class _LoginViewState extends State<LoginView> {
   final _ctrUsuario = TextEditingController();
   final _ctrSenha = TextEditingController();
   bool exibirSenha = false;
+  final String backendPath = r'D:\Programacao\flutter_projects\prototipo_backend';
 
   @override
   Widget build(BuildContext context) {
