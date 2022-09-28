@@ -22,10 +22,11 @@ class ControllerUsuarios {
   //Get usuário
   Map<String, dynamic> getUsuario() {
     Map<String, dynamic> user = {
-      'id': '',
-      'nome': '',
+      'name': '',
       'email': '',
-      'senha': '',
+      'password': '',
+      'confirmPassword': '',
+      'admin' : ''
     };
 
     return user;

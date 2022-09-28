@@ -3,7 +3,7 @@ import 'api_request.dart';
 import 'api_response.dart';
 
 class ApiClient {
-  final String baseUrl = 'https://projeto-integrador-2022-api.herokuapp.com/';
+  final String baseUrl = r'https://projeto-integrador-2022-api.herokuapp.com/';
 
   Future<ApiResponse> get({required String endPoint, String token = '', Map? filters}) async {
     ApiRequest request = ApiRequest(url: baseUrl + endPoint, requestType: RequestType.GET);
@@ -25,7 +25,7 @@ class ApiClient {
 
     request.header = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
+      //'Authorization': 'Bearer $token',
     };
 
     if(data != null) {
