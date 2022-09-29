@@ -5,6 +5,7 @@ import 'package:prototipo_navegacao/view/professores/gerenciar_professores.dart'
 import 'package:prototipo_navegacao/view/menu_principal.dart';
 import 'package:prototipo_navegacao/view/professores/professores_form.dart';
 import 'package:prototipo_navegacao/view/usuarios/gerenciar_usuarios.dart';
+import 'package:prototipo_navegacao/view/usuarios/usuarios_form.dart';
 
 import '../view/login.dart';
 
@@ -17,6 +18,7 @@ class Routes {
   static const String telaTestes = '/telaTestes';
   static const String disciplinas = '/disciplinas';
   static const String usuarios = '/usuarios';
+  static const String usuariosForm = '/usuariosForm';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -27,6 +29,7 @@ class Routes {
       telaTestes: (context) => const TestesView(),
       disciplinas: (context) => const DisciplinasView(),
       usuarios: (context) => const UsuariosView(),
+      usuariosForm: (context) => const UsuariosFormView(),
     };
   }
 }

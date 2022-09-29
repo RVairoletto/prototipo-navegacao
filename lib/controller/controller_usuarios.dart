@@ -53,4 +53,13 @@ class ControllerUsuarios {
   //Get múltiplos usuários
 
   //Excluir usuário
+
+  //Validar campos de senha e confirmar senha
+  bool senhasIguais(String senha, String confirmarSenha){
+    if(senha == confirmarSenha){
+      return true;
+    }
+    
+    return false;
+  }
 }
