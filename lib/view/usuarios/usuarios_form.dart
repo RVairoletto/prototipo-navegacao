@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 
 class UsuariosFormView extends StatefulWidget {
   const UsuariosFormView({super.key});
@@ -41,6 +42,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
+                              autofocus: true,
                               controller: ctrNomeUsuario,
                               decoration: const InputDecoration(
                                   label: Text("Nome de Usuário")),
@@ -84,6 +86,16 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
                                 controller: ctrConfirmarSenha,
+                                /* validator: (value) {
+                                  return (ctrConfirmarSenha.text != ctrSenha.text) ? 'Os campos devem ser iguais' : null;
+                                }, */
+                                //Evento que vai verificar se esse campo é igual ao campo da senha
+                                onChanged: (text) {
+                                  if (ControllerUsuarios.senhasIguais(
+                                      ctrSenha.text, ctrConfirmarSenha.text)) {
+                                    //senhas iguais
+                                  } else {}
+                                },
                                 decoration: const InputDecoration(
                                     label: Text("Confirmar senha")),
                               ),
