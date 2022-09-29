@@ -12,7 +12,7 @@ class _UsuariosViewState extends State<UsuariosView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Gerenciar Professores"),
+        title: const Text("Gerenciar Usuários"),
       ),
     );
   }
