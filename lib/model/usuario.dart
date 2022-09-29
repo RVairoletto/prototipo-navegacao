@@ -1,35 +1,35 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
-
-class Usuario {
+class UsuarioModel {
   int? id;
-  String nome;
+  String name;
   String email;
-  String senha;
+  String password;
+  bool admin;
 
-  Usuario({
+  UsuarioModel({
     this.id,
-    this.nome = '',
+    this.name = '',
     this.email = '',
-    this.senha = '',
+    this.password = '',
+    this.admin = false,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'nome': nome,
+      'name': name,
       'email': email,
-      'senha': senha,
+      'password': password,
+      'admin': admin,
     };
   }
 
-  factory Usuario.fromJson(Map<String, dynamic> json) {
-    return Usuario(
+  factory UsuarioModel.fromJson(Map<String, dynamic> json) {
+    return UsuarioModel(
       id: json['id'],
-      nome: json['nome'],
+      name: json['name'],
       email: json['email'],
-      senha: json['senha'],
+      password: json['password'],
+      admin: json['admin'],
     );
   }
 }

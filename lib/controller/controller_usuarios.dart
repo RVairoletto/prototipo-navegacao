@@ -1,21 +1,39 @@
-import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:prototipo_navegacao/model/usuario.dart';
+
+import '../api/api_client.dart';
+import '../api/api_response.dart';
 
 class ControllerUsuarios {
-  //Declaração de varáveis
-  final String backendPath =
-      r'D:\Programacao\flutter_projects\prototipo_backend';
+  //Declaração de variáveis
+  String error = '';
 
   //Autenticar login
   bool autenticarLogin() {
     bool isValido = false;
 
-    if('$backendPath\\api\\auth.js' == ''){
-
-    }
+    //validação
 
     return isValido;
   }
+
   //Adicionar usuário
+  Future<UsuarioModel?> postMaterial(BuildContext context, UsuarioModel usuario) async {
+    ApiResponse response = await ApiClient().post(
+      endPoint: 'signup',
+      token: '',
+      data: usuario.toJson(),
+    );
+
+    if (response.statusCode > 299) {
+      response.body['error'].forEach((requestError) {
+        error += requestError['msg'] + "\n";
+      });
+    } else {
+      return usuario;
+    }
+    return null;
+  }
 
   //Alterar usuário
 
@@ -26,7 +44,7 @@ class ControllerUsuarios {
       'email': '',
       'password': '',
       'confirmPassword': '',
-      'admin' : ''
+      'admin': ''
     };
 
     return user;
@@ -35,5 +53,4 @@ class ControllerUsuarios {
   //Get múltiplos usuários
 
   //Excluir usuário
-
 }
