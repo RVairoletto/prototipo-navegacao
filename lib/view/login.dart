@@ -94,6 +94,11 @@ class _LoginViewState extends State<LoginView> {
                     child: const Text("Entrar"),
                   ),
                 ),
+                //Autologin pra testes
+                ElevatedButton(
+                  onPressed: (() => Navigator.pushReplacementNamed(context, Routes.homePage)),
+                  child: const Text('Autologin')
+                ),
               ],
             ),
           ),
