@@ -63,46 +63,50 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                       ],
                     ),
                     //Linha com os campos de senha e confirmar senha
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          //Campo de senha
-                          Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                controller: ctrSenha,
-                                decoration:
-                                    const InputDecoration(label: Text("Senha")),
-                              ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        //Campo de senha
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              controller: ctrSenha,
+                              onChanged: (value) => setState(() {
+                                //feito para o validator do campo de confirmar senha atualizar
+                                //caso esse campo se torne igual ao de confirmar senha
+                              }),
+                              decoration:
+                                  const InputDecoration(label: Text("Senha")),
                             ),
                           ),
-                          //Campo de confirmar senha
-                          Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                controller: ctrConfirmarSenha,
-                                /* validator: (value) {
-                                  return (ctrConfirmarSenha.text != ctrSenha.text) ? 'Os campos devem ser iguais' : null;
-                                }, */
-                                //Evento que vai verificar se esse campo é igual ao campo da senha
-                                onChanged: (text) {
-                                  if (ControllerUsuarios.senhasIguais(
-                                      ctrSenha.text, ctrConfirmarSenha.text)) {
-                                    //senhas iguais
-                                  } else {}
-                                },
-                                decoration: const InputDecoration(
-                                    label: Text("Confirmar senha")),
-                              ),
+                        ),
+                        //Campo de confirmar senha
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              autovalidateMode: AutovalidateMode.always,
+                              controller: ctrConfirmarSenha,
+                              validator: (value) {
+                                String senha = ctrSenha.text;
+
+                                if (value == null || value.isEmpty) {
+                                  return 'Digite algum valor';
+                                }
+                                else if(value != senha)
+                                {
+                                  return 'As senhas devem ser iguais';
+                                }
+                                return null;
+                              },
+                              decoration: const InputDecoration(
+                                  label: Text("Confirmar senha")),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
