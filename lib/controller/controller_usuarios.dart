@@ -18,7 +18,7 @@ class ControllerUsuarios {
   }
 
   //Adicionar usuário
-  Future<UsuarioModel?> postMaterial(BuildContext context, UsuarioModel usuario) async {
+  Future<UsuarioModel?> postUsuario(BuildContext context, UsuarioModel usuario) async {
     ApiResponse response = await ApiClient().post(
       endPoint: 'signup',
       token: '',
@@ -54,12 +54,4 @@ class ControllerUsuarios {
 
   //Excluir usuário
 
-  //Validar campos de senha e confirmar senha
-  static bool senhasIguais(String senha, String confirmarSenha){
-    if(senha == confirmarSenha){
-      return true;
-    }
-    
-    return false;
-  }
 }
