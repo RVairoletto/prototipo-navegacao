@@ -84,6 +84,9 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
                                 controller: ctrConfirmarSenha,
+                                onChanged: (String e){
+
+                                },
                                 decoration: const InputDecoration(
                                     label: Text("Confirmar senha")),
                               ),
