@@ -55,7 +55,7 @@ class ControllerUsuarios {
   //Excluir usuário
 
   //Validar campos de senha e confirmar senha
-  bool senhasIguais(String senha, String confirmarSenha){
+  static bool senhasIguais(String senha, String confirmarSenha){
     if(senha == confirmarSenha){
       return true;
     }
