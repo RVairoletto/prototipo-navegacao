@@ -8,15 +8,6 @@ class ControllerUsuarios {
   //Declaração de variáveis
   String error = '';
 
-  //Autenticar login
-  bool autenticarLogin() {
-    bool isValido = false;
-
-    //validação
-
-    return isValido;
-  }
-
   //Adicionar usuário
   Future<UsuarioModel?> postUsuario(BuildContext context, UsuarioModel usuario) async {
     ApiResponse response = await ApiClient().post(

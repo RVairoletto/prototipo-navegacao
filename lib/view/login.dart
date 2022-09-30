@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototipo_navegacao/controller/controller_login.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 
 class LoginView extends StatefulWidget {
@@ -10,10 +11,12 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   //controladores das caixas de texto
-  final _ctrUsuario = TextEditingController();
-  final _ctrSenha = TextEditingController();
+  final ctrUsuario = TextEditingController();
+  final ctrSenha = TextEditingController();
+
   bool exibirSenha = false;
-  final String backendPath = r'D:\Programacao\flutter_projects\prototipo_backend';
+
+  ControllerLogin controllerLogin = ControllerLogin();
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +32,10 @@ class _LoginViewState extends State<LoginView> {
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              //crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 //TextBox de usuário
                 TextFormField(
-                  controller: _ctrUsuario,
+                  controller: ctrUsuario,
                   decoration: const InputDecoration(
                     labelText: "Usuário",
                     prefixIcon: Icon(Icons.person_rounded),
@@ -41,7 +43,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 //TextBox de senha
                 TextFormField(
-                  controller: _ctrSenha,
+                  controller: ctrSenha,
                   obscureText: !exibirSenha,
                   decoration: InputDecoration(
                     labelText: 'Senha',
@@ -64,19 +66,28 @@ class _LoginViewState extends State<LoginView> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: ElevatedButton(
-                    onPressed: () {
-                      if (_ctrUsuario.text == "exemplo@email.com" &&
-                          _ctrSenha.text == "123") {
-                        Navigator.of(context).pushReplacementNamed(Routes.homePage);
+                    onPressed: () async {
+                      final isLoginValido = await controllerLogin.efetuarLogin(ctrUsuario.text, ctrSenha.text);
+
+                      if(isLoginValido){
+                        Navigator.pushReplacementNamed(context, Routes.homePage);
                       } else {
                         showDialog(
                           context: context,
-                          builder: (context){
-                            return const AlertDialog(
-                              title: Text('Algo deu errado'),
-                              content: Text('Verifique os dados de login'),
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Aviso'),
+                              content: const Text('Os dados de login são inválidos'),
+                              actions: [
+                                TextButton(
+                                  onPressed: (){
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Ok')
+                                )
+                              ],
                             );
-                          },
+                          }
                         );
                       }
                     },
