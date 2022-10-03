@@ -15,10 +15,20 @@ class UsuariosView extends StatefulWidget {
 
 class _UsuariosViewState extends State<UsuariosView> {
   ControllerUsuarios ctrUsuarios = ControllerUsuarios();
-  List<UsuarioModel>? usuarios;
+  List<UsuarioModel> usuarios = [];
 
   TextEditingController ctrNome = TextEditingController();
   TextEditingController ctrEmail = TextEditingController();
+
+  fetchUsuarios() async {
+    usuarios = await ctrUsuarios.getUsuario(context);
+  }
+
+  @override
+  void initState() {
+    fetchUsuarios();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +82,8 @@ class _UsuariosViewState extends State<UsuariosView> {
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          usuarios = ctrUsuarios.getUsuario(context, null) as List<UsuarioModel>?;
+                          usuarios = ctrUsuarios.getUsuario(context)
+                              as List<UsuarioModel>;
                         });
                       },
                       child: const Text('Pesquisar'),
@@ -83,7 +94,7 @@ class _UsuariosViewState extends State<UsuariosView> {
               //Datatable
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.7,
+                height: MediaQuery.of(context).size.height * 0.65,
                 child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: ListView(children: [

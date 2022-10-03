@@ -158,7 +158,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                           final dynamic isUsuarioPosted = controllerUsuario.postUsuario(context, usuario);
                           
                           //Salvou com sucesso
-                          if(isUsuarioPosted != null && isUsuarioPosted.runtimeType == UsuarioModel){
+                          if(isUsuarioPosted != null ){ //&& isUsuarioPosted.runtimeType == UsuarioModel
                             Navigator.pop(context, true);
                             //Não salvou com sucesso
                           } else {
@@ -167,7 +167,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               builder: ((context) {
                                 return AlertDialog(
                                   title: const Text('Algo deu errado'),
-                                  content: const Text('O usuário não pôde ser salvo'),
+                                  content: Text('O usuário não pôde ser salvo\n$isUsuarioPosted'),
                                   actions: [
                                     TextButton(
                                       onPressed: (() => Navigator.pop(context)),

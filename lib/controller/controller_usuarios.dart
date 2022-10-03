@@ -52,32 +52,21 @@ class ControllerUsuarios {
   }
 
   //Get múltiplos usuários
-  Future<List<UsuarioModel>?> getUsuario(
-      BuildContext context, Map? filters) async {
+  Future<List<UsuarioModel>> getUsuario(BuildContext context) async {
     ApiResponse response = await ApiClient().get(
       endPoint: 'users',
       token: '',
-      filters: filters,
     );
 
     //confirmar códigos de sucesso e erro
-    if (response.statusCode > 299) {
-      response.body['error'].forEach((requestError) {
-        error += requestError['msg'] + "\n";
-      });
-    } else {
-      List<UsuarioModel> usuarios = [];
-
-      for (int i = 0; i < response.body; i++) {
-        final item = response.body[i];
-
-        usuarios.add(UsuarioModel.fromJson(item));
-      }
-
-      return usuarios;
+    if (response.statusCode != 200) {
+      throw Exception(response.body['error']);
     }
 
-    return null;
+    //pendente de testes
+    return response.body['data']['rows']
+        .map<UsuarioModel>((material) => UsuarioModel.fromJson(material))
+        .toList();
   }
 
   //Get usuário
