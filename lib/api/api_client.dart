@@ -11,6 +11,7 @@ class ApiClient {
     request.header = {
       'Content-Type': 'application/json',
       //'Authorization': 'Bearer $token',
+      'Access-Control-Allow-Origin': '*',
     };
 
     request.params = jsonEncode(filters);
@@ -26,6 +27,7 @@ class ApiClient {
     request.header = {
       'Content-Type': 'application/json',
       //'Authorization': 'Bearer $token',
+      'Access-Control-Allow-Origin': '*',
     };
 
     if(data != null) {
@@ -43,6 +45,7 @@ class ApiClient {
     request.header = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
+      'Access-Control-Allow-Origin': '*',
     };
     
     request.body = jsonEncode(data);
@@ -58,6 +61,7 @@ class ApiClient {
     request.header = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
+      'Access-Control-Allow-Origin': '*',
     };
 
     ApiResponse response = await request.makeCall();
@@ -70,7 +74,8 @@ class ApiClient {
     
     request.header = {
       'Content-Type': 'application/json',
-      'x-reset-token': token
+      'x-reset-token': token,
+      'Access-Control-Allow-Origin': '*',
     };
 
     if(data != null) {
