@@ -159,9 +159,26 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                           
                           //Salvou com sucesso
                           if(isUsuarioPosted != null ){ //&& isUsuarioPosted.runtimeType == UsuarioModel
+                            showDialog(
+                              context: context,
+                              builder: ((context) {
+                                return AlertDialog(
+                                  title: const Text('Sucesso'),
+                                  content: const Text('Seu cadastro foi registrado'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: (() => Navigator.pop(context)),
+                                      child: const Text('Ok')
+                                    )
+                                  ],
+                                );
+                              })
+                            );
+                            
                             Navigator.pop(context, true);
-                            //Não salvou com sucesso
-                          } else {
+                          }
+                          //Não salvou com sucesso
+                          else {
                             showDialog(
                               context: context,
                               builder: ((context) {
@@ -170,7 +187,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                                   content: Text('O usuário não pôde ser salvo\n$isUsuarioPosted'),
                                   actions: [
                                     TextButton(
-                                      onPressed: (() => Navigator.pop(context)),
+                                      onPressed: (() => Navigator.pop(context, false)),
                                       child: const Text('Ok')
                                     )
                                   ],

@@ -82,8 +82,7 @@ class _UsuariosViewState extends State<UsuariosView> {
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          usuarios = ctrUsuarios.getUsuario(context)
-                              as List<UsuarioModel>;
+                          usuarios = fetchUsuarios();
                         });
                       },
                       child: const Text('Pesquisar'),
