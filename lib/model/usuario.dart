@@ -28,7 +28,7 @@ class UsuarioModel {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      password: json['password'],
+      password: (json['password']) != null ? json['password'] : null,
       admin: json['admin'],
     );
   }
