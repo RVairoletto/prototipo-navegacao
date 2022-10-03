@@ -29,9 +29,27 @@ class ControllerUsuarios {
   }
 
   //Alterar usuário
+  Future<UsuarioModel?> putUsuario(
+      BuildContext context, UsuarioModel usuario) async {
+    ApiResponse response = await ApiClient().put(
+      endPoint: '', //endpoint pendente
+      token: '',
+      data: usuario.toJson(),
+    );
 
-  //Get usuários
-  //Testar em casa
+    //confirmar códigos de sucesso e erro
+    if (response.statusCode > 299) {
+      response.body['error'].forEach((requestError) {
+        error += requestError['msg'] + "\n";
+      });
+    } else {
+      return usuario;
+    }
+
+    return null;
+  }
+
+  //Get múltiplos usuários
   Future<List<UsuarioModel>?> getUsuario(
       BuildContext context, Map? filters) async {
     ApiResponse response = await ApiClient().get(
@@ -53,20 +71,32 @@ class ControllerUsuarios {
 
         usuarios.add(UsuarioModel.fromJson(item));
       }
-      
+
       return usuarios;
     }
 
     return null;
-
-    // final item = response[0];
-    // print(item['text']); // foo
-    // print(item['value']); // 1
-    // print(item['status']);
   }
 
-  //Get múltiplos usuários
+  //Get usuário
 
   //Excluir usuário
+  Future<UsuarioModel?> deleteUsuario(
+      BuildContext context, UsuarioModel usuario) async {
+    ApiResponse response = await ApiClient().delete(
+      endPoint: '', //endpoint pendente
+      token: '',
+    );
 
+    //confirmar códigos de sucesso e erro
+    if (response.statusCode > 299) {
+      response.body['error'].forEach((requestError) {
+        error += requestError['msg'] + "\n";
+      });
+    } else {
+      return usuario;
+    }
+
+    return null;
+  }
 }
