@@ -15,7 +15,7 @@ class UsuariosView extends StatefulWidget {
 
 class _UsuariosViewState extends State<UsuariosView> {
   ControllerUsuarios ctrUsuarios = ControllerUsuarios();
-  List<UsuarioModel?> usuarios = [];
+  List<UsuarioModel>? usuarios;
 
   TextEditingController ctrNome = TextEditingController();
   TextEditingController ctrEmail = TextEditingController();
@@ -67,10 +67,13 @@ class _UsuariosViewState extends State<UsuariosView> {
                       ),
                     ),
                   ),
+                  //Botão pesquisar
                   Flexible(
                     child: ElevatedButton(
                       onPressed: () {
-                        usuarios = ctrUsuarios.getUsuario(context, null) as List<UsuarioModel?>;
+                        setState(() {
+                          usuarios = ctrUsuarios.getUsuario(context, null) as List<UsuarioModel>?;
+                        });
                       },
                       child: const Text('Pesquisar'),
                     ),
@@ -115,8 +118,8 @@ class _UsuariosViewState extends State<UsuariosView> {
                         rows: [
                           //grid gerado dinamicamente no controller de usuario
                           //baseado nos resultados da query de pesquisa
-                          for (int i = 0; i < usuarios.length; i++)
-                            ctrUsuarios.gerarDataRow(context, usuarios[i])
+                          for (int i = 0; i < usuarios!.length; i++)
+                            ctrUsuarios.gerarDataRow(context, usuarios![i])
                         ],
                       ),
                     ])),
