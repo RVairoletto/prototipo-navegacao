@@ -3,6 +3,8 @@ import 'package:prototipo_navegacao/model/usuario.dart';
 
 import '../api/api_client.dart';
 import '../api/api_response.dart';
+import '../util/routes.dart';
+import '../widgets/default_alert_dialog.dart';
 
 class ControllerUsuarios {
   //Declaração de variáveis
@@ -98,5 +100,34 @@ class ControllerUsuarios {
     }
 
     return null;
+  }
+
+  //Gerar datatable
+  DataRow gerarDataRow(BuildContext context, UsuarioModel? usuario) {
+    return DataRow(cells: [
+      DataCell(Text(usuario!.name)),
+      DataCell(Text(usuario.email)),
+      DataCell(IconButton( //Alterar
+        icon: const Icon(Icons.app_registration),
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.usuariosForm);
+        },
+      )),
+      DataCell(IconButton( //Excuir
+        icon: const Icon(Icons.remove_circle),
+        onPressed: () async {
+          final confirmarExclusao = await showDialog(
+            context: context,
+            builder: (context) {
+              return const DefaultAlertDialog();
+            },
+          );
+
+          if (confirmarExclusao) {
+            deleteUsuario(context, usuario);
+          }
+        },
+      )),
+    ]);
   }
 }

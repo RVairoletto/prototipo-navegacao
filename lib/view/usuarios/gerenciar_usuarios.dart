@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 import 'package:prototipo_navegacao/widgets/default_alert_dialog.dart';
 import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
+
+import '../../model/usuario.dart';
 
 class UsuariosView extends StatefulWidget {
   const UsuariosView({super.key});
@@ -11,6 +14,9 @@ class UsuariosView extends StatefulWidget {
 }
 
 class _UsuariosViewState extends State<UsuariosView> {
+  ControllerUsuarios ctrUsuarios = ControllerUsuarios();
+  List<UsuarioModel?> usuarios = [];
+
   TextEditingController ctrNome = TextEditingController();
   TextEditingController ctrEmail = TextEditingController();
 
@@ -64,7 +70,7 @@ class _UsuariosViewState extends State<UsuariosView> {
                   Flexible(
                     child: ElevatedButton(
                       onPressed: () {
-                        //rotina de pesquisa
+                        usuarios = ctrUsuarios.getUsuario(context, null) as List<UsuarioModel?>;
                       },
                       child: const Text('Pesquisar'),
                     ),
@@ -107,25 +113,10 @@ class _UsuariosViewState extends State<UsuariosView> {
                           ),
                         ],
                         rows: [
-                          //todo implementar rotinas de alteração e exclusão
-                          //direto nas linhas do grid
-                          for (int i = 0; i < 3; i++) //gerar a lista dinamicamente com o número de retornos da query
-                            DataRow(
-                              cells: [
-                                DataCell(Text('Sarah')),
-                                DataCell(Text('$i')),
-                                DataCell(IconButton(
-                                  onPressed: () {
-                                    //alterar
-                                  },
-                                  icon: const Icon(Icons.flutter_dash))),
-                                DataCell(IconButton(
-                                  onPressed: () {
-                                    //excluir
-                                  },
-                                  icon: const Icon(Icons.delete))),
-                              ],
-                            ),
+                          //grid gerado dinamicamente no controller de usuario
+                          //baseado nos resultados da query de pesquisa
+                          for (int i = 0; i < usuarios.length; i++)
+                            ctrUsuarios.gerarDataRow(context, usuarios[i])
                         ],
                       ),
                     ])),
