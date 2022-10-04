@@ -13,14 +13,19 @@ class UsuarioModel {
     this.admin = false,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
+  Map<String, dynamic> toJson(bool serializeId) {
+    Map<String, dynamic> retorno = {
       'name': name,
       'email': email,
       'password': password,
       'admin': admin,
     };
+
+    if (serializeId) {
+      retorno['id'] = id;
+    }
+
+    return retorno;
   }
 
   factory UsuarioModel.fromJson(Map<String, dynamic> json) {

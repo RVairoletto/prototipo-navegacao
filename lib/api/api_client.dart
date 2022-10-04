@@ -3,7 +3,7 @@ import 'api_request.dart';
 import 'api_response.dart';
 
 class ApiClient {
-  final String baseUrl = r'https://localhost:3000/';
+  final String baseUrl = r'http://localhost:3000/';
 
   Future<ApiResponse> get({required String endPoint, String token = '', Map? filters}) async {
     ApiRequest request = ApiRequest(url: baseUrl + endPoint, requestType: RequestType.GET);

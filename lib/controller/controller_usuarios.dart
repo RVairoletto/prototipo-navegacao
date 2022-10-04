@@ -16,9 +16,9 @@ class ControllerUsuarios {
     ApiResponse response = await ApiClient().post(
       endPoint: 'signup',
       token: '',
-      data: usuario.toJson(),
+      data: usuario.toJson(false),
     );
-
+    
     //confirmar códigos de sucesso e erro
     if (response.statusCode > 299) {
       response.body['error'].forEach((requestError) {
@@ -36,7 +36,7 @@ class ControllerUsuarios {
     ApiResponse response = await ApiClient().put(
       endPoint: '', //endpoint pendente
       token: '',
-      data: usuario.toJson(),
+      data: usuario.toJson(false),
     );
 
     //confirmar códigos de sucesso e erro
