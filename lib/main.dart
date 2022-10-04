@@ -10,8 +10,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  final String backendPath = r'D:\Programacao\flutter_projects\prototipo_backend';
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
