@@ -128,8 +128,8 @@ class _UsuariosViewState extends State<UsuariosView> {
                         rows: [
                           //grid gerado dinamicamente no controller de usuario
                           //baseado nos resultados da query de pesquisa
-                          // for (int i = 0; i < usuarios!.length; i++)
-                          //   ctrUsuarios.gerarDataRow(context, usuarios![i])
+                          for (int i = 0; i < usuarios.length; i++)
+                            ctrUsuarios.gerarDataRow(context, usuarios[i])
                         ],
                       ),
                     ])),

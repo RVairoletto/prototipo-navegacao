@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_login.dart';
+import 'package:prototipo_navegacao/model/usuario.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
+import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -10,13 +12,24 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  //controladores das caixas de texto
   final ctrUsuario = TextEditingController();
   final ctrSenha = TextEditingController();
 
-  bool exibirSenha = false;
-
+  ControllerUsuarios ctrUsuarios = ControllerUsuarios();
   ControllerLogin controllerLogin = ControllerLogin();
+  List<UsuarioModel> usuarios = [];
+
+  fetchUsuarios() async {
+    usuarios = await ctrUsuarios.getUsuario(context);
+  }
+
+  @override
+  void initState() {
+    fetchUsuarios();
+    super.initState();
+  }
+
+  bool exibirSenha = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +80,13 @@ class _LoginViewState extends State<LoginView> {
                   padding: const EdgeInsets.all(20),
                   child: ElevatedButton(
                     onPressed: () async {
-                      final isLoginValido = await controllerLogin.efetuarLogin(ctrUsuario.text, ctrSenha.text);
+                      Map<String, String> dadosLogin = {
+                        'email' : ctrUsuario.text,
+                        'senha': ctrSenha.text,
+                      };
+
+                      final isLoginValido = await controllerLogin.efetuarLogin(
+                        context, dadosLogin);
 
                       if(isLoginValido){
                         Navigator.pushReplacementNamed(context, Routes.homePage);
