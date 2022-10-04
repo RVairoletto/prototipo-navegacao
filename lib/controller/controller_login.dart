@@ -21,11 +21,11 @@ class ControllerLogin {
     }
 
     //confirmar retorno do signin
-    Map<String, dynamic> token = jsonDecode(response.body['token']);
+    Map<String, dynamic> retorno = jsonDecode(response.body);
 
     // bool isTokenValido = await validarToken(token);
 
-    if(token['email'] == dadosLogin['email']){
+    if(retorno['email'] == dadosLogin['email']){
       return true;
     } else{
       return false;
