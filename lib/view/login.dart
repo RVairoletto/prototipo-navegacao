@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_login.dart';
-import 'package:prototipo_navegacao/model/usuario.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
-import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -15,19 +13,7 @@ class _LoginViewState extends State<LoginView> {
   final ctrUsuario = TextEditingController();
   final ctrSenha = TextEditingController();
 
-  ControllerUsuarios ctrUsuarios = ControllerUsuarios();
   ControllerLogin controllerLogin = ControllerLogin();
-  List<UsuarioModel> usuarios = [];
-
-  fetchUsuarios() async {
-    usuarios = await ctrUsuarios.getUsuario(context);
-  }
-
-  @override
-  void initState() {
-    fetchUsuarios();
-    super.initState();
-  }
 
   bool exibirSenha = false;
 

@@ -23,9 +23,13 @@ class ControllerLogin {
     //confirmar retorno do signin
     Map<String, dynamic> token = jsonDecode(response.body['token']);
 
-    bool isTokenValido = await validarToken(token);
+    // bool isTokenValido = await validarToken(token);
 
-    return isTokenValido;
+    if(token['email'] == dadosLogin['email']){
+      return true;
+    } else{
+      return false;
+    }
   }
 
   Future<bool> validarToken(Map<String, dynamic> token) async {
