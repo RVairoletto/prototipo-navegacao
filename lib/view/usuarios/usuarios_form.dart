@@ -14,8 +14,9 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
   TextEditingController ctrEmail = TextEditingController();
   TextEditingController ctrSenha = TextEditingController();
   TextEditingController ctrConfirmarSenha = TextEditingController();
+  ControllerUsuarios controllerUsuario = ControllerUsuarios();
 
-  Map<String, dynamic> usuario = {};
+  UsuarioModel usuario = UsuarioModel();
 
   @override
   Widget build(BuildContext context) {
@@ -148,13 +149,10 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                         splashRadius: 45,
                         onPressed: (() {
                           //salvar no banco
-                          UsuarioModel usuario = UsuarioModel(
-                            name: ctrNomeUsuario.text,
-                            email: ctrEmail.text,
-                            password: ctrSenha.text,
-                          );
+                          usuario.name = ctrNomeUsuario.text;
+                          usuario.email = ctrEmail.text;
+                          usuario.password = ctrSenha.text;
 
-                          ControllerUsuarios controllerUsuario = ControllerUsuarios();
                           final dynamic isUsuarioPosted = controllerUsuario.postUsuario(context, usuario);
                           
                           //Salvou com sucesso
