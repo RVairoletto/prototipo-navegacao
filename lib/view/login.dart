@@ -68,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
                     onPressed: () async {
                       Map<String, String> dadosLogin = {
                         'email' : ctrUsuario.text,
-                        'senha': ctrSenha.text,
+                        'password': ctrSenha.text,
                       };
 
                       final isLoginValido = await controllerLogin.efetuarLogin(
