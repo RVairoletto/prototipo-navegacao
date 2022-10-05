@@ -17,13 +17,13 @@ class ControllerLogin {
     }
 
     //confirmar retorno do signin
+    Map<String, dynamic> retorno = jsonDecode(response.body);
 
-    if (response.body['token'] != '') {
-      //erro
-      return false;
+    if (retorno.containsKey('token')) {
+      return true;
     }
 
-    return true;
+    return false;
   }
 
   Future<bool> validarToken(Map<String, dynamic> token) async {
