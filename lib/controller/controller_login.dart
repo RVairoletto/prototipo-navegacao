@@ -17,7 +17,7 @@ class ControllerLogin {
     }
 
     //confirmar retorno do signin
-    Map<String, dynamic> retorno = jsonDecode(response.body);
+    Map<String, dynamic> retorno = response.body;
 
     if (retorno.containsKey('token')) {
       return true;
