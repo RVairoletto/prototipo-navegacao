@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
 
+import 'package:email_validator/email_validator.dart';
+
 class UsuariosFormView extends StatefulWidget {
   const UsuariosFormView({super.key});
 
@@ -202,8 +204,12 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                             if (ctrNomeUsuario.text == '') {
                               msgErro = 'Insira um nome de usuário\n';
                             }
+
                             if (ctrEmail.text == '') {
                               msgErro += 'Insira um e-mail\n';
+                            } else if (!EmailValidator.validate(
+                                ctrEmail.text)) {
+                              msgErro += 'Insira um e-mail válido\n';
                             }
                             if (ctrSenha.text == '') {
                               msgErro += 'Insira uma senha\n';
