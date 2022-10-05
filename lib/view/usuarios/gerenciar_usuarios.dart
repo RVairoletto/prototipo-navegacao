@@ -82,7 +82,7 @@ class _UsuariosViewState extends State<UsuariosView> {
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          usuarios = fetchUsuarios();
+                          fetchUsuarios();
                         });
                       },
                       child: const Text('Pesquisar'),
