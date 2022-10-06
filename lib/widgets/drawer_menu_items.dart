@@ -27,6 +27,12 @@ class MenuItensList {
       icon: const Icon(Icons.person, color: Colors.blue),
       pageRoute: Routes.disciplinas,
     ),
+    //Alterar senha
+    DrawerMenuItem(
+      text: const Text('Alterar Senha', style: TextStyle(color: Colors.blue)),
+      icon: const Icon(Icons.person, color: Colors.blue),
+      pageRoute: Routes.alterarSenha,
+    ),
     //Tela de testes
     DrawerMenuItem(
       text: const Text('Testes', style: TextStyle(color: Colors.blue)),

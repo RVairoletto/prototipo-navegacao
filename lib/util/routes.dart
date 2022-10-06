@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:prototipo_navegacao/tela_testes.dart';
+import 'package:prototipo_navegacao/view/alterar_senha.dart';
 import 'package:prototipo_navegacao/view/disciplinas/gerenciar_disciplinas.dart';
 import 'package:prototipo_navegacao/view/professores/gerenciar_professores.dart';
 import 'package:prototipo_navegacao/view/menu_principal.dart';
@@ -19,6 +20,7 @@ class Routes {
   static const String disciplinas = '/disciplinas';
   static const String usuarios = '/usuarios';
   static const String usuariosForm = '/usuariosForm';
+  static const String alterarSenha = '/alterarSenha';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -30,6 +32,7 @@ class Routes {
       disciplinas: (context) => const DisciplinasView(),
       usuarios: (context) => const UsuariosView(),
       usuariosForm: (context) => const UsuariosFormView(),
+      alterarSenha: (context) => const AlterarSenhaView(),
     };
   }
 }

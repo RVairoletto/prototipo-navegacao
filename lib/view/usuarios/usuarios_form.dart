@@ -3,8 +3,6 @@ import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 import 'package:prototipo_navegacao/controller/controller_login.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
 
-import 'package:email_validator/email_validator.dart';
-
 class UsuariosFormView extends StatefulWidget {
   const UsuariosFormView({super.key});
 
@@ -19,7 +17,6 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
   TextEditingController ctrConfirmarSenha = TextEditingController();
 
   ControllerUsuarios controllerUsuario = ControllerUsuarios();
-  ControllerLogin controllerLogin = ControllerLogin();
 
   bool exibirSenha = false;
   bool exibirConfirmarSenha = false;
@@ -113,7 +110,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                                 }
 
                                 String msgErro =
-                                    controllerLogin.validarSenha(value);
+                                    controllerUsuario.validarSenha(value);
 
                                 if (msgErro.isNotEmpty) {
                                   return msgErro;
@@ -196,7 +193,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                           splashRadius: 45,
                           onPressed: (() {
                             //Validar dados
-                            String msgErro = controllerLogin.validarCadastro(
+                            String msgErro = controllerUsuario.validarCadastro(
                                 ctrNomeUsuario.text,
                                 ctrEmail.text,
                                 ctrSenha.text,
