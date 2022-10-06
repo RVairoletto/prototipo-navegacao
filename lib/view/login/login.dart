@@ -131,9 +131,20 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   //Autologin pra testes
                   ElevatedButton(
-                      onPressed: (() => Navigator.pushReplacementNamed(
-                          context, Routes.homePage)),
-                      child: const Text('Autologin')),
+                    onPressed: (() => Navigator.pushReplacementNamed(
+                        context, Routes.homePage)),
+                    child: const Text('Autologin')
+                  ),
+                  //Esqueci minha senha
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                      onPressed: (){
+                        Navigator.pushNamed(context, Routes.recuperarSenha);
+                      },
+                      child: const Text('Esqueci minha senha')
+                    ),
+                  )
                 ],
               ),
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 
-import 'view/login.dart';
+import 'view/login/login.dart';
 
 void main() {
   runApp(const MyApp());
