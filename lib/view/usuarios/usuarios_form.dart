@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
+import 'package:prototipo_navegacao/controller/controller_login.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
 
 import 'package:email_validator/email_validator.dart';
@@ -16,10 +17,9 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
   TextEditingController ctrEmail = TextEditingController();
   TextEditingController ctrSenha = TextEditingController();
   TextEditingController ctrConfirmarSenha = TextEditingController();
-  ControllerUsuarios controllerUsuario = ControllerUsuarios();
 
-  RegExp regExpLetras = RegExp('[a-zA-Z]');
-  RegExp regExpNumeros = RegExp('[0-9]');
+  ControllerUsuarios controllerUsuario = ControllerUsuarios();
+  ControllerLogin controllerLogin = ControllerLogin();
 
   bool exibirSenha = false;
   bool exibirConfirmarSenha = false;
@@ -109,20 +109,17 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               ),
                               validator: ((value) {
                                 if (value!.isEmpty) {
-                                  return 'Digite uma senha';
+                                  return 'Esse campo é obrigatório';
                                 }
 
-                                if (value.length < 8) {
-                                  return 'A senha deve ter no mínimo 8 caracteres';
+                                String msgErro =
+                                    controllerLogin.validarSenha(value);
+
+                                if (msgErro.isNotEmpty) {
+                                  return msgErro;
                                 }
 
-                                if (!regExpLetras.hasMatch(value)) {
-                                  return 'A senha deve ter pelo menos uma letra';
-                                }
-
-                                if (!regExpNumeros.hasMatch(value)) {
-                                  return 'A senha deve ter pelo menos um número';
-                                }
+                                return null;
                               }),
                             ),
                           ),
@@ -198,38 +195,12 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                           iconSize: 90,
                           splashRadius: 45,
                           onPressed: (() {
-                            //salvar no banco
-                            String msgErro = '';
-
-                            if (ctrNomeUsuario.text == '') {
-                              msgErro = 'Insira um nome de usuário\n';
-                            }
-
-                            if (ctrEmail.text == '') {
-                              msgErro += 'Insira um e-mail\n';
-                            } else if (!EmailValidator.validate(
-                                ctrEmail.text)) {
-                              msgErro += 'Insira um e-mail válido\n';
-                            }
-                            if (ctrSenha.text == '') {
-                              msgErro += 'Insira uma senha\n';
-                            } else if (ctrSenha.text.length < 8) {
-                              msgErro +=
-                                  'A senha deve ter ao menos 8 caracteres\n';
-                            }
-                            if (ctrSenha.text != ctrConfirmarSenha.text) {
-                              msgErro += 'As senhas devem ser iguais\n';
-                            }
-
-                            if (!regExpLetras.hasMatch(ctrSenha.text)) {
-                              msgErro +=
-                                  'A senha deve conter ao menos uma letra\n';
-                            }
-
-                            if (!regExpNumeros.hasMatch(ctrSenha.text)) {
-                              msgErro +=
-                                  'A senha deve conter ao menos um número';
-                            }
+                            //Validar dados
+                            String msgErro = controllerLogin.validarCadastro(
+                                ctrNomeUsuario.text,
+                                ctrEmail.text,
+                                ctrSenha.text,
+                                ctrConfirmarSenha.text);
 
                             if (msgErro != '') {
                               showDialog(
