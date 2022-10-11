@@ -4,7 +4,7 @@ import 'package:prototipo_navegacao/api/api_client.dart';
 
 class ControllerLogin {
   //Efetuar login
-  Future<bool> efetuarLogin(
+  Future<Map<String, dynamic>> efetuarLogin(
       BuildContext context, Map<String, String> dadosLogin) async {
     ApiResponse response =
         await ApiClient().post(endPoint: 'signin', token: '', data: dadosLogin);
@@ -16,12 +16,8 @@ class ControllerLogin {
 
     //confirmar retorno do signin
     Map<String, dynamic> retorno = response.body;
-
-    if (retorno.containsKey('token')) {
-      return true;
-    }
-
-    return false;
+    
+    return retorno;
   }
 
   Future<bool> validarToken(Map<String, dynamic> token) async {

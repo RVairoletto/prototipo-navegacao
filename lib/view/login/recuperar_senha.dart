@@ -14,7 +14,7 @@ class _RecuperarSenhaViewState extends State<RecuperarSenhaView> {
       appBar: AppBar(
         title: const Text('Recuperar Senha'),
       ),
-      body: Text('Em desenvolvimento'),
+      body: const Text('Em desenvolvimento'),
     );
   }
 }
