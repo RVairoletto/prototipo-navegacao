@@ -134,8 +134,11 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   //Autologin pra testes
                   ElevatedButton(
-                    onPressed: (() => Navigator.pushReplacementNamed(
-                        context, Routes.homePage)),
+                    onPressed: (() async {
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('teste', 'valor de teste');
+                      Navigator.pushReplacementNamed(context, Routes.homePage);
+                    }),
                     child: const Text('Autologin')
                   ),
                   //Esqueci minha senha

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/widgets/default_alert_dialog.dart';
 import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api/api_response.dart';
 
@@ -31,6 +32,24 @@ class _TestesViewState extends State<TestesView> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              //testando shared preferences
+              ElevatedButton(
+                onPressed: () async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                  showDialog(
+                  context: context,
+                  builder: (context){
+                    return AlertDialog(
+                      title: const Text('Teste de shared preferences'),
+                      content: Text(prefs.getString('teste') ?? 'não deu certo'),
+                    );
+                  }
+                  );
+                },
+                child: const Text('Testar shared preferences')
+              ),
+              //
               ElevatedButton(
                 onPressed: () async {
                   final result = await showDialog(
