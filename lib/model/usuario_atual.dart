@@ -1,28 +1,33 @@
 import 'package:prototipo_navegacao/model/usuario.dart';
 
 class UsuarioAtualModel extends UsuarioModel{
-  int? id;
   String token;
-  String name;
-  String email;
-  String password;
-  bool admin;
 
   UsuarioAtualModel({
-    this.id,
     this.token = '',
-    this.name = '',
-    this.email = '',
-    this.password = '',
-    this.admin = false,
-  });
+    id,
+    name,
+    email,
+    password,
+    admin,
+    ativo,
+  }) : super (
+    id: id,
+    name: name,
+    email: email,
+    password: password,
+    admin: admin,
+    ativo: ativo,
+  );
 
+  @override
   Map<String, dynamic> toJson(bool serializeId) {
     Map<String, dynamic> retorno = {
       'name': name,
       'email': email,
       'password': password,
       'admin': admin,
+      'ativo': ativo
     };
 
     if (serializeId) {
