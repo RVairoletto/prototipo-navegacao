@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_login.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -103,7 +104,9 @@ class _LoginViewState extends State<LoginView> {
                         final isLoginValido = await controllerLogin
                             .efetuarLogin(context, dadosLogin);
 
-                        if (isLoginValido) {
+                        if (isLoginValido.containsKey('token')) {
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setString('usuario_atual', isLoginValido.toString());
                           Navigator.pushReplacementNamed(
                               context, Routes.homePage);
                         } else {
