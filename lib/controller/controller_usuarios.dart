@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
 
@@ -5,6 +7,7 @@ import 'package:email_validator/email_validator.dart';
 
 import '../api/api_client.dart';
 import '../api/api_response.dart';
+import '../model/usuario_atual.dart';
 import '../util/routes.dart';
 import '../widgets/default_alert_dialog.dart';
 
@@ -174,5 +177,33 @@ class ControllerUsuarios {
     }
 
     return msgErro;
+  }
+
+  //Alterar Senha
+  Future<UsuarioModel?> alterarSenha(
+    UsuarioAtualModel usuarioAtual, String senhaNova) async {
+    ApiResponse response = await ApiClient().post(
+      endPoint: 'users/newPassword',
+       token: '',
+       data: {
+        'id': usuarioAtual.id,
+        'password': usuarioAtual.password
+       }
+    );
+
+    //confirmar códigos de sucesso e erro
+    if (response.statusCode != 200) {
+      throw Exception(response.body['error']);
+    }
+
+    //pendente de testes
+    if(response.body['error'] != ''){
+      return UsuarioAtualModel.fromJson(jsonDecode(response.body));
+    }
+
+    //pendente de testes
+    // return response.body.map<UsuarioModel>((usuario) => UsuarioModel.fromJson(usuario));
+
+    return null;
   }
 }

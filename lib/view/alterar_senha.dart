@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
+import 'package:prototipo_navegacao/model/usuario_atual.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/usuario.dart';
 import '../util/routes.dart';
 import '../widgets/default_user_drawer.dart';
 
@@ -145,8 +150,105 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      onPressed: (){
-                        //rotina de trocar senha
+                      onPressed: () async {
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        UsuarioAtualModel usuarioAtual = UsuarioAtualModel.fromJson(
+                          jsonDecode(prefs.getString('usuario_atual') ?? ''));
+                        
+                        //Validar se o usuario foi corretamente recuperado
+                        if(usuarioAtual.toString() == ''){
+                          showDialog(
+                            context: context,
+                            builder: (context){
+                              return AlertDialog(
+                                title: const Text('Aviso'),
+                                content: const Text('Não foi possível conferir seu cadastro'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Ok')
+                                  )
+                                ],
+                              );
+                            }
+                          );
+
+                          return;
+                        }
+
+                        //Validar se a senha atual confere
+                        if(usuarioAtual.password != ctrSenhaAtual.text){
+                          showDialog(
+                            context: context,
+                            builder: (context){
+                              return AlertDialog(
+                                title: const Text('Aviso'),
+                                content: const Text('A senha atual não confere'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Ok')
+                                  )
+                                ],
+                              );
+                            }
+                          );
+
+                          return;
+                        }
+                        
+                        //Validar se a senha está dentro dos padrões
+                        String msgErro =
+                            controllerUsuario.validarSenha(ctrNovaSenha.text);
+
+                        if (msgErro.isNotEmpty) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Aviso'),
+                                content: const Text('A senha atual não confere'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Ok')
+                                  )
+                                ],
+                              );
+                            }
+                          );
+
+                          return;
+                        }
+
+                        final UsuarioModel? usuario = await controllerUsuario.alterarSenha(
+                          usuarioAtual, ctrNovaSenha.text
+                        );
+
+                        if(usuario.toString() != ''){
+                          showDialog(
+                            context: context,
+                            builder: (context){
+                              return AlertDialog(
+                                title: const Text('Sucesso'),
+                                content: const Text('Sua senha foi alterada com sucesso'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Ok'))
+                                ],
+                              );
+                            }
+                          );
+                        }
                       },
                       child: const Text('Confirmar')
                     ),

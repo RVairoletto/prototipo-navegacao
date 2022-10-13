@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
-import 'package:prototipo_navegacao/controller/controller_login.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
 
 class UsuariosFormView extends StatefulWidget {
