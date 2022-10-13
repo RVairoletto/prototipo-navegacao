@@ -180,7 +180,7 @@ class ControllerUsuarios {
   }
 
   //Alterar Senha
-  Future<UsuarioModel?> alterarSenha(
+  Future<UsuarioAtualModel?> alterarSenha(
     UsuarioAtualModel usuarioAtual, String senhaNova) async {
     ApiResponse response = await ApiClient().post(
       endPoint: 'users/newPassword',

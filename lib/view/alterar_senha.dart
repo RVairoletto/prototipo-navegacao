@@ -227,11 +227,17 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                           return;
                         }
 
-                        final UsuarioModel? usuario = await controllerUsuario.alterarSenha(
+                        //Alterar senha
+                        final UsuarioAtualModel? usuarioAlterado = await controllerUsuario.alterarSenha(
                           usuarioAtual, ctrNovaSenha.text
                         );
 
-                        if(usuario.toString() != ''){
+                        //Caso a senha tenha sido alterada com sucesso
+                        if(usuarioAlterado.toString() != ''){
+                          //salvar o novo usuário atual na sessão
+                          prefs.setString('usuario_atual', usuarioAlterado.toString());
+
+                          //mensagem de sucesos
                           showDialog(
                             context: context,
                             builder: (context){
