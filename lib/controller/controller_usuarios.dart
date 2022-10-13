@@ -192,17 +192,15 @@ class ControllerUsuarios {
     );
 
     //confirmar códigos de sucesso e erro
-    if (response.statusCode != 200) {
+    if (response.statusCode != 204) {
       throw Exception(response.body['error']);
     }
 
     //pendente de testes
-    if(response.body['error'] != ''){
-      return UsuarioAtualModel.fromJson(jsonDecode(response.body));
+    if(response.body['status'] == true){
+      usuarioAtual.password = senhaNova;
+      return usuarioAtual;
     }
-
-    //pendente de testes
-    // return response.body.map<UsuarioModel>((usuario) => UsuarioModel.fromJson(usuario));
 
     return null;
   }
