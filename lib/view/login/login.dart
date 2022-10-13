@@ -101,12 +101,12 @@ class _LoginViewState extends State<LoginView> {
                           'password': ctrSenha.text,
                         };
 
-                        final isLoginValido = await controllerLogin
+                        final retornoLogin = await controllerLogin
                             .efetuarLogin(context, dadosLogin);
 
-                        if (isLoginValido.containsKey('token')) {
+                        if (retornoLogin['statusCode'] == '200') {
                           SharedPreferences prefs = await SharedPreferences.getInstance();
-                          prefs.setString('usuario_atual', isLoginValido.toString());
+                          prefs.setString('usuario_atual', retornoLogin.toString());
                           Navigator.pushReplacementNamed(
                               context, Routes.homePage);
                         } else {
@@ -115,14 +115,13 @@ class _LoginViewState extends State<LoginView> {
                             builder: (context) {
                               return AlertDialog(
                                 title: const Text('Aviso'),
-                                content: const Text(
-                                    'Os dados de login são inválidos'),
+                                content: Text(retornoLogin['error']),
                                 actions: [
                                   TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Ok'))
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Ok'))
                                 ],
                               );
                             }
