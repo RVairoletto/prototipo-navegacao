@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
 
@@ -42,9 +40,9 @@ class ControllerUsuarios {
   Future<UsuarioModel?> putUsuario(
       BuildContext context, UsuarioModel usuario) async {
     ApiResponse response = await ApiClient().put(
-      endPoint: '', //endpoint pendente
+      endPoint: '/users/edit',
       token: '',
-      data: usuario.toJson(false),
+      data: usuario.toJson(true),
     );
 
     //confirmar códigos de sucesso e erro
