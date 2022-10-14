@@ -21,7 +21,7 @@ class _UsuariosViewState extends State<UsuariosView> {
   TextEditingController ctrEmail = TextEditingController();
 
   fetchUsuarios() async {
-    usuarios = await ctrUsuarios.getUsuario(context);
+    usuarios = await ctrUsuarios.getUsuarios(context);
   }
 
   @override

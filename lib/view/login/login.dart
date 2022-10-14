@@ -77,22 +77,20 @@ class _LoginViewState extends State<LoginView> {
 
                         if (msgErro != '') {
                           showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text('Aviso'),
-                                content: Text(msgErro),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Ok')
-                                  )
-                                ],
-                              );
-                            }
-                          );
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Aviso'),
+                                  content: Text(msgErro),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Ok'))
+                                  ],
+                                );
+                              });
                           return;
                         }
 
@@ -101,54 +99,57 @@ class _LoginViewState extends State<LoginView> {
                           'password': ctrSenha.text,
                         };
 
-                        final retornoLogin = await controllerLogin
-                            .efetuarLogin(context, dadosLogin);
+                        final retornoLogin = await controllerLogin.efetuarLogin(
+                            context, dadosLogin);
 
                         if (retornoLogin['statusCode'] == '200') {
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          prefs.setString('usuario_atual', retornoLogin.toString());
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setString(
+                              'usuario_atual', retornoLogin.toString());
                           Navigator.pushReplacementNamed(
                               context, Routes.homePage);
                         } else {
                           showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text('Aviso'),
-                                content: Text(retornoLogin['error']),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Ok'))
-                                ],
-                              );
-                            }
-                          );
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Aviso'),
+                                  content: Text(retornoLogin['error']),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Ok'))
+                                  ],
+                                );
+                              });
                         }
+
+                        return;
                       },
                       child: const Text("Entrar"),
                     ),
                   ),
                   //Autologin pra testes
                   ElevatedButton(
-                    onPressed: (() async {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      prefs.setString('teste', 'valor de teste');
-                      Navigator.pushReplacementNamed(context, Routes.homePage);
-                    }),
-                    child: const Text('Autologin')
-                  ),
+                      onPressed: (() async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setString('teste', 'valor de teste');
+                        Navigator.pushReplacementNamed(
+                            context, Routes.homePage);
+                      }),
+                      child: const Text('Autologin')),
                   //Esqueci minha senha
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextButton(
-                      onPressed: (){
-                        Navigator.pushNamed(context, Routes.recuperarSenha);
-                      },
-                      child: const Text('Esqueci minha senha')
-                    ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.recuperarSenha);
+                        },
+                        child: const Text('Esqueci minha senha')),
                   )
                 ],
               ),

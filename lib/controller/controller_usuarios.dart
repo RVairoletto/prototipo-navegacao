@@ -60,7 +60,7 @@ class ControllerUsuarios {
   }
 
   //Get múltiplos usuários
-  Future<List<UsuarioModel>> getUsuario(BuildContext context) async {
+  Future<List<UsuarioModel>> getUsuarios(BuildContext context) async {
     ApiResponse response = await ApiClient().get(
       endPoint: 'users',
       token: '',
