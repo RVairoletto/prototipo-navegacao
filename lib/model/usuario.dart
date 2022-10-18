@@ -34,11 +34,11 @@ class UsuarioModel {
   factory UsuarioModel.fromJson(Map<String, dynamic> json) {
     return UsuarioModel(
       id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      password: (json['password']) != null ? json['password'] : null,
-      admin: json['admin'],
-      disabled: json['disabled']
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
+      password: (json['password']) ?? '',
+      admin: json['admin'] ?? false,
+      disabled: json['disabled'] ?? false
     );
   }
 }

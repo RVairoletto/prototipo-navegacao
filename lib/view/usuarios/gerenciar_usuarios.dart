@@ -22,6 +22,10 @@ class _UsuariosViewState extends State<UsuariosView> {
 
   fetchUsuarios() async {
     usuarios = await ctrUsuarios.getUsuarios(context);
+    
+    setState(() {
+      //
+    });
   }
 
   @override
