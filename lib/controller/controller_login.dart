@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
+import 'package:prototipo_navegacao/model/usuario_atual.dart';
 
 class ControllerLogin {
   //Efetuar login
