@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/api/api_client.dart';
+import 'package:prototipo_navegacao/model/usuario.dart';
 
 class ControllerLogin {
   //Efetuar login
@@ -15,13 +16,23 @@ class ControllerLogin {
     );
     
     if (response.statusCode != 200) {
-      throw Exception(response.body['error']);
+      //throw Exception(response.body['error']);
+      return {
+        'error': response.body['error']
+      };
     }
+    UsuarioModel user = UsuarioModel();
 
-    Map<String, dynamic> retorno = jsonDecode(response.body);
-    retorno['statusCode'] = response.statusCode;
+    user.id = response.body['id'];
+    user.name = response.body['name'];
+    user.email = response.body['email'];
+    user.password = dadosLogin['password'] ?? '';
+    user.admin = response.body['admin'];
+    user.disabled = false;
     
-    return retorno;
+    return {
+      'user': user
+    };
   }
 
   Future<bool> validarToken(Map<String, dynamic> token) async {

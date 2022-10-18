@@ -84,7 +84,6 @@ class ApiRequest {
         break;
     }
 
-    print(response.body);
     ApiResponse apiResponse = ApiResponse(
       body: response.body == '' ? {} : jsonDecode(response.body),
       header: response.headers,

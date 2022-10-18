@@ -238,31 +238,33 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                           icon: const Icon(Icons.add),
                           iconSize: 90,
                           splashRadius: 45,
-                          onPressed: (() {
+                          onPressed: (() async {
                             //Validar dados
                             String msgErro = controllerUsuario.validarCadastro(
-                                ctrNomeUsuario.text,
-                                ctrEmail.text,
-                                ctrSenha.text,
-                                ctrConfirmarSenha.text,
-                                ctrPerguntaSeguranca.text,
-                                ctrRespostaSeguranca.text);
+                              ctrNomeUsuario.text,
+                              ctrEmail.text,
+                              ctrSenha.text,
+                              ctrConfirmarSenha.text,
+                              ctrPerguntaSeguranca.text,
+                              ctrRespostaSeguranca.text
+                            );
 
                             if (msgErro != '') {
                               showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text('Aviso'),
-                                      content: Text(msgErro),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: (() =>
-                                                Navigator.pop(context)),
-                                            child: const Text('Ok'))
-                                      ],
-                                    );
-                                  });
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Aviso'),
+                                    content: Text(msgErro),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: (() =>
+                                              Navigator.pop(context)),
+                                          child: const Text('Ok'))
+                                    ],
+                                  );
+                                }
+                              );
 
                               return;
                             }
@@ -272,7 +274,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                             usuario.password = ctrSenha.text;
 
                             final dynamic isUsuarioPosted =
-                                controllerUsuario.postUsuario(context, usuario);
+                                await controllerUsuario.postUsuario(context, usuario);
 
                             //Salvou com sucesso
                             if (isUsuarioPosted != null) {

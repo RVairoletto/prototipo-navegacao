@@ -10,14 +10,14 @@ class UsuarioAtualModel extends UsuarioModel{
     email,
     password,
     admin,
-    ativo,
+    disabled,
   }) : super (
     id: id,
     name: name,
     email: email,
     password: password,
     admin: admin,
-    ativo: ativo,
+    disabled: disabled,
   );
 
   @override
@@ -27,7 +27,7 @@ class UsuarioAtualModel extends UsuarioModel{
       'email': email,
       'password': password,
       'admin': admin,
-      'ativo': ativo
+      'disabled': disabled
     };
 
     if (serializeId) {
@@ -44,6 +44,7 @@ class UsuarioAtualModel extends UsuarioModel{
       email: json['email'],
       password: (json['password']) != null ? json['password'] : null,
       admin: json['admin'],
+      disabled: json['disabled']
     );
   }
 }

@@ -102,11 +102,11 @@ class _LoginViewState extends State<LoginView> {
                         final retornoLogin = await controllerLogin.efetuarLogin(
                             context, dadosLogin);
 
-                        if (retornoLogin['statusCode'] == '200') {
+                        if (retornoLogin.containsKey('user')) {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           prefs.setString(
-                              'usuario_atual', retornoLogin.toString());
+                              'usuario_atual', retornoLogin['user'].toString());
                           Navigator.pushReplacementNamed(
                               context, Routes.homePage);
                         } else {

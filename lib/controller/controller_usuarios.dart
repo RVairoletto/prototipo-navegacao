@@ -26,10 +26,8 @@ class ControllerUsuarios {
     );
     
     //confirmar códigos de sucesso e erro
-    if (response.statusCode > 299) {
-      response.body['error'].forEach((requestError) {
-        error += requestError['msg'] + "\n";
-      });
+    if (response.statusCode != 204) {
+      //tratar erro
     } else {
       return usuario;
     }
@@ -70,8 +68,7 @@ class ControllerUsuarios {
     }
 
     //pendente de testes
-    return response.body['data']['rows']
-        .map<UsuarioModel>((material) => UsuarioModel.fromJson(material))
+    return response.body.map<UsuarioModel>((usuario) => UsuarioModel.fromJson(usuario))
         .toList();
   }
 
