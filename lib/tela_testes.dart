@@ -3,6 +3,9 @@ import 'package:prototipo_navegacao/widgets/default_alert_dialog.dart';
 import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'api/api_client.dart';
+import 'api/api_response.dart';
+
 class TestesView extends StatefulWidget {
   const TestesView({super.key});
 
@@ -29,6 +32,19 @@ class _TestesViewState extends State<TestesView> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              //get user by id
+              ElevatedButton(
+                onPressed: () async {
+                  ApiResponse response = await ApiClient().get(
+                    endPoint: 'users/1',
+                    token: '',
+                  );
+
+                  print(response.statusCode);
+                  print(response.body);
+                },
+                child: const Text('Testar get user by id')
+              ),
               //testando shared preferences
               ElevatedButton(
                 onPressed: () async {
