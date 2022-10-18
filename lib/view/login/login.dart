@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_login.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
@@ -37,6 +39,7 @@ class _LoginViewState extends State<LoginView> {
                 children: [
                   //TextBox de usuário
                   TextFormField(
+                    autofocus: true,
                     controller: ctrUsuario,
                     decoration: const InputDecoration(
                       labelText: "Usuário",
@@ -107,12 +110,10 @@ class _LoginViewState extends State<LoginView> {
                         if (retornoLogin.containsKey('user')) {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
-                              UsuarioModel user = retornoLogin['user'];
+                              UsuarioAtualModel user = retornoLogin['user'];
                           prefs.setString(
-                              'usuario_atual', user.toJson(true).toString());
-                          print(prefs.getString('usuario_atual'));
-                          Navigator.pushReplacementNamed(
-                              context, Routes.homePage);
+                              'usuario_atual', jsonEncode(user.toJson(true)));
+                          Navigator.pushReplacementNamed(context, Routes.homePage);
                         } else {
                           showDialog(
                               context: context,

@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/api/api_client.dart';
-import 'package:prototipo_navegacao/model/usuario.dart';
 import 'package:prototipo_navegacao/model/usuario_atual.dart';
 
 class ControllerLogin {
@@ -17,19 +14,12 @@ class ControllerLogin {
     );
     
     if (response.statusCode != 200) {
-      //throw Exception(response.body['error']);
       return {
         'error': response.body['error']
       };
     }
-    UsuarioModel user = UsuarioModel();
 
-    user.id = response.body['id'];
-    user.name = response.body['name'];
-    user.email = response.body['email'];
-    user.password = dadosLogin['password'] ?? '';
-    user.admin = response.body['admin'];
-    user.disabled = false;
+    UsuarioAtualModel user = UsuarioAtualModel.fromJson(response.body);
     
     return {
       'user': user
