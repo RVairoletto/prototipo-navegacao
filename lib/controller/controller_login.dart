@@ -35,8 +35,8 @@ class ControllerLogin {
     }
 
     //confirmar
-    print('resposta da rotina de validação de token: ' +
-        response.body.toString());
+    // print('resposta da rotina de validação de token: ' +
+    //     response.body.toString());
     return true;
   }
 }

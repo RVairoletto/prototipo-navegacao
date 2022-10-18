@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
@@ -20,7 +22,23 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
   bool exibirSenha = false;
   bool exibirConfirmarSenha = false;
 
+  dynamic args;
+
   UsuarioModel usuario = UsuarioModel();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    print(ModalRoute.of(context)!.settings.arguments);
+    args = ModalRoute.of(context)!.settings.arguments;
+    print(args);
+    print(args.toString());
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -201,20 +219,19 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
                             if (msgErro != '') {
                               showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text('Aviso'),
-                                    content: Text(msgErro),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: (() =>
-                                              Navigator.pop(context)),
-                                          child: const Text('Ok'))
-                                    ],
-                                  );
-                                }
-                              );
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Aviso'),
+                                      content: Text(msgErro),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: (() =>
+                                                Navigator.pop(context)),
+                                            child: const Text('Ok'))
+                                      ],
+                                    );
+                                  });
 
                               return;
                             }
@@ -224,7 +241,8 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                             usuario.password = ctrSenha.text;
 
                             final dynamic isUsuarioPosted =
-                                await controllerUsuario.postUsuario(context, usuario);
+                                await controllerUsuario.postUsuario(
+                                    context, usuario);
 
                             //Salvou com sucesso
                             if (isUsuarioPosted != null) {

@@ -5,7 +5,6 @@ import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 import 'package:prototipo_navegacao/model/usuario_atual.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../model/usuario.dart';
 import '../util/routes.dart';
 import '../widgets/default_user_drawer.dart';
 

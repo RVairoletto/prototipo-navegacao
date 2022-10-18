@@ -6,8 +6,6 @@ import 'package:email_validator/email_validator.dart';
 import '../api/api_client.dart';
 import '../api/api_response.dart';
 import '../model/usuario_atual.dart';
-import '../util/routes.dart';
-import '../widgets/default_alert_dialog.dart';
 
 class ControllerUsuarios {
   //Declaração de variáveis

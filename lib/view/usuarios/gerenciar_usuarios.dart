@@ -27,7 +27,7 @@ class _UsuariosViewState extends State<UsuariosView> {
       DataCell(IconButton( //Alterar
         icon: const Icon(Icons.app_registration),
         onPressed: () {
-          Navigator.pushNamed(context, Routes.usuariosForm);
+          Navigator.pushNamed(context, Routes.usuariosForm, arguments: usuario);
         },
       )),
       DataCell(IconButton( //Excuir
@@ -72,9 +72,11 @@ class _UsuariosViewState extends State<UsuariosView> {
     ]);
   }
 
-  fetchUsuarios() {
-    setState(() async {
-      usuarios = await ctrUsuarios.getUsuarios(context);
+  fetchUsuarios() async {
+    usuarios = await ctrUsuarios.getUsuarios(context);
+
+    setState(() {
+      //
     });
   }
 

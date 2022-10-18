@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/widgets/default_alert_dialog.dart';
 import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'api/api_response.dart';
 
 class TestesView extends StatefulWidget {
   const TestesView({super.key});
@@ -74,18 +71,6 @@ class _TestesViewState extends State<TestesView> {
                 height: 300,
                 color: corContainer,
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  ApiResponse response = await ApiClient().post(
-                    endPoint: 'signup',
-                    token: '',
-                    data: parametros,
-                  );
-
-                  print(response.statusCode);
-                },
-                child: const Text("Get api"),
-              )
             ],
           ),
         ));

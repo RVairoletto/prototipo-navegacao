@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_login.dart';
-import 'package:prototipo_navegacao/model/usuario.dart';
 import 'package:prototipo_navegacao/model/usuario_atual.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
