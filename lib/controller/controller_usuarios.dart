@@ -75,23 +75,22 @@ class ControllerUsuarios {
   //Get usuário
 
   //Excluir usuário
-  Future<UsuarioModel?> deleteUsuario(
-      BuildContext context, UsuarioModel usuario) async {
-    ApiResponse response = await ApiClient().delete(
-      endPoint: '', //endpoint pendente
+  Future<bool> deleteUsuario(BuildContext context, UsuarioModel usuario) async {
+    ApiResponse response = await ApiClient().post(
+      endPoint: 'users/disable',
       token: '',
+      data: {
+        'id': usuario.id,
+        'disabled': true
+      }
     );
 
     //confirmar códigos de sucesso e erro
-    if (response.statusCode > 299) {
-      response.body['error'].forEach((requestError) {
-        error += requestError['msg'] + "\n";
-      });
-    } else {
-      return usuario;
+    if (response.statusCode != 204) {
+      return false;
     }
 
-    return null;
+    return true;
   }
 
   //Gerar datatable
@@ -116,7 +115,26 @@ class ControllerUsuarios {
           );
 
           if (confirmarExclusao) {
-            deleteUsuario(context, usuario);
+            final deleted = await deleteUsuario(context, usuario);
+
+            showDialog(
+              context: context,
+              builder: ((context) {
+                return AlertDialog(
+                  title: deleted
+                  ? const Text('Sucesso')
+                  : const Text('Aviso'),
+                  content: deleted
+                  ? const Text('O usuário foi excluído com sucesso')
+                  : const Text('Não foi possível excluir o usuário'),
+                  actions: [
+                    TextButton(
+                      onPressed: (() => Navigator.pop(context)),
+                      child: const Text('Ok'))
+                  ],
+                );
+              })
+            );
           }
         },
       )),

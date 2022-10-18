@@ -198,7 +198,7 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                             }
                           );
 
-                          Navigator.pop(context);
+                          Navigator.pushNamed(context, Routes.homePage);
                         } 
                         else {
                           showDialog(

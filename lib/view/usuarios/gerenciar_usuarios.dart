@@ -22,7 +22,7 @@ class _UsuariosViewState extends State<UsuariosView> {
 
   fetchUsuarios() async {
     usuarios = await ctrUsuarios.getUsuarios(context);
-    
+
     setState(() {
       //
     });
@@ -119,13 +119,13 @@ class _UsuariosViewState extends State<UsuariosView> {
                           //Botão de alterar
                           DataColumn(
                             label: Flexible(
-                              child: Text(''),
+                              child: Text('Alterar'),
                             ),
                           ),
                           //Botão de Excluir
                           DataColumn(
                             label: Flexible(
-                              child: Text(''),
+                              child: Text('Excluir'),
                             ),
                           ),
                         ],
@@ -133,7 +133,7 @@ class _UsuariosViewState extends State<UsuariosView> {
                           //grid gerado dinamicamente no controller de usuario
                           //baseado nos resultados da query de pesquisa
                           for (int i = 0; i < usuarios.length; i++)
-                            ctrUsuarios.gerarDataRow(context, usuarios[i])
+                            if(!usuarios[i].disabled) ctrUsuarios.gerarDataRow(context, usuarios[i])
                         ],
                       ),
                     ])),
