@@ -14,8 +14,6 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
   TextEditingController ctrEmail = TextEditingController();
   TextEditingController ctrSenha = TextEditingController();
   TextEditingController ctrConfirmarSenha = TextEditingController();
-  TextEditingController ctrPerguntaSeguranca = TextEditingController();
-  TextEditingController ctrRespostaSeguranca = TextEditingController();
 
   ControllerUsuarios controllerUsuario = ControllerUsuarios();
 
@@ -158,52 +156,6 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                         ),
                       ],
                     ),
-                    //Linha com os campos de pergunta de segurança e resposta
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        //Campo de pergunta de segurança
-                        Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              controller: ctrPerguntaSeguranca,
-                              validator: (value) {
-                                if (ctrPerguntaSeguranca.text.isEmpty) {
-                                  return 'A pergunta de segurança é obrigatória';
-                                }
-
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                  label: Text(
-                                      "Escreva uma pergunta de segurança")),
-                            ),
-                          ),
-                        ),
-                        //Campo de resposta da pergunta de segurança
-                        Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              controller: ctrRespostaSeguranca,
-                              validator: (value) {
-                                if (ctrRespostaSeguranca.text.isEmpty) {
-                                  return 'A resposta de segurança é obrigatória';
-                                }
-
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                  label: Text("Resposta")),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),
@@ -245,8 +197,6 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               ctrEmail.text,
                               ctrSenha.text,
                               ctrConfirmarSenha.text,
-                              ctrPerguntaSeguranca.text,
-                              ctrRespostaSeguranca.text
                             );
 
                             if (msgErro != '') {

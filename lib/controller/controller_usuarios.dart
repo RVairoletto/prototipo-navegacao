@@ -142,8 +142,7 @@ class ControllerUsuarios {
 
   //Validar dados de cadastro
   String validarCadastro(
-      String usuario, String email, String senha, String confirmarSenha,
-      String perguntaSeguranca, String respostaSeguranca) {
+      String usuario, String email, String senha, String confirmarSenha,) {
     String msgErro = '';
 
     if (usuario == '') {
@@ -170,14 +169,6 @@ class ControllerUsuarios {
 
     if (!regExpNumeros.hasMatch(senha)) {
       msgErro += 'A senha deve conter ao menos um número\n';
-    }
-
-    if(perguntaSeguranca.isEmpty){
-      msgErro += 'A pergunta de segurança é obrigatória\n';
-    }
-
-    if(respostaSeguranca.isEmpty){
-      msgErro += 'A resposta de segurança é obrigatória\n';
     }
 
     return msgErro;
