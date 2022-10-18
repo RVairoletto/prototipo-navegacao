@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'drawer_menu_items.dart';
 import 'menu.dart';
@@ -12,14 +15,26 @@ class DefaultUserDrawer extends StatefulWidget {
 }
 
 class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
+  SharedPreferences? prefs;
+
+  getPreferences() async{
+    prefs = await SharedPreferences.getInstance();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getPreferences();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Menu(
-      user: const {
+      user: {
         'profilePicture':'https://picsum.photos/200',
-        'name': 'nome',
-        'email': 'email'
+        'name': jsonDecode(prefs!.getString('usuario_atual')?? '')['name'],
+        'email': jsonDecode(prefs!.getString('usuario_atual')?? '')['email'],
       },
       pages: MenuItensList.itens,
       footer: ElevatedButton(
