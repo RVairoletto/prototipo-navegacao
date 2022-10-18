@@ -184,28 +184,20 @@ class ControllerUsuarios {
   }
 
   //Alterar Senha
-  Future<UsuarioAtualModel?> alterarSenha(
-    UsuarioAtualModel usuarioAtual, String senhaNova) async {
+  alterarSenha(UsuarioAtualModel usuarioAtual, String senhaNova) async {
+    error = '';
+
     ApiResponse response = await ApiClient().post(
       endPoint: 'users/newPassword',
        token: '',
        data: {
         'id': usuarioAtual.id,
-        'password': usuarioAtual.password
+        'password': senhaNova
        }
     );
 
-    //confirmar códigos de sucesso e erro
     if (response.statusCode != 204) {
-      throw Exception(response.body['error']);
+      error += 'Não foi possível alterar sua senha';
     }
-
-    //pendente de testes
-    if(response.body['status'] == true){
-      usuarioAtual.password = senhaNova;
-      return usuarioAtual;
-    }
-
-    return null;
   }
 }

@@ -18,7 +18,6 @@ class AlterarSenhaView extends StatefulWidget {
 
 class _AlterarSenhaViewState extends State<AlterarSenhaView> {
   ControllerUsuarios controllerUsuario = ControllerUsuarios();
-  TextEditingController ctrSenhaAtual = TextEditingController();
   TextEditingController ctrNovaSenha = TextEditingController();
   TextEditingController ctrConfirmarSenha = TextEditingController();
 
@@ -38,31 +37,6 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
           width: MediaQuery.of(context).size.width * 0.6,
           child: Column(
             children: [
-              //Textbox com o campo de senha atual
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextFormField(
-                    controller: ctrSenhaAtual,
-                    obscureText: !exibirSenhaAtual,
-                    decoration: InputDecoration(
-                      labelText: 'Senha atual',
-                      border: InputBorder.none,
-                      suffixIcon: InkWell(
-                        onTap: () => setState(
-                          () => exibirSenhaAtual = !exibirSenhaAtual,
-                        ),
-                        child: Icon(
-                          exibirSenhaAtual
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
-                          color: const Color(0xFF757575),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               //Textbox com o campo de nova senha
               Flexible(
                 child: Padding(
@@ -70,8 +44,7 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                   child: TextFormField(
                     controller: ctrNovaSenha,
                     obscureText: !exibirNovaSenha,
-                    autovalidateMode:
-                        AutovalidateMode.onUserInteraction,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     onChanged: (value) => setState(() {
                       //feito para o validator do campo de confirmar senha atualizar
                       //caso esse campo se torne igual ao de confirmar senha
@@ -96,8 +69,7 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                         return 'Esse campo é obrigatório';
                       }
 
-                      String msgErro =
-                          controllerUsuario.validarSenha(value);
+                      String msgErro = controllerUsuario.validarSenha(value);
 
                       if (msgErro.isNotEmpty) {
                         return msgErro;
@@ -177,33 +149,9 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
 
                           return;
                         }
-
-                        //Validar se a senha atual confere
-                        if(usuarioAtual.password != ctrSenhaAtual.text){
-                          showDialog(
-                            context: context,
-                            builder: (context){
-                              return AlertDialog(
-                                title: const Text('Aviso'),
-                                content: const Text('A senha atual não confere'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: (){
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Ok')
-                                  )
-                                ],
-                              );
-                            }
-                          );
-
-                          return;
-                        }
                         
                         //Validar se a senha está dentro dos padrões
-                        String msgErro =
-                            controllerUsuario.validarSenha(ctrNovaSenha.text);
+                        String msgErro = controllerUsuario.validarSenha(ctrNovaSenha.text);
 
                         if (msgErro.isNotEmpty) {
                           showDialog(
@@ -211,7 +159,7 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                             builder: (context) {
                               return AlertDialog(
                                 title: const Text('Aviso'),
-                                content: const Text('A senha atual não confere'),
+                                content: Text(msgErro),
                                 actions: [
                                   TextButton(
                                     onPressed: (){
@@ -228,22 +176,37 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                         }
 
                         //Alterar senha
-                        final UsuarioAtualModel? usuarioAlterado = await controllerUsuario.alterarSenha(
-                          usuarioAtual, ctrNovaSenha.text
-                        );
+                        await controllerUsuario.alterarSenha(usuarioAtual, ctrNovaSenha.text);
 
                         //Caso a senha tenha sido alterada com sucesso
-                        if(usuarioAlterado.toString() != ''){
-                          //salvar o novo usuário atual na sessão
-                          prefs.setString('usuario_atual', usuarioAlterado.toString());
-
-                          //mensagem de sucesos
-                          showDialog(
+                        if(controllerUsuario.error == ''){
+                          //mensagem de sucesso
+                          await showDialog(
                             context: context,
                             builder: (context){
                               return AlertDialog(
                                 title: const Text('Sucesso'),
                                 content: const Text('Sua senha foi alterada com sucesso'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Ok'))
+                                ],
+                              );
+                            }
+                          );
+
+                          Navigator.pop(context);
+                        } 
+                        else {
+                          showDialog(
+                            context: context,
+                            builder: (context){
+                              return AlertDialog(
+                                title: const Text('Algo deu errado'),
+                                content: Text(controllerUsuario.error),
                                 actions: [
                                   TextButton(
                                     onPressed: (){
