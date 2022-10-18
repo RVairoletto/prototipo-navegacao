@@ -93,54 +93,6 @@ class ControllerUsuarios {
     return true;
   }
 
-  //Gerar datatable
-  DataRow gerarDataRow(BuildContext context, UsuarioModel? usuario) {
-    return DataRow(cells: [
-      DataCell(Text(usuario!.name)),
-      DataCell(Text(usuario.email)),
-      DataCell(IconButton( //Alterar
-        icon: const Icon(Icons.app_registration),
-        onPressed: () {
-          Navigator.pushNamed(context, Routes.usuariosForm);
-        },
-      )),
-      DataCell(IconButton( //Excuir
-        icon: const Icon(Icons.remove_circle),
-        onPressed: () async {
-          final confirmarExclusao = await showDialog(
-            context: context,
-            builder: (context) {
-              return const DefaultAlertDialog();
-            },
-          );
-
-          if (confirmarExclusao) {
-            final deleted = await deleteUsuario(context, usuario);
-
-            showDialog(
-              context: context,
-              builder: ((context) {
-                return AlertDialog(
-                  title: deleted
-                  ? const Text('Sucesso')
-                  : const Text('Aviso'),
-                  content: deleted
-                  ? const Text('O usuário foi excluído com sucesso')
-                  : const Text('Não foi possível excluir o usuário'),
-                  actions: [
-                    TextButton(
-                      onPressed: (() => Navigator.pop(context)),
-                      child: const Text('Ok'))
-                  ],
-                );
-              })
-            );
-          }
-        },
-      )),
-    ]);
-  }
-
   //Validar Senha
   String validarSenha(String? senha) {
     if (senha!.length < 8) {

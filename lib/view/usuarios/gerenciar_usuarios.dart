@@ -20,11 +20,61 @@ class _UsuariosViewState extends State<UsuariosView> {
   TextEditingController ctrNome = TextEditingController();
   TextEditingController ctrEmail = TextEditingController();
 
-  fetchUsuarios() async {
-    usuarios = await ctrUsuarios.getUsuarios(context);
+  DataRow _gerarDataRow(BuildContext context, UsuarioModel usuario) {
+    return DataRow(cells: [
+      DataCell(Text(usuario.name)),
+      DataCell(Text(usuario.email)),
+      DataCell(IconButton( //Alterar
+        icon: const Icon(Icons.app_registration),
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.usuariosForm);
+        },
+      )),
+      DataCell(IconButton( //Excuir
+        icon: const Icon(Icons.remove_circle),
+        onPressed: () async {
+          final confirmarExclusao = await showDialog(
+            context: context,
+            builder: (context) {
+              return const DefaultAlertDialog();
+            },
+          );
 
-    setState(() {
-      //
+          if (confirmarExclusao) {
+            await ctrUsuarios.deleteUsuario(context, usuario).then((value) {
+              showDialog(
+                context: context,
+                builder: ((context) {
+                  return AlertDialog(
+                    title: value
+                    ? const Text('Sucesso')
+                    : const Text('Aviso'),
+                    content: value
+                    ? const Text('O usuário foi excluído com sucesso')
+                    : const Text('Não foi possível excluir o usuário'),
+                    actions: [
+                      TextButton(
+                        onPressed: (() {
+                          Navigator.pop(context);
+                          setState(() {
+                            fetchUsuarios();
+                          });
+                        }),
+                        child: const Text('Ok'))
+                    ],
+                  );
+                })
+              );
+            });
+          }
+        },
+      )),
+    ]);
+  }
+
+  fetchUsuarios() {
+    setState(() async {
+      usuarios = await ctrUsuarios.getUsuarios(context);
     });
   }
 
@@ -133,7 +183,7 @@ class _UsuariosViewState extends State<UsuariosView> {
                           //grid gerado dinamicamente no controller de usuario
                           //baseado nos resultados da query de pesquisa
                           for (int i = 0; i < usuarios.length; i++)
-                            if(!usuarios[i].disabled) ctrUsuarios.gerarDataRow(context, usuarios[i])
+                            if(!usuarios[i].disabled) _gerarDataRow(context, usuarios[i])
                         ],
                       ),
                     ])),
