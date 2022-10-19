@@ -141,7 +141,13 @@ class _LoginViewState extends State<LoginView> {
                       onPressed: (() async {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
-                        prefs.setString('teste', 'valor de teste');
+                        // UsuarioAtualModel userTeste = UsuarioAtualModel();
+                        // userTeste.id = 1;
+                        // userTeste.name = 'Teste';
+                        // userTeste.email = 'exempllo@email.com';
+                        // userTeste.admin = false;
+                        // userTeste.disabled = false;
+                        // prefs.setString('usuario_atual', jsonEncode(userTeste.toJson(true)));
                         Navigator.pushReplacementNamed(
                             context, Routes.homePage);
                       }),
