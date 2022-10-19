@@ -35,24 +35,19 @@ class ControllerUsuarios {
   }
 
   //Alterar usuário
-  Future<UsuarioModel?> putUsuario(
-      BuildContext context, UsuarioModel usuario) async {
+  Future<UsuarioModel?> putUsuario(BuildContext context, UsuarioModel usuario) async {
     ApiResponse response = await ApiClient().put(
-      endPoint: '/users/edit',
+      endPoint: '/users/${usuario.id}',
       token: '',
       data: usuario.toJson(true),
     );
 
     //confirmar códigos de sucesso e erro
-    if (response.statusCode > 299) {
-      response.body['error'].forEach((requestError) {
-        error += requestError['msg'] + "\n";
-      });
-    } else {
-      return usuario;
+    if (response.statusCode != 204) {
+      return null;
     }
-
-    return null;
+    
+    return usuario;
   }
 
   //Get múltiplos usuários
@@ -67,7 +62,6 @@ class ControllerUsuarios {
       throw Exception(response.body['error']);
     }
 
-    //pendente de testes
     return response.body.map<UsuarioModel>((usuario) => UsuarioModel.fromJson(usuario))
         .toList();
   }
