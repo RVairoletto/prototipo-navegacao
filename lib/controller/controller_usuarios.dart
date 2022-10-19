@@ -17,25 +17,28 @@ class ControllerUsuarios {
   String error = '';
 
   //Adicionar usuário
-  Future<UsuarioModel?> postUsuario(
-      BuildContext context, UsuarioModel usuario) async {
+  Future<UsuarioModel?> postUsuario(BuildContext context, UsuarioModel usuario) async {
+    error = '';
+
     ApiResponse response = await ApiClient().post(
       endPoint: 'signup',
       token: '',
       data: usuario.toJson(false),
     );
     
-    //confirmar códigos de sucesso e erro
     if (response.statusCode != 204) {
-      //tratar erro
-    } else {
-      return usuario;
+      error = response.body['error'];
+
+      return null;
     }
-    return null;
+    
+    return usuario;
   }
 
   //Alterar usuário
   Future<UsuarioModel?> putUsuario(BuildContext context, UsuarioModel usuario) async {
+    error = '';
+
     ApiResponse response = await ApiClient().put(
       endPoint: '/users/${usuario.id}',
       token: '',
@@ -44,6 +47,8 @@ class ControllerUsuarios {
 
     //confirmar códigos de sucesso e erro
     if (response.statusCode != 204) {
+      error = response.body['error'];
+      
       return null;
     }
     
@@ -67,18 +72,17 @@ class ControllerUsuarios {
   }
 
   //Get usuário by id
-  Future<UsuarioModel?> getUsuarioById(int id) async {
+  Future<UsuarioModel> getUsuarioById(int id) async {
     ApiResponse response = await ApiClient().get(
       endPoint: 'users/$id',
       token: '',
     );
 
-    //confirmar codigo de sucesso
-    if(response.statusCode != 204){
-      return null;
+    if(response.statusCode != 200){
+      throw Exception(response.body['error']);
     }
 
-    UsuarioModel user = UsuarioModel.fromJson(jsonDecode(response.body));
+    UsuarioModel user = UsuarioModel.fromJson(response.body);
 
     return user;
   }

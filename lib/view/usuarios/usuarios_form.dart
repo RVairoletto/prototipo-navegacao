@@ -22,10 +22,21 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
   bool exibirSenha = false;
   bool exibirConfirmarSenha = false;
+  bool isAlteracao = false;
 
   dynamic args;
 
   UsuarioModel usuario = UsuarioModel();
+
+  fetchUsuario() async {
+    UsuarioModel user = await controllerUsuario.getUsuarioById(args);
+    ctrNomeUsuario.text = user.name;
+    ctrEmail.text = user.email;
+    
+    setState(() {
+      //
+    });
+  }
 
   @override
   void initState() {
@@ -34,10 +45,14 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
   @override
   void didChangeDependencies() {
-    print(ModalRoute.of(context)!.settings.arguments);
     args = ModalRoute.of(context)!.settings.arguments;
-    print(args);
-    print(args.toString());
+
+    //Alteracao de usuario
+    if (args.runtimeType == int) {
+      isAlteracao = true;
+      fetchUsuario();
+    }
+
     super.didChangeDependencies();
   }
 
@@ -45,7 +60,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Cadastrar Usuário"),
+          title: const Text("Usuário"),
         ),
         body: SizedBox(
           //Coluna com tudo da tela
@@ -81,13 +96,15 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              readOnly: isAlteracao,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               controller: ctrEmail,
                               decoration:
                                   const InputDecoration(label: Text("E-mail")),
                               validator: (value) {
                                 String email = value ?? '';
-                                
+
                                 if (!EmailValidator.validate(email)) {
                                   return 'Insira um e-mail válido\n';
                                 }
@@ -216,48 +233,49 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                         padding: const EdgeInsets.all(8),
                         child: IconButton(
                           tooltip: 'Salvar',
-                          icon: const Icon(Icons.add),
+                          icon: const Icon(Icons.save),
                           iconSize: 90,
                           splashRadius: 45,
                           onPressed: (() async {
                             //Validar dados
-                            String msgErro = controllerUsuario.validarCadastro(
-                              ctrNomeUsuario.text,
-                              ctrEmail.text,
-                              ctrSenha.text,
-                              ctrConfirmarSenha.text,
-                            );
+                            // String msgErro = controllerUsuario.validarCadastro(
+                            //   ctrNomeUsuario.text,
+                            //   ctrEmail.text,
+                            //   ctrSenha.text,
+                            //   ctrConfirmarSenha.text,
+                            // );
 
-                            if (msgErro != '') {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text('Aviso'),
-                                      content: Text(msgErro),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: (() =>
-                                                Navigator.pop(context)),
-                                            child: const Text('Ok'))
-                                      ],
-                                    );
-                                  });
+                            // if (msgErro != '') {
+                            //   showDialog(
+                            //       context: context,
+                            //       builder: (context) {
+                            //         return AlertDialog(
+                            //           title: const Text('Aviso'),
+                            //           content: Text(msgErro),
+                            //           actions: [
+                            //             TextButton(
+                            //                 onPressed: (() =>
+                            //                     Navigator.pop(context)),
+                            //                 child: const Text('Ok'))
+                            //           ],
+                            //         );
+                            //       });
 
-                              return;
-                            }
+                            //   return;
+                            // }
 
                             usuario.name = ctrNomeUsuario.text;
                             usuario.email = ctrEmail.text;
                             usuario.password = ctrSenha.text;
 
-                            final dynamic isUsuarioPosted =
-                                await controllerUsuario.postUsuario(
-                                    context, usuario);
+                            if(isAlteracao){
+                              controllerUsuario.putUsuario(context, usuario);
+                            } else {
+                              controllerUsuario.postUsuario(context, usuario);
+                            }
 
                             //Salvou com sucesso
-                            if (isUsuarioPosted != null) {
-                              //&& isUsuarioPosted.runtimeType == UsuarioModel
+                            if (controllerUsuario.error.isEmpty) {
                               showDialog(
                                   context: context,
                                   builder: ((context) {
@@ -284,7 +302,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                                     return AlertDialog(
                                       title: const Text('Algo deu errado'),
                                       content: Text(
-                                          'O usuário não pôde ser salvo\n$isUsuarioPosted'),
+                                          'O usuário não pôde ser salvo\n${controllerUsuario.error}'),
                                       actions: [
                                         TextButton(
                                             onPressed: (() =>
