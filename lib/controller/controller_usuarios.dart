@@ -103,8 +103,8 @@ class ControllerUsuarios {
   }
 
   //Validar Senha
-  String validarSenha(String? senha) {
-    if (senha!.length < 8) {
+  String validarSenha(String senha) {
+    if (senha.length < 8) {
       return 'A senha deve conter pelo menos 8 caracteres';
     }
 
@@ -120,34 +120,31 @@ class ControllerUsuarios {
   }
 
   //Validar dados de cadastro
-  String validarCadastro(
-      String usuario, String email, String senha, String confirmarSenha,) {
+  String validarCadastro(String usuario, String email, String senha, String confirmarSenha,) {
     String msgErro = '';
 
     if (usuario == '') {
       msgErro = 'Insira um nome de usuário\n';
     }
-
+    
     if (email == '') {
       msgErro += 'Insira um e-mail\n';
     } else if (!EmailValidator.validate(email)) {
       msgErro += 'Insira um e-mail válido\n';
     }
-    if (senha == '') {
-      msgErro += 'Insira uma senha\n';
-    } else if (senha.length < 8) {
-      msgErro += 'A senha deve ter ao menos 8 caracteres\n';
-    }
+
+    msgErro += validarSenha(senha);
+    
     if (senha != confirmarSenha) {
-      msgErro += 'As senhas devem ser iguais\n';
+      msgErro += '\nAs senhas devem ser iguais';
     }
 
     if (!regExpLetras.hasMatch(senha)) {
-      msgErro += 'A senha deve conter ao menos uma letra\n';
+      msgErro += '\nA senha deve conter ao menos uma letra';
     }
 
     if (!regExpNumeros.hasMatch(senha)) {
-      msgErro += 'A senha deve conter ao menos um número\n';
+      msgErro += '\nA senha deve conter ao menos um número';
     }
 
     return msgErro;

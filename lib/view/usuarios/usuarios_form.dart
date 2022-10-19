@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
@@ -80,9 +81,19 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               controller: ctrEmail,
                               decoration:
                                   const InputDecoration(label: Text("E-mail")),
+                              validator: (value) {
+                                String email = value ?? '';
+                                
+                                if (!EmailValidator.validate(email)) {
+                                  return 'Insira um e-mail válido\n';
+                                }
+
+                                return null;
+                              },
                             ),
                           ),
                         ),
