@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
 
@@ -70,7 +72,22 @@ class ControllerUsuarios {
         .toList();
   }
 
-  //Get usuário
+  //Get usuário by id
+  Future<UsuarioModel?> getUsuarioById(int id) async {
+    ApiResponse response = await ApiClient().get(
+      endPoint: 'users/$id',
+      token: '',
+    );
+
+    //confirmar codigo de sucesso
+    if(response.statusCode != 204){
+      return null;
+    }
+
+    UsuarioModel user = UsuarioModel.fromJson(jsonDecode(response.body));
+
+    return user;
+  }
 
   //Excluir usuário
   Future<bool> deleteUsuario(BuildContext context, UsuarioModel usuario) async {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
+import 'package:prototipo_navegacao/model/usuario.dart';
 import 'package:prototipo_navegacao/widgets/default_alert_dialog.dart';
 import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,6 +27,7 @@ class _TestesViewState extends State<TestesView> {
 
   @override
   Widget build(BuildContext context) {
+    ControllerUsuarios ctrUser = ControllerUsuarios();
     return Scaffold(
         drawer: const DefaultUserDrawer(),
         appBar: AppBar(title: const Text("Tela de testes")),
@@ -35,13 +38,10 @@ class _TestesViewState extends State<TestesView> {
               //get user by id
               ElevatedButton(
                 onPressed: () async {
-                  ApiResponse response = await ApiClient().get(
-                    endPoint: 'users/1',
-                    token: '',
-                  );
-
-                  print(response.statusCode);
-                  print(response.body);
+                  final user = ctrUser.getUsuarioById(1);
+                  if(user.runtimeType != UsuarioModel){
+                    //não achou
+                  }
                 },
                 child: const Text('Testar get user by id')
               ),
