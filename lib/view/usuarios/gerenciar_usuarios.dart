@@ -204,7 +204,6 @@ class _UsuariosViewState extends State<UsuariosView> {
                         rows: [
                           //grid gerado dinamicamente no controller de usuario
                           //baseado nos resultados da query de pesquisa
-                          //TODO implementar filtro de user ativo
                           for (int i = 0; i < usuarios.length; i++)
                             if (!usuarios[i].disabled)
                               _gerarDataRow(context, usuarios[i])
