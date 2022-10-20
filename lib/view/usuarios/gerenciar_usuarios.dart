@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 import 'package:prototipo_navegacao/widgets/default_alert_dialog.dart';
+import 'package:prototipo_navegacao/widgets/default_checkbox.dart';
 import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
 
 import '../../model/usuario.dart';
@@ -19,6 +20,8 @@ class _UsuariosViewState extends State<UsuariosView> {
 
   TextEditingController ctrNome = TextEditingController();
   TextEditingController ctrEmail = TextEditingController();
+
+  bool isListagemAtivos = true;
 
   DataRow _gerarDataRow(BuildContext context, UsuarioModel usuario) {
     return DataRow(cells: [
@@ -135,6 +138,22 @@ class _UsuariosViewState extends State<UsuariosView> {
                       ),
                     ),
                   ),
+                  //Checkbox de listagem de usuários ativos
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: LabeledCheckbox(
+                        label: 'Listar apenas usuários ativos',
+                        padding: const EdgeInsets.all(8),
+                        value: isListagemAtivos,
+                        onChanged: (value) {
+                          setState(() {
+                            isListagemAtivos = value;
+                          });
+                        },
+                      )
+                    ),
+                  ),
                   //Botão pesquisar
                   Flexible(
                     child: ElevatedButton(
@@ -188,6 +207,8 @@ class _UsuariosViewState extends State<UsuariosView> {
                           //TODO implementar filtro de user ativo
                           for (int i = 0; i < usuarios.length; i++)
                             if (!usuarios[i].disabled)
+                              _gerarDataRow(context, usuarios[i])
+                            else if(!isListagemAtivos)
                               _gerarDataRow(context, usuarios[i])
                         ],
                       ),
