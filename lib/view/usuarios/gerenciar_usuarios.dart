@@ -46,26 +46,27 @@ class _UsuariosViewState extends State<UsuariosView> {
           );
 
           if (confirmarExclusao) {
-            await ctrUsuarios.deleteUsuario(usuario).then((value) {
+            await ctrUsuarios.disableUsuario(usuario).then((value) {
               showDialog(
-                  context: context,
-                  builder: ((context) {
-                    return AlertDialog(
-                      title:
-                          value ? const Text('Sucesso') : const Text('Aviso'),
-                      content: value
-                          ? const Text('O usuário foi excluído com sucesso')
-                          : const Text('Não foi possível excluir o usuário'),
-                      actions: [
-                        TextButton(
-                            onPressed: (() {
-                              Navigator.pop(context);
-                              fetchUsuarios();
-                            }),
-                            child: const Text('Ok'))
-                      ],
-                    );
-                  }));
+                context: context,
+                builder: ((context) {
+                  return AlertDialog(
+                    title: value ? const Text('Sucesso') : const Text('Aviso'),
+                    content: value
+                      ? const Text('O usuário foi desabilitado com sucesso')
+                      : const Text('Não foi possível desabilitar o usuário'),
+                    actions: [
+                      TextButton(
+                        onPressed: (() {
+                          Navigator.pop(context);
+                          fetchUsuarios();
+                        }),
+                        child: const Text('Ok')
+                      )
+                    ],
+                  );
+                })
+              );
             });
           }
         },
@@ -90,13 +91,13 @@ class _UsuariosViewState extends State<UsuariosView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Gerenciar Usuários"),
-        ),
-        drawer: const DefaultUserDrawer(),
-        body: SizedBox(
-            //Coluna com tudo
-            child: Padding(
+      appBar: AppBar(
+        title: const Text("Gerenciar Usuários"),
+      ),
+      drawer: const DefaultUserDrawer(),
+      body: SizedBox(
+        //Coluna com tudo
+        child: Padding(
           padding: const EdgeInsets.all(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,9 +116,9 @@ class _UsuariosViewState extends State<UsuariosView> {
                         controller: ctrNome,
                         autofocus: true,
                         decoration: const InputDecoration(
-                            label: Text('Nome'),
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 4)),
+                          label: Text('Nome'),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 4)
+                        ),
                       ),
                     ),
                   ),
@@ -128,9 +129,9 @@ class _UsuariosViewState extends State<UsuariosView> {
                       child: TextFormField(
                         controller: ctrEmail,
                         decoration: const InputDecoration(
-                            label: Text('E-mail'),
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 4)),
+                          label: Text('E-mail'),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 4)
+                        ),
                       ),
                     ),
                   ),
@@ -138,9 +139,7 @@ class _UsuariosViewState extends State<UsuariosView> {
                   Flexible(
                     child: ElevatedButton(
                       onPressed: () {
-                        setState(() {
-                          fetchUsuarios();
-                        });
+                        fetchUsuarios();
                       },
                       child: const Text('Pesquisar'),
                     ),
@@ -152,8 +151,9 @@ class _UsuariosViewState extends State<UsuariosView> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.65,
                 child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: ListView(children: [
+                  padding: const EdgeInsets.all(8),
+                  child: ListView(
+                    children: [
                       DataTable(
                         //Colunas
                         columns: const [
@@ -175,22 +175,25 @@ class _UsuariosViewState extends State<UsuariosView> {
                               child: Text('Alterar'),
                             ),
                           ),
-                          //Botão de Excluir
+                          //Botão de Desabilitar
                           DataColumn(
                             label: Flexible(
-                              child: Text('Excluir'),
+                              child: Text('Desabilitar'),
                             ),
                           ),
                         ],
                         rows: [
                           //grid gerado dinamicamente no controller de usuario
                           //baseado nos resultados da query de pesquisa
+                          //TODO implementar filtro de user ativo
                           for (int i = 0; i < usuarios.length; i++)
                             if (!usuarios[i].disabled)
                               _gerarDataRow(context, usuarios[i])
                         ],
                       ),
-                    ])),
+                    ]
+                  )
+                ),
               ),
               //Linha com os botões de adicionar, alterar e remover
               Row(
@@ -201,20 +204,20 @@ class _UsuariosViewState extends State<UsuariosView> {
                     icon: const Icon(Icons.add),
                     iconSize: 80,
                     padding: EdgeInsets.symmetric(
-                        horizontal: (MediaQuery.of(context).size.width / 10)),
+                      horizontal: (MediaQuery.of(context).size.width / 10)
+                    ),
                     onPressed: () {
                       Navigator.pushNamed(context, Routes.usuariosForm);
                     },
                   ),
                   //Alterar
                   IconButton(
-                    icon: const Icon(Icons
-                        .app_registration), //todo arranjar ícone melhor pra esse botão
+                    icon: const Icon(Icons.app_registration),
                     iconSize: 80,
                     padding: EdgeInsets.symmetric(
-                        horizontal: (MediaQuery.of(context).size.width / 10)),
+                      horizontal: (MediaQuery.of(context).size.width / 10)
+                    ),
                     onPressed: () {
-                      //todo implementar seleção de item para poder alterar
                       Navigator.pushNamed(context, Routes.usuariosForm);
                     },
                   ),
@@ -223,9 +226,9 @@ class _UsuariosViewState extends State<UsuariosView> {
                     icon: const Icon(Icons.remove_circle),
                     iconSize: 80,
                     padding: EdgeInsets.symmetric(
-                        horizontal: (MediaQuery.of(context).size.width / 10)),
+                      horizontal: (MediaQuery.of(context).size.width / 10)
+                    ),
                     onPressed: () async {
-                      //todo implementar seleção de item para poder remover
                       final confirmarExclusao = await showDialog(
                         context: context,
                         builder: (context) {
@@ -242,6 +245,8 @@ class _UsuariosViewState extends State<UsuariosView> {
               )
             ],
           ),
-        )));
+        )
+      )
+    );
   }
 }

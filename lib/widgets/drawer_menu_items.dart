@@ -12,7 +12,7 @@ class MenuItensList {
     //Gerenciar usuários
     DrawerMenuItem(
       text: const Text('Usuários', style: TextStyle(color: Colors.blue)),
-      icon: const Icon(Icons.home, color: Colors.blue),
+      icon: const Icon(Icons.person, color: Colors.blue),
       pageRoute: Routes.usuarios,
     ),
     //Gerenciar professores

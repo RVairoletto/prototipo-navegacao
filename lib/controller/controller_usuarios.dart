@@ -85,15 +85,14 @@ class ControllerUsuarios {
     return user;
   }
 
-  //Excluir usuário
-  Future<bool> deleteUsuario(UsuarioModel usuario) async {
+  //Desabilitar usuário
+  Future<bool> disableUsuario(UsuarioModel usuario) async {
     ApiResponse response = await ApiClient().post(
         endPoint: 'users/disable',
         token: '',
         data: {'id': usuario.id, 'disabled': true}
       );
 
-    //confirmar códigos de sucesso e erro
     if (response.statusCode != 204) {
       return false;
     }
