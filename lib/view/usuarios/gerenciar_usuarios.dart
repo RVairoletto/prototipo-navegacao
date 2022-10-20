@@ -25,8 +25,14 @@ class _UsuariosViewState extends State<UsuariosView> {
 
   DataRow _gerarDataRow(BuildContext context, UsuarioModel usuario) {
     return DataRow(cells: [
+      //Nome
       DataCell(Text(usuario.name)),
+      //Email
       DataCell(Text(usuario.email)),
+      //Status
+      DataCell(usuario.disabled
+        ? const Text('Desabilitado')
+        : const Text('Ativo')),
       DataCell(
           //Alterar
           IconButton(
@@ -186,6 +192,12 @@ class _UsuariosViewState extends State<UsuariosView> {
                           DataColumn(
                             label: Expanded(
                               child: Text('E-mail'),
+                            ),
+                          ),
+                          //Status
+                          DataColumn(
+                            label: Expanded(
+                              child: Text('Status'),
                             ),
                           ),
                           //Botão de alterar
