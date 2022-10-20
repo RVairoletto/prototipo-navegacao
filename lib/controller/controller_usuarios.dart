@@ -17,7 +17,7 @@ class ControllerUsuarios {
   String error = '';
 
   //Adicionar usuário
-  Future<UsuarioModel?> postUsuario(BuildContext context, UsuarioModel usuario) async {
+  Future<UsuarioModel?> postUsuario(UsuarioModel usuario) async {
     error = '';
 
     ApiResponse response = await ApiClient().post(
@@ -25,49 +25,47 @@ class ControllerUsuarios {
       token: '',
       data: usuario.toJson(false),
     );
-    
+
     if (response.statusCode != 204) {
       error = response.body['error'];
 
       return null;
     }
-    
+
     return usuario;
   }
 
-  //Alterar usuário
-  Future<UsuarioModel?> putUsuario(BuildContext context, UsuarioModel usuario) async {
+  void editUsuario(UsuarioModel usuario) async {
     error = '';
 
-    ApiResponse response = await ApiClient().put(
-      endPoint: '/users/${usuario.id}',
+    Map user = usuario.toJson(true);
+
+    user.remove('password');
+
+    ApiResponse response = await ApiClient().post(
+      endPoint: 'users/edit',
       token: '',
-      data: usuario.toJson(true),
+      data: user,
     );
 
-    //confirmar códigos de sucesso e erro
     if (response.statusCode != 204) {
       error = response.body['error'];
-      
-      return null;
     }
-    
-    return usuario;
   }
 
   //Get múltiplos usuários
-  Future<List<UsuarioModel>> getUsuarios(BuildContext context) async {
+  Future<List<UsuarioModel>> getUsuarios() async {
     ApiResponse response = await ApiClient().get(
       endPoint: 'users',
       token: '',
     );
 
-    //confirmar códigos de sucesso e erro
     if (response.statusCode != 200) {
       throw Exception(response.body['error']);
     }
 
-    return response.body.map<UsuarioModel>((usuario) => UsuarioModel.fromJson(usuario))
+    return response.body
+        .map<UsuarioModel>((usuario) => UsuarioModel.fromJson(usuario))
         .toList();
   }
 
@@ -78,7 +76,7 @@ class ControllerUsuarios {
       token: '',
     );
 
-    if(response.statusCode != 200){
+    if (response.statusCode != 200) {
       throw Exception(response.body['error']);
     }
 
@@ -88,15 +86,12 @@ class ControllerUsuarios {
   }
 
   //Excluir usuário
-  Future<bool> deleteUsuario(BuildContext context, UsuarioModel usuario) async {
+  Future<bool> deleteUsuario(UsuarioModel usuario) async {
     ApiResponse response = await ApiClient().post(
-      endPoint: 'users/disable',
-      token: '',
-      data: {
-        'id': usuario.id,
-        'disabled': true
-      }
-    );
+        endPoint: 'users/disable',
+        token: '',
+        data: {'id': usuario.id, 'disabled': true}
+      );
 
     //confirmar códigos de sucesso e erro
     if (response.statusCode != 204) {
@@ -124,13 +119,18 @@ class ControllerUsuarios {
   }
 
   //Validar dados de cadastro
-  String validarCadastro(String usuario, String email, String senha, String confirmarSenha,) {
+  String validarCadastro(
+    String usuario,
+    String email,
+    String senha,
+    String confirmarSenha,
+  ) {
     String msgErro = '';
 
     if (usuario == '') {
       msgErro = 'Insira um nome de usuário\n';
     }
-    
+
     if (email == '') {
       msgErro += 'Insira um e-mail\n';
     } else if (!EmailValidator.validate(email)) {
@@ -138,7 +138,7 @@ class ControllerUsuarios {
     }
 
     msgErro += validarSenha(senha);
-    
+
     if (senha != confirmarSenha) {
       msgErro += '\nAs senhas devem ser iguais';
     }
@@ -159,13 +159,9 @@ class ControllerUsuarios {
     error = '';
 
     ApiResponse response = await ApiClient().post(
-      endPoint: 'users/newPassword',
-       token: '',
-       data: {
-        'id': usuarioAtual.id,
-        'password': senhaNova
-       }
-    );
+        endPoint: 'users/newPassword',
+        token: '',
+        data: {'id': usuarioAtual.id, 'password': senhaNova});
 
     if (response.statusCode != 204) {
       error += 'Não foi possível alterar sua senha';

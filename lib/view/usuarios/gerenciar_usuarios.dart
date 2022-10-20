@@ -29,10 +29,8 @@ class _UsuariosViewState extends State<UsuariosView> {
           IconButton(
         icon: const Icon(Icons.app_registration),
         onPressed: () {
-          Navigator.pushNamed(context, Routes.usuariosForm,
-                  arguments: usuario.id)
-              .then((value) {
-            print(value);
+          Navigator.pushNamed(context, Routes.usuariosForm,arguments: usuario.id).then((value) {
+            fetchUsuarios();
           });
         },
       )),
@@ -48,7 +46,7 @@ class _UsuariosViewState extends State<UsuariosView> {
           );
 
           if (confirmarExclusao) {
-            await ctrUsuarios.deleteUsuario(context, usuario).then((value) {
+            await ctrUsuarios.deleteUsuario(usuario).then((value) {
               showDialog(
                   context: context,
                   builder: ((context) {
@@ -62,9 +60,7 @@ class _UsuariosViewState extends State<UsuariosView> {
                         TextButton(
                             onPressed: (() {
                               Navigator.pop(context);
-                              setState(() {
-                                fetchUsuarios();
-                              });
+                              fetchUsuarios();
                             }),
                             child: const Text('Ok'))
                       ],
@@ -78,7 +74,7 @@ class _UsuariosViewState extends State<UsuariosView> {
   }
 
   fetchUsuarios() async {
-    usuarios = await ctrUsuarios.getUsuarios(context);
+    usuarios = await ctrUsuarios.getUsuarios();
 
     setState(() {
       //
