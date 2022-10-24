@@ -1,0 +1,97 @@
+import 'package:flutter/material.dart';
+import 'package:prototipo_navegacao/controller/controller_niveis_acesso.dart';
+import 'package:prototipo_navegacao/model/nivel_acesso.dart';
+import 'package:prototipo_navegacao/util/routes.dart';
+import 'package:prototipo_navegacao/widgets/default_alert_dialog.dart';
+import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
+
+class NiveisAcessoView extends StatefulWidget {
+  const NiveisAcessoView({super.key});
+
+  @override
+  State<NiveisAcessoView> createState() => _NiveisAcessoViewState();
+}
+
+class _NiveisAcessoViewState extends State<NiveisAcessoView> {
+  List<NivelAcessoModel> niveisAcesso = [];
+
+  ControllerNiveisAcesso ctrNiveisAcesso = ControllerNiveisAcesso();
+
+  DataRow _gerarDataRow(BuildContext context, NivelAcessoModel nivelAcesso) {
+    return DataRow(cells: [
+      //Descrição
+      DataCell(
+        Text(nivelAcesso.description)
+      ),
+      DataCell(
+        //Alterar
+        IconButton(
+          icon: const Icon(Icons.app_registration),
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.niveisAcessoForm, arguments: nivelAcesso.id).then((value) {
+              fetchNiveisAcesso();
+            }).then((value) => {
+              setState(() {
+                //
+              })
+            });
+          },
+        )
+      ),
+    ]);
+  }
+
+  fetchNiveisAcesso() async {
+    niveisAcesso = await ctrNiveisAcesso.getNiveisAcesso();
+
+    setState(() {
+      //
+    });
+  }
+
+  @override
+  void initState() {
+    fetchNiveisAcesso();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Gerenciar Níveis de Acesso'),
+      ),
+      drawer: const DefaultUserDrawer(),
+      body: SizedBox(
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              //Datagrid
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Expanded(
+                  child: DataTable(
+                    columns: const [
+                      //Nome
+                      DataColumn(label: Text('Nome')),
+                      //Alterar
+                      DataColumn(label: Text('Alterar')),
+                    ],
+                    rows: [
+                      //grid gerado dinamicamente no controller de niveis de acesso
+                      //baseado nos resultados da query de pesquisa
+                      for (int i = 0; i < niveisAcesso.length; i++)
+                          _gerarDataRow(context, niveisAcesso[i])
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

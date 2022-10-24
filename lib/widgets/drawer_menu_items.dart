@@ -15,6 +15,12 @@ class MenuItensList {
       icon: const Icon(Icons.person, color: Colors.blue),
       pageRoute: Routes.usuarios,
     ),
+    //Gerenciar níveis de acesso
+    DrawerMenuItem(
+      text: const Text('Níveis de Acesso', style: TextStyle(color: Colors.blue)),
+      icon: const Icon(Icons.arrow_upward_sharp, color: Colors.blue),
+      pageRoute: Routes.niveisAcesso,
+    ),
     //Gerenciar professores
     DrawerMenuItem(
       text: const Text('Professores', style: TextStyle(color: Colors.blue)),
