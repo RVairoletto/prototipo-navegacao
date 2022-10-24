@@ -39,4 +39,20 @@ class ControllerLogin {
     //     response.body.toString());
     return true;
   }
+
+  Future<String?> forgotPassword(String email) async {
+    ApiResponse response = await ApiClient().post(
+      endPoint: 'forgotPassword',
+      token: '',
+      data: {
+        'email': email
+      }
+    );
+
+    if(response.statusCode != 204){
+      return response.body['error'];
+    }
+
+    return null;
+  }
 }
