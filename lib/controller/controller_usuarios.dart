@@ -14,7 +14,7 @@ class ControllerUsuarios {
   String error = '';
 
   //Adicionar usuário
-  Future<UsuarioModel?> postUsuario(UsuarioModel usuario) async {
+  Future<UsuarioModel?> postUsuario(UsuarioModel usuario, String description) async {
     error = '';
 
     ApiResponse response = await ApiClient().post(
@@ -29,10 +29,12 @@ class ControllerUsuarios {
       return null;
     }
 
+    error += await userLevel(usuario.id, description);
+
     return usuario;
   }
 
-  void editUsuario(UsuarioModel usuario) async {
+  void editUsuario(UsuarioModel usuario, String description) async {
     error = '';
 
     Map user = usuario.toJson(true);
@@ -45,8 +47,10 @@ class ControllerUsuarios {
       data: user,
     );
 
+    error = await userLevel(usuario.id, description);
+
     if (response.statusCode != 204) {
-      error = response.body['error'] ?? 'Não foi possível alterar o usuário';
+      error += response.body['error'] ?? 'Não foi possível alterar o usuário';
     }
   }
 
@@ -162,5 +166,21 @@ class ControllerUsuarios {
     if (response.statusCode != 204) {
       error += 'Não foi possível alterar sua senha';
     }
+  }
+
+  Future<String> userLevel(int? id, String description) async {
+    ApiResponse response = await ApiClient().post(
+      endPoint: 'userLevel',
+      data:{
+        'id': id,
+        'description': description,
+      }
+    );
+
+    if(response.statusCode != 204){
+      return response.body['error'] ?? 'Não foi possível realizar a operação do grupo de acesso\n';
+    }
+
+    return '';
   }
 }

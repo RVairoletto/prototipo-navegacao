@@ -306,7 +306,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               }
                               //Realizar alteração
                               usuario.id = args;
-                              ctrUsuario.editUsuario(usuario);
+                              ctrUsuario.editUsuario(usuario, dropdownValue);
                             } else {
                               String msgErro = ctrUsuario.validarCadastro(
                                 ctrNomeUsuario.text,
@@ -336,7 +336,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               }
 
                               //Salvar
-                              await ctrUsuario.postUsuario(usuario);
+                              await ctrUsuario.postUsuario(usuario, dropdownValue);
                             }
 
                             String title = ctrUsuario.error.isEmpty
