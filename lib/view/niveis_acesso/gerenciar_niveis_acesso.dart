@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_niveis_acesso.dart';
 import 'package:prototipo_navegacao/model/nivel_acesso.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
+import 'package:prototipo_navegacao/view/niveis_acesso/niveis_acesso_form.dart';
 import 'package:prototipo_navegacao/widgets/default_alert_dialog.dart';
 import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
 
@@ -28,12 +29,13 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
         IconButton(
           icon: const Icon(Icons.app_registration),
           onPressed: () {
-            Navigator.pushNamed(context, Routes.niveisAcessoForm, arguments: nivelAcesso.id).then((value) {
-              fetchNiveisAcesso();
-            }).then((value) => {
-              setState(() {
-                //
-              })
+            showDialog(
+              context: context,
+              builder: (context) {
+                return NiveisAcessoFormView(id: nivelAcesso.id);
+              }
+            ).then((value) => {
+              fetchNiveisAcesso()
             });
           },
         )
@@ -99,7 +101,14 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
                     icon: const Icon(Icons.add),
                     iconSize: 80,
                     onPressed: () {
-                      Navigator.pushNamed(context, Routes.niveisAcessoForm);
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const NiveisAcessoFormView();
+                        }
+                      ).then((value) => {
+                        fetchNiveisAcesso()
+                      });
                     },
                   ),
                   ],
