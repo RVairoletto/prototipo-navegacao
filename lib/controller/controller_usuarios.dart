@@ -170,7 +170,7 @@ class ControllerUsuarios {
 
   Future<String> userLevel(int? id, String description) async {
     ApiResponse response = await ApiClient().post(
-      endPoint: 'userLevel',
+      endPoint: 'user/userLevel',
       data:{
         'id': id,
         'description': description,

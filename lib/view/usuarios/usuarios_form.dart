@@ -39,7 +39,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
     ctrNomeUsuario.text = usuario.name;
     ctrEmail.text = usuario.email;
-    
+
     setState(() {
       //
     });
@@ -51,6 +51,8 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
     descNiveisAcesso = niveisAcesso.map<String>((value) {
       return value.description;
     }).toList();
+
+    dropdownValue = descNiveisAcesso.first;
 
     setState(() {
       //
@@ -98,7 +100,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                     //Linha com os campos de nome, email e níveis de acesso
                     Row(
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         //Campo de nome de usuário
                         Flexible(
@@ -140,20 +142,24 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: DropdownButton<String>(
-                              value: dropdownValue,
-                              onChanged: (value) {
-                                dropdownValue = value!;
-                              },
-                              items: [
-                                for(int i = 0; i < descNiveisAcesso.length; i++)
-                                  DropdownMenuItem(
-                                    value: descNiveisAcesso[i],
-                                    child: Text(descNiveisAcesso[i])
-                                  )
-                              ]
+                                value: dropdownValue,
+                                onChanged: (value) {
+                                  dropdownValue = value!;
+
+                                  setState(() {
+                                    //
+                                  });
+                                },
+                                items: [
+                                  for (int i = 0; i < descNiveisAcesso.length; i++)
+                                    DropdownMenuItem(
+                                      value: descNiveisAcesso[i],
+                                      child: Text(descNiveisAcesso[i])
+                                    )
+                                ]
+                              )
                             )
-                          )
-                        ),
+                          ),
                       ],
                     ),
                     //Linha com os campos de senha e confirmar senha
@@ -195,8 +201,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                                   return 'Esse campo é obrigatório';
                                 }
 
-                                String msgErro =
-                                    ctrUsuario.validarSenha(value);
+                                String msgErro = ctrUsuario.validarSenha(value);
 
                                 if (msgErro.isNotEmpty) {
                                   return msgErro;
@@ -284,23 +289,21 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                             usuario.email = ctrEmail.text;
                             usuario.password = ctrSenha.text;
 
-                            if(isAlteracao){
-                              if(ctrNomeUsuario.text.isEmpty){
+                            if (isAlteracao) {
+                              if (ctrNomeUsuario.text.isEmpty) {
                                 await showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text('Aviso'),
-                                      content: const Text('Insira um nome'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: (() =>
-                                              Navigator.pop(context)),
-                                          child: const Text('Ok'))
-                                      ]
-                                    );
-                                  }
-                                );
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                          title: const Text('Aviso'),
+                                          content: const Text('Insira um nome'),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: (() =>
+                                                    Navigator.pop(context)),
+                                                child: const Text('Ok'))
+                                          ]);
+                                    });
 
                                 return;
                               }
@@ -317,54 +320,52 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
                               if (msgErro != '') {
                                 await showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text('Aviso'),
-                                      content: Text(msgErro),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: (() =>
-                                                Navigator.pop(context)),
-                                            child: const Text('Ok'))
-                                      ],
-                                    );
-                                  }
-                                );
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text('Aviso'),
+                                        content: Text(msgErro),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: (() =>
+                                                  Navigator.pop(context)),
+                                              child: const Text('Ok'))
+                                        ],
+                                      );
+                                    });
 
                                 return;
                               }
 
                               //Salvar
-                              await ctrUsuario.postUsuario(usuario, dropdownValue);
+                              await ctrUsuario.postUsuario(
+                                  usuario, dropdownValue);
                             }
 
-                            String title = ctrUsuario.error.isEmpty
-                            ? 'Sucesso'
-                            : 'Aviso';
+                            String title =
+                                ctrUsuario.error.isEmpty ? 'Sucesso' : 'Aviso';
 
                             String content = ctrUsuario.error.isEmpty
-                            ? 'Operação realizada com sucesso'
-                            : ctrUsuario.error;
-                            
+                                ? 'Operação realizada com sucesso'
+                                : ctrUsuario.error;
+
                             await showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text(title),
-                                  content: Text(content),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: (() => Navigator.pop(context)),
-                                      child: const Text('Ok')
-                                    )
-                                  ],
-                                );
-                              }
-                            ).then((value) {
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(title),
+                                    content: Text(content),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: (() =>
+                                              Navigator.pop(context)),
+                                          child: const Text('Ok'))
+                                    ],
+                                  );
+                                }).then((value) {
                               ctrUsuario.error.isEmpty
-                              ? Navigator.pop(context)
-                              : null;
+                                  ? Navigator.pop(context)
+                                  : null;
                             });
                           }),
                         ),
