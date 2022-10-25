@@ -50,7 +50,7 @@ class ControllerLogin {
     );
 
     if(response.statusCode != 204){
-      return response.body['error'];
+      return response.body['error'] ?? 'Não foi possível recuperar sua senha';
     }
 
     return null;

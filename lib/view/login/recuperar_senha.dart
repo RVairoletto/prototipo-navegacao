@@ -86,7 +86,7 @@ class _RecuperarSenhaViewState extends State<RecuperarSenhaView> {
                             //Enviar e-mail pro backend
                             final String? respForgotPassword = await ctrLogin.forgotPassword(ctrEmail.text);
 
-                            if(respForgotPassword.runtimeType != null){
+                            if(respForgotPassword == null){
                               //A requisição foi bem sucedida
                               await showDialog(
                                 context: context,
@@ -113,7 +113,7 @@ class _RecuperarSenhaViewState extends State<RecuperarSenhaView> {
                                 builder: (context) {
                                   return AlertDialog(
                                     title: const Text('Aviso'),
-                                    content: Text(respForgotPassword ?? 'Não foi possível recuperar sua senha'),
+                                    content: Text(respForgotPassword),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
