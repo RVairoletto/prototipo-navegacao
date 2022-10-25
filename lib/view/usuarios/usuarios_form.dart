@@ -1,6 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:prototipo_navegacao/controller/controller_niveis_acesso.dart';
 import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
+import 'package:prototipo_navegacao/model/nivel_acesso.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
 
 class UsuariosFormView extends StatefulWidget {
@@ -16,18 +18,24 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
   TextEditingController ctrSenha = TextEditingController();
   TextEditingController ctrConfirmarSenha = TextEditingController();
 
-  ControllerUsuarios controllerUsuario = ControllerUsuarios();
+  ControllerUsuarios ctrUsuario = ControllerUsuarios();
+  ControllerNiveisAcesso ctrNiveisAcesso = ControllerNiveisAcesso();
+
+  UsuarioModel usuario = UsuarioModel();
 
   bool exibirSenha = false;
   bool exibirConfirmarSenha = false;
   bool isAlteracao = false;
 
+  List<String> descNiveisAcesso = [];
+  List<NivelAcessoModel> niveisAcesso = [];
+
+  String dropdownValue = '';
+
   dynamic args;
 
-  UsuarioModel usuario = UsuarioModel();
-
   fetchUsuario() async {
-    usuario = await controllerUsuario.getUsuarioById(args);
+    usuario = await ctrUsuario.getUsuarioById(args);
 
     ctrNomeUsuario.text = usuario.name;
     ctrEmail.text = usuario.email;
@@ -37,8 +45,22 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
     });
   }
 
+  fetchNiveisAcesso() async {
+    niveisAcesso = await ctrNiveisAcesso.getNiveisAcesso();
+
+    descNiveisAcesso = niveisAcesso.map<String>((value) {
+      return value.description;
+    }).toList();
+
+    setState(() {
+      //
+    });
+  }
+
   @override
   void initState() {
+    fetchNiveisAcesso();
+
     super.initState();
   }
 
@@ -73,7 +95,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    //Linha com os campos de nome e email
+                    //Linha com os campos de nome, email e níveis de acesso
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,6 +134,25 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               },
                             ),
                           ),
+                        ),
+                        //Combobox de níveis de acesso
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: DropdownButton<String>(
+                              value: dropdownValue,
+                              onChanged: (value) {
+                                dropdownValue = value!;
+                              },
+                              items: [
+                                for(int i = 0; i < descNiveisAcesso.length; i++)
+                                  DropdownMenuItem(
+                                    value: descNiveisAcesso[i],
+                                    child: Text(descNiveisAcesso[i])
+                                  )
+                              ]
+                            )
+                          )
                         ),
                       ],
                     ),
@@ -155,7 +196,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                                 }
 
                                 String msgErro =
-                                    controllerUsuario.validarSenha(value);
+                                    ctrUsuario.validarSenha(value);
 
                                 if (msgErro.isNotEmpty) {
                                   return msgErro;
@@ -265,9 +306,9 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               }
                               //Realizar alteração
                               usuario.id = args;
-                              controllerUsuario.editUsuario(usuario);
+                              ctrUsuario.editUsuario(usuario);
                             } else {
-                              String msgErro = controllerUsuario.validarCadastro(
+                              String msgErro = ctrUsuario.validarCadastro(
                                 ctrNomeUsuario.text,
                                 ctrEmail.text,
                                 ctrSenha.text,
@@ -295,16 +336,16 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               }
 
                               //Salvar
-                              await controllerUsuario.postUsuario(usuario);
+                              await ctrUsuario.postUsuario(usuario);
                             }
 
-                            String title = controllerUsuario.error.isEmpty
+                            String title = ctrUsuario.error.isEmpty
                             ? 'Sucesso'
                             : 'Aviso';
 
-                            String content = controllerUsuario.error.isEmpty
+                            String content = ctrUsuario.error.isEmpty
                             ? 'Operação realizada com sucesso'
-                            : controllerUsuario.error;
+                            : ctrUsuario.error;
                             
                             await showDialog(
                               context: context,
@@ -321,7 +362,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                                 );
                               }
                             ).then((value) {
-                              controllerUsuario.error.isEmpty
+                              ctrUsuario.error.isEmpty
                               ? Navigator.pop(context)
                               : null;
                             });
