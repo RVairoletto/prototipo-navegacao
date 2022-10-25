@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
@@ -29,9 +27,10 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
   UsuarioModel usuario = UsuarioModel();
 
   fetchUsuario() async {
-    UsuarioModel user = await controllerUsuario.getUsuarioById(args);
-    ctrNomeUsuario.text = user.name;
-    ctrEmail.text = user.email;
+    usuario = await controllerUsuario.getUsuarioById(args);
+
+    ctrNomeUsuario.text = usuario.name;
+    ctrEmail.text = usuario.email;
     
     setState(() {
       //
@@ -240,8 +239,35 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                           splashRadius: 45,
                           onPressed: (() async {
                             //Validar dados de cadastro
-                            if(!isAlteracao){
-                              String msgErro = await controllerUsuario.validarCadastro(
+                            usuario.name = ctrNomeUsuario.text;
+                            usuario.email = ctrEmail.text;
+                            usuario.password = ctrSenha.text;
+
+                            if(isAlteracao){
+                              if(ctrNomeUsuario.text.isEmpty){
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Aviso'),
+                                      content: const Text('Insira um nome'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: (() =>
+                                              Navigator.pop(context)),
+                                          child: const Text('Ok'))
+                                      ]
+                                    );
+                                  }
+                                );
+
+                                return;
+                              }
+                              //Realizar alteração
+                              usuario.id = args;
+                              controllerUsuario.editUsuario(usuario);
+                            } else {
+                              String msgErro = controllerUsuario.validarCadastro(
                                 ctrNomeUsuario.text,
                                 ctrEmail.text,
                                 ctrSenha.text,
@@ -267,77 +293,38 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
                                 return;
                               }
-                            } else {
-                              if(ctrNomeUsuario.text.isEmpty){
-                                await showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text('Aviso'),
-                                      content: Text('Insira um nome'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: (() =>
-                                              Navigator.pop(context)),
-                                          child: const Text('Ok'))
-                                      ]
-                                    );
-                                  }
-                                );
 
-                                return;
-                              }
-                            }
-                            
-                            usuario.name = ctrNomeUsuario.text;
-                            usuario.email = ctrEmail.text;
-                            usuario.password = ctrSenha.text;
-
-                            if(isAlteracao){
-                              usuario.id = args;
-
-                              controllerUsuario.editUsuario(usuario);
-                            } else {
+                              //Salvar
                               await controllerUsuario.postUsuario(usuario);
                             }
 
-                            //Salvou com sucesso
-                            if (controllerUsuario.error.isEmpty) {
-                              await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text('Sucesso'),
-                                    content: const Text('Seu cadastro foi registrado'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: (() => Navigator.pop(context)),
-                                        child: const Text('Ok')
-                                      )
-                                    ],
-                                  );
-                                }
-                              ).then((value) => Navigator.pop(context, true));
-                            }
-                            //Não salvou com sucesso
-                            else {
-                              await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text('Algo deu errado'),
-                                    content: Text(
-                                        'O usuário não pôde ser salvo\n${controllerUsuario.error}'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: (() =>
-                                            Navigator.pop(context, false)),
-                                        child: const Text('Ok'))
-                                    ],
-                                  );
-                                }
-                              );
-                            }
+                            String title = controllerUsuario.error.isEmpty
+                            ? 'Sucesso'
+                            : 'Aviso';
+
+                            String content = controllerUsuario.error.isEmpty
+                            ? 'Operação realizada com sucesso'
+                            : controllerUsuario.error;
+                            
+                            await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(title),
+                                  content: Text(content),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: (() => Navigator.pop(context)),
+                                      child: const Text('Ok')
+                                    )
+                                  ],
+                                );
+                              }
+                            ).then((value) {
+                              controllerUsuario.error.isEmpty
+                              ? Navigator.pop(context)
+                              : null;
+                            });
                           }),
                         ),
                       ),

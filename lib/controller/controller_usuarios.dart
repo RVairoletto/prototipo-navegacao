@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/model/usuario.dart';
 
 import 'package:email_validator/email_validator.dart';
@@ -49,7 +46,7 @@ class ControllerUsuarios {
     );
 
     if (response.statusCode != 204) {
-      error = response.body['error'];
+      error = response.body['error'] ?? 'Não foi possível alterar o usuário';
     }
   }
 
