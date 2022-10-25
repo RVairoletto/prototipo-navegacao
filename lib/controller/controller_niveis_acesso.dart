@@ -63,4 +63,18 @@ class ControllerNiveisAcesso {
 
     return null;
   }
+
+  //Editar nível de acesso
+  Future<String?> editNivelAcesso(NivelAcessoModel nivel) async {
+    ApiResponse response = await ApiClient().post(
+      endPoint: 'accessLevel/edit',
+      data: nivel.toJson()
+    );
+
+    if(response.statusCode != 204){
+      return response.body['error'] ?? 'Não foi possível alterar o nível de acesso';
+    }
+
+    return null;
+  }
 }
