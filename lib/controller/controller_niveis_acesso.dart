@@ -23,10 +23,10 @@ class ControllerNiveisAcesso {
   //Get níveis de acesso
   Future<List<NivelAcessoModel>> getNiveisAcesso() async {
     ApiResponse response = await ApiClient().get(
-      endPoint: 'acessLevel',
+      endPoint: 'accessLevel',
     );
 
-    if(response.statusCode != 204){
+    if(response.statusCode != 200){
       throw Exception(response.body['error'] ?? 'Não foi possível listar os níveis de acesso');
     }
 

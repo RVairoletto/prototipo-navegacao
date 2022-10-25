@@ -63,15 +63,16 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
       ),
       drawer: const DefaultUserDrawer(),
       body: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.8,
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               //Datagrid
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Expanded(
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
                   child: DataTable(
                     columns: const [
                       //Nome
@@ -88,6 +89,22 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //Botão de adicionar
+                    IconButton(
+                    icon: const Icon(Icons.add),
+                    iconSize: 80,
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.niveisAcessoForm);
+                    },
+                  ),
+                  ],
+                ),
+              )
             ],
           ),
         ),

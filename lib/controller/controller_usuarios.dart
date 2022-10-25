@@ -27,7 +27,7 @@ class ControllerUsuarios {
     );
 
     if (response.statusCode != 204) {
-      error = response.body['error'];
+      error = response.body['error'] ?? 'Não foi possível salvar seu cadastro';
 
       return null;
     }

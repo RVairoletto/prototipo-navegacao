@@ -241,7 +241,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                           onPressed: (() async {
                             //Validar dados de cadastro
                             if(!isAlteracao){
-                              String msgErro = controllerUsuario.validarCadastro(
+                              String msgErro = await controllerUsuario.validarCadastro(
                                 ctrNomeUsuario.text,
                                 ctrEmail.text,
                                 ctrSenha.text,
@@ -298,7 +298,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
                               controllerUsuario.editUsuario(usuario);
                             } else {
-                              controllerUsuario.postUsuario(usuario);
+                              await controllerUsuario.postUsuario(usuario);
                             }
 
                             //Salvou com sucesso
