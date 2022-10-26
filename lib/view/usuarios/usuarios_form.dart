@@ -27,10 +27,9 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
   bool exibirConfirmarSenha = false;
   bool isAlteracao = false;
 
-  List<String> descNiveisAcesso = [];
   List<NivelAcessoModel> niveisAcesso = [];
 
-  String dropdownValue = '';
+  NivelAcessoModel dropdownValue = NivelAcessoModel();
 
   dynamic args;
 
@@ -40,6 +39,12 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
     ctrNomeUsuario.text = usuario.name;
     ctrEmail.text = usuario.email;
 
+    for (int i = 0; i < niveisAcesso.length; i++) {
+      if (niveisAcesso[i].id == usuario.levelId) {
+        dropdownValue = niveisAcesso[i];
+      }
+    }
+
     setState(() {
       //
     });
@@ -48,11 +53,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
   fetchNiveisAcesso() async {
     niveisAcesso = await ctrNiveisAcesso.getNiveisAcesso();
 
-    descNiveisAcesso = niveisAcesso.map<String>((value) {
-      return value.description;
-    }).toList();
-
-    dropdownValue = descNiveisAcesso.first;
+    dropdownValue = niveisAcesso.first;
 
     setState(() {
       //
@@ -139,27 +140,26 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                         ),
                         //Combobox de níveis de acesso
                         Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: DropdownButton<String>(
-                                value: dropdownValue,
-                                onChanged: (value) {
-                                  dropdownValue = value!;
+                            child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: DropdownButton<NivelAcessoModel>(
+                                    value: dropdownValue,
+                                    onChanged: (value) {
+                                      dropdownValue = value!;
 
-                                  setState(() {
-                                    //
-                                  });
-                                },
-                                items: [
-                                  for (int i = 0; i < descNiveisAcesso.length; i++)
-                                    DropdownMenuItem(
-                                      value: descNiveisAcesso[i],
-                                      child: Text(descNiveisAcesso[i])
-                                    )
-                                ]
-                              )
-                            )
-                          ),
+                                      setState(() {
+                                        //
+                                      });
+                                    },
+                                    items: [
+                                      for (int i = 0;
+                                          i < niveisAcesso.length;
+                                          i++)
+                                        DropdownMenuItem(
+                                            value: niveisAcesso[i],
+                                            child: Text(
+                                                niveisAcesso[i].description))
+                                    ]))),
                       ],
                     ),
                     //Linha com os campos de senha e confirmar senha
@@ -288,6 +288,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                             usuario.name = ctrNomeUsuario.text;
                             usuario.email = ctrEmail.text;
                             usuario.password = ctrSenha.text;
+                            usuario.levelId = dropdownValue.id;
 
                             if (isAlteracao) {
                               if (ctrNomeUsuario.text.isEmpty) {
@@ -309,7 +310,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               }
                               //Realizar alteração
                               usuario.id = args;
-                              ctrUsuario.editUsuario(usuario, dropdownValue);
+                              ctrUsuario.editUsuario(usuario);
                             } else {
                               String msgErro = ctrUsuario.validarCadastro(
                                 ctrNomeUsuario.text,
@@ -338,8 +339,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               }
 
                               //Salvar
-                              await ctrUsuario.postUsuario(
-                                  usuario, dropdownValue);
+                              await ctrUsuario.postUsuario(usuario);
                             }
 
                             String title =

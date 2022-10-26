@@ -14,7 +14,7 @@ class ControllerUsuarios {
   String error = '';
 
   //Adicionar usuário
-  Future<UsuarioModel?> postUsuario(UsuarioModel usuario, String description) async {
+  Future<UsuarioModel?> postUsuario(UsuarioModel usuario) async {
     error = '';
 
     ApiResponse response = await ApiClient().post(
@@ -29,12 +29,10 @@ class ControllerUsuarios {
       return null;
     }
 
-    error += await userLevel(usuario.id, description);
-
     return usuario;
   }
 
-  void editUsuario(UsuarioModel usuario, String description) async {
+  void editUsuario(UsuarioModel usuario) async {
     error = '';
 
     Map user = usuario.toJson(true);
@@ -46,8 +44,6 @@ class ControllerUsuarios {
       token: '',
       data: user,
     );
-
-    error = await userLevel(usuario.id, description);
 
     if (response.statusCode != 204) {
       error += response.body['error'] ?? 'Não foi possível alterar o usuário';

@@ -239,7 +239,9 @@ class _UsuariosViewState extends State<UsuariosView> {
                       horizontal: (MediaQuery.of(context).size.width / 10)
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, Routes.usuariosForm);
+                      Navigator.pushNamed(context, Routes.usuariosForm).then((value) {
+                        fetchUsuarios();
+                      });
                     },
                   ),
                   //Alterar
