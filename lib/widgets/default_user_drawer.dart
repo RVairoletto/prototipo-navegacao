@@ -64,8 +64,7 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
           ],
         ),
         onPressed: () async {
-          await prefs!.clear();
-          Navigator.pushReplacementNamed(context, Routes.login);
+          await prefs!.clear().then((value) => Navigator.pushReplacementNamed(context, Routes.login));
         },
       ),
     );

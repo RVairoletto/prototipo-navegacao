@@ -111,8 +111,10 @@ class _LoginViewState extends State<LoginView> {
                               await SharedPreferences.getInstance();
                               UsuarioAtualModel user = retornoLogin['user'];
                           prefs.setString(
-                              'usuario_atual', jsonEncode(user.toJson(true)));
-                          Navigator.pushReplacementNamed(context, Routes.homePage);
+                              'usuario_atual', jsonEncode(user.toJson(true))).then((value) {
+                                Navigator.pushReplacementNamed(context, Routes.homePage);
+                              });
+                          
                         } else {
                           showDialog(
                               context: context,

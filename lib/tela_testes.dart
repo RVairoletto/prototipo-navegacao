@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_login.dart';
-import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
