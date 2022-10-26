@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:prototipo_navegacao/model/usuario_atual.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +20,7 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
 
   getPreferences() async{
     prefs = await SharedPreferences.getInstance();
+
     setState(() {});
   }
 
@@ -40,7 +42,9 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
         'name': jsonDecode(prefs!.getString('usuario_atual')?? '')['name'],
         'email': jsonDecode(prefs!.getString('usuario_atual')?? '')['email'],
       },
-      pages: MenuItensList.itens,
+      pages: jsonDecode(prefs!.getString('usuario_atual')?? '')['levelId'] == 1
+      ? MenuItensList.analistaItens
+      : MenuItensList.itens,
       footer: ElevatedButton(
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(0),

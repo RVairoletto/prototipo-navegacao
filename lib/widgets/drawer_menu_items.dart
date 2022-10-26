@@ -62,6 +62,39 @@ class MenuItensList {
       ]
     ),
   ];
+
+  static List<DrawerMenuItem> analistaItens = [
+    //HomePage
+    DrawerMenuItem(
+      text: const Text('Home', style: TextStyle(color: Colors.blue)),
+      icon: const Icon(Icons.home, color: Colors.blue),
+      pageRoute: Routes.homePage,
+    ),
+    //Gerenciar usuários
+    DrawerMenuItem(
+      text: const Text('Usuários', style: TextStyle(color: Colors.blue)),
+      icon: const Icon(Icons.person, color: Colors.blue),
+      pageRoute: Routes.usuarios,
+    ),
+    //Gerenciar professores
+    DrawerMenuItem(
+      text: const Text('Professores', style: TextStyle(color: Colors.blue)),
+      icon: const Icon(Icons.person, color: Colors.blue),
+      pageRoute: Routes.professores,
+    ),
+    //Gerenciar Disciplinas
+    DrawerMenuItem(
+      text: const Text('Disciplinas', style: TextStyle(color: Colors.blue)),
+      icon: const Icon(Icons.person, color: Colors.blue),
+      pageRoute: Routes.disciplinas,
+    ),
+    //Alterar senha
+    DrawerMenuItem(
+      text: const Text('Alterar Senha', style: TextStyle(color: Colors.blue)),
+      icon: const Icon(Icons.person, color: Colors.blue),
+      pageRoute: Routes.alterarSenha,
+    ),
+  ];
 }
 
 class DrawerMenuItem {

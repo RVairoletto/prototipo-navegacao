@@ -86,7 +86,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                           String conteudo;
 
                           if(isAlteracao){
-                            respNivel = await ctrNiveisAcesso.putNivelAcesso(nivel);
+                            respNivel = await ctrNiveisAcesso.editNivelAcesso(nivel);
                           } else {
                             respNivel = await ctrNiveisAcesso.postNivelAcesso(ctrDescricao.text);
                           }
