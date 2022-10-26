@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototipo_navegacao/controller/controller_login.dart';
 import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +27,8 @@ class _TestesViewState extends State<TestesView> {
   }
   @override
   Widget build(BuildContext context) {
+    ControllerLogin ctrLogin = ControllerLogin();
+
     return Scaffold(
         drawer: const DefaultUserDrawer(),
         appBar: AppBar(title: const Text("Tela de testes")),
@@ -33,6 +36,18 @@ class _TestesViewState extends State<TestesView> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              //forgotPass
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: ElevatedButton(
+                    onPressed: (){
+                      ctrLogin.forgotPassword('renan.net2014@gmail.com');
+                    },
+                    child: const Text('Esqueci minha senha'),
+                  )
+                )
+              ),
               //combobox
               Flexible(
                 child: Padding(
