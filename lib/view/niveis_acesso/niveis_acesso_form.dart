@@ -86,6 +86,8 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                           String conteudo;
 
                           if(isAlteracao){
+                            nivel.description = ctrDescricao.text;
+                            
                             respNivel = await ctrNiveisAcesso.editNivelAcesso(nivel);
                           } else {
                             respNivel = await ctrNiveisAcesso.postNivelAcesso(ctrDescricao.text);
@@ -112,16 +114,16 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
-                                      
-                                      if(respNivel == null){
-                                        return;
-                                      }
                                     },
                                     child: const Text('Ok'))
                                 ],
                               );
                             }
-                          );
+                          ).then((value) {
+                            if(respNivel == null){
+                              Navigator.pop(context);
+                            }
+                          });
                         },
                         child: const Text('Confirmar')
                       ),
