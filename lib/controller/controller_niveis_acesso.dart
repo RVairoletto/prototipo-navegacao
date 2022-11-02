@@ -62,4 +62,20 @@ class ControllerNiveisAcesso {
 
     return null;
   }
+
+  //Excluir nível de acesso
+  Future<String?> deleteNivelAcesso(NivelAcessoModel nivel) async {
+    //confirmar endpoint
+    ApiResponse response = await ApiClient().post(
+      endPoint: '',
+      data: nivel.toJson()
+    );
+
+    //confirmar código de sucesso
+    if(response.statusCode != 204){
+      return response.body['error'] ?? 'Não foi possível excluir o nível de acesso';
+    }
+
+    return null;
+  }
 }

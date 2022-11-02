@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_niveis_acesso.dart';
 import 'package:prototipo_navegacao/model/nivel_acesso.dart';
 import 'package:prototipo_navegacao/view/niveis_acesso/niveis_acesso_form.dart';
+import 'package:prototipo_navegacao/widgets/default_alert_dialog.dart';
 import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
 
 class NiveisAcessoView extends StatefulWidget {
@@ -22,8 +23,8 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
       DataCell(
         Text(nivelAcesso.description)
       ),
+      //Alterar
       DataCell(
-        //Alterar
         IconButton(
           icon: const Icon(Icons.app_registration),
           onPressed: () {
@@ -34,6 +35,45 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
               }
             ).then((value) => {
               fetchNiveisAcesso()
+            });
+          },
+        )
+      ),
+      //Excluir
+      DataCell(
+        IconButton(
+          icon: const Icon(Icons.remove_circle),
+          onPressed: () async {
+            await showDialog(
+              context: context,
+              builder: (context) {
+                return const DefaultAlertDialog();
+              },
+            ).then((value) async {
+              if(value == true) {
+                await ctrNiveisAcesso.deleteNivelAcesso(nivelAcesso).then((value) {
+                  showDialog(
+                    context: context,
+                    builder: ((context) {
+                      return AlertDialog(
+                        title: value == null ? const Text('Sucesso') : const Text('Aviso'),
+                        content: value == null
+                          ? const Text('O nível de acesso foi excluído com sucesso')
+                          : const Text('Não foi possível excluir o nível de acesso'),
+                        actions: [
+                          TextButton(
+                            onPressed: (() {
+                              Navigator.pop(context);
+                              fetchNiveisAcesso();
+                            }),
+                            child: const Text('Ok')
+                          )
+                        ],
+                      );
+                    })
+                  );
+                });
+              }
             });
           },
         )
