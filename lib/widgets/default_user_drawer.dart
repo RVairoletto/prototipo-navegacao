@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:prototipo_navegacao/model/usuario_atual.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,9 +41,7 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
         'name': jsonDecode(prefs!.getString('usuario_atual')?? '')['name'],
         'email': jsonDecode(prefs!.getString('usuario_atual')?? '')['email'],
       },
-      pages: jsonDecode(prefs!.getString('usuario_atual')?? '')['levelId'] == 1
-      ? MenuItensList.analistaItens
-      : MenuItensList.itens,
+      pages: MenuItemsList.itens,
       footer: ElevatedButton(
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(0),

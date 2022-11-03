@@ -1,43 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 
-class MenuItensList {
+class MenuItemsList {
   static List<DrawerMenuItem> itens = [
     //HomePage
     DrawerMenuItem(
       text: const Text('Home', style: TextStyle(color: Colors.blue)),
       icon: const Icon(Icons.home, color: Colors.blue),
       pageRoute: Routes.homePage,
+      description: 'homepage',
     ),
     //Gerenciar usuários
     DrawerMenuItem(
       text: const Text('Usuários', style: TextStyle(color: Colors.blue)),
       icon: const Icon(Icons.person, color: Colors.blue),
       pageRoute: Routes.usuarios,
+      description: 'usuarios',
     ),
     //Gerenciar níveis de acesso
     DrawerMenuItem(
       text: const Text('Níveis de Acesso', style: TextStyle(color: Colors.blue)),
       icon: const Icon(Icons.arrow_upward_sharp, color: Colors.blue),
       pageRoute: Routes.niveisAcesso,
+      description: 'niveisacesso',
     ),
     //Gerenciar professores
     DrawerMenuItem(
       text: const Text('Professores', style: TextStyle(color: Colors.blue)),
       icon: const Icon(Icons.person, color: Colors.blue),
       pageRoute: Routes.professores,
+      description: 'professores',
     ),
     //Gerenciar Disciplinas
     DrawerMenuItem(
       text: const Text('Disciplinas', style: TextStyle(color: Colors.blue)),
       icon: const Icon(Icons.person, color: Colors.blue),
       pageRoute: Routes.disciplinas,
+      description: 'disciplinas',
     ),
     //Alterar senha
     DrawerMenuItem(
       text: const Text('Alterar Senha', style: TextStyle(color: Colors.blue)),
       icon: const Icon(Icons.person, color: Colors.blue),
       pageRoute: Routes.alterarSenha,
+      description: 'alterarsenha',
     ),
     //Tela de testes
     DrawerMenuItem(
@@ -62,53 +68,44 @@ class MenuItensList {
       ]
     ),
   ];
-
-  static List<DrawerMenuItem> analistaItens = [
-    //HomePage
-    DrawerMenuItem(
-      text: const Text('Home', style: TextStyle(color: Colors.blue)),
-      icon: const Icon(Icons.home, color: Colors.blue),
-      pageRoute: Routes.homePage,
-    ),
-    //Gerenciar usuários
-    DrawerMenuItem(
-      text: const Text('Usuários', style: TextStyle(color: Colors.blue)),
-      icon: const Icon(Icons.person, color: Colors.blue),
-      pageRoute: Routes.usuarios,
-    ),
-    //Gerenciar professores
-    DrawerMenuItem(
-      text: const Text('Professores', style: TextStyle(color: Colors.blue)),
-      icon: const Icon(Icons.person, color: Colors.blue),
-      pageRoute: Routes.professores,
-    ),
-    //Gerenciar Disciplinas
-    DrawerMenuItem(
-      text: const Text('Disciplinas', style: TextStyle(color: Colors.blue)),
-      icon: const Icon(Icons.person, color: Colors.blue),
-      pageRoute: Routes.disciplinas,
-    ),
-    //Alterar senha
-    DrawerMenuItem(
-      text: const Text('Alterar Senha', style: TextStyle(color: Colors.blue)),
-      icon: const Icon(Icons.person, color: Colors.blue),
-      pageRoute: Routes.alterarSenha,
-    ),
-  ];
 }
 
 class DrawerMenuItem {
   final Text? text;
   final Icon? icon;
   final String pageRoute;
+  final String description;
   final List<DrawerMenuItem> children;
 
   DrawerMenuItem({
     this.text,
     this.icon,
     this.pageRoute = '',
+    this.description = '',
     this.children = const []
   }) : assert (
     (children.isEmpty && pageRoute != '') || (children.isNotEmpty && pageRoute == '')
   );
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> retorno = {
+      'text': text,
+      'icon': icon,
+      'pageRoute': pageRoute,
+      'description': description,
+      'children': children,
+    };
+
+    return retorno;
+  }
+
+  factory DrawerMenuItem.fromJson(Map<String, dynamic> json) {
+    return DrawerMenuItem(
+      text: json['text'],
+      icon: json['icon'],
+      pageRoute: json['pageRoute'],
+      description: json['description'],
+      children: json['children'],
+    );
+  }
 }
