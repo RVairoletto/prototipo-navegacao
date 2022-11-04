@@ -1,15 +1,15 @@
+import 'dart:convert';
+
 import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/widgets/drawer_menu_items.dart';
 
 class ControllerMenus {
   //Post menu
-  Future<String?> postMenu(String menuDescription) async {
+  Future<String?> postMenu(DrawerMenuItem menuItem) async {
     ApiResponse response = await ApiClient().post(
       endPoint: 'menu',
-      data: {
-        'description': menuDescription
-      }
+      data: menuItem.toJson()
     );
 
     if(response.statusCode != 204) {
@@ -20,7 +20,7 @@ class ControllerMenus {
   }
 
   //Get menu
-  Future<List<DrawerMenuItem>?> getMenu(String menuDescription) async {
+  Future<List<DrawerMenuItem>?> getMenu() async {
     ApiResponse response = await ApiClient().get(
       endPoint: 'menu',
     );

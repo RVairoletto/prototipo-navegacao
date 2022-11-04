@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_login.dart';
+import 'package:prototipo_navegacao/controller/controller_menus.dart';
 import 'package:prototipo_navegacao/model/usuario_atual.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
+import 'package:prototipo_navegacao/widgets/drawer_menu_items.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
@@ -18,6 +20,7 @@ class _LoginViewState extends State<LoginView> {
   final ctrSenha = TextEditingController();
 
   ControllerLogin controllerLogin = ControllerLogin();
+  ControllerMenus controllerMenus = ControllerMenus();
 
   bool exibirSenha = false;
 
@@ -107,14 +110,20 @@ class _LoginViewState extends State<LoginView> {
                             context, dadosLogin);
 
                         if (retornoLogin.containsKey('user')) {
+                          for (int i = 0; i < MenuItemsList.itens.length; i++) {
+                            controllerMenus.postMenu(MenuItemsList.itens[i]);
+                          }
+
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
-                              UsuarioAtualModel user = retornoLogin['user'];
-                          prefs.setString(
-                              'usuario_atual', jsonEncode(user.toJson(true))).then((value) {
-                                Navigator.pushReplacementNamed(context, Routes.homePage);
-                              });
-                          
+                          UsuarioAtualModel user = retornoLogin['user'];
+                          prefs
+                              .setString('usuario_atual',
+                                  jsonEncode(user.toJson(true)))
+                              .then((value) {
+                            Navigator.pushReplacementNamed(
+                                context, Routes.homePage);
+                          });
                         } else {
                           showDialog(
                               context: context,
