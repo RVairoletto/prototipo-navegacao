@@ -71,14 +71,14 @@ class MenuItemsList {
 }
 
 class DrawerMenuItem {
-  final Text text;
+  final Text? text;
   final Icon? icon;
   final String pageRoute;
   final String description;
   final List<DrawerMenuItem> children;
 
   DrawerMenuItem({
-    this.text = const Text(''),
+    this.text,
     this.icon,
     this.pageRoute = '',
     this.description = '',
@@ -89,7 +89,7 @@ class DrawerMenuItem {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> retorno = {
-      'text': text.data,
+      'text': text?.data,
       'pageRoute': pageRoute,
       'description': description,
     };
