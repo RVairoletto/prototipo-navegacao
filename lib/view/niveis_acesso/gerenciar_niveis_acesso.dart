@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_niveis_acesso.dart';
 import 'package:prototipo_navegacao/model/nivel_acesso.dart';
+import 'package:prototipo_navegacao/util/routes.dart';
 import 'package:prototipo_navegacao/view/niveis_acesso/niveis_acesso_form.dart';
 import 'package:prototipo_navegacao/widgets/default_alert_dialog.dart';
 import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
@@ -141,13 +142,10 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
                     icon: const Icon(Icons.add),
                     iconSize: 80,
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const NiveisAcessoFormView();
+                      Navigator.pushNamed(context, Routes.niveisAcessoForm).then((value) => {
+                        if(value == true){
+                          fetchNiveisAcesso()
                         }
-                      ).then((value) => {
-                        fetchNiveisAcesso()
                       });
                     },
                   ),
