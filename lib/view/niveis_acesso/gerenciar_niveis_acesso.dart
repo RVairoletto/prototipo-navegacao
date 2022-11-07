@@ -51,8 +51,8 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
               },
             ).then((value) async {
               if(value == true) {
-                await ctrNiveisAcesso.deleteNivelAcesso(nivelAcesso).then((value) {
-                  showDialog(
+                await ctrNiveisAcesso.deleteNivelAcesso(nivelAcesso).then((value) async {
+                  await showDialog(
                     context: context,
                     builder: ((context) {
                       return AlertDialog(

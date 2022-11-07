@@ -39,7 +39,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
   void didChangeDependencies() {
     args = widget.id;
 
-    //Alteracao de usuario
+    //Alteração de nível de acesso
     if (args.runtimeType == int) {
       isAlteracao = true;
       fetchNivelAcesso();

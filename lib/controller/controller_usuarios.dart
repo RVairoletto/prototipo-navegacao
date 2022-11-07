@@ -163,20 +163,4 @@ class ControllerUsuarios {
       error += 'Não foi possível alterar sua senha';
     }
   }
-
-  Future<String> userLevel(int? id, String description) async {
-    ApiResponse response = await ApiClient().post(
-      endPoint: 'user/userLevel',
-      data:{
-        'id': id,
-        'description': description,
-      }
-    );
-
-    if(response.statusCode != 204){
-      return response.body['error'] ?? 'Não foi possível realizar a operação do grupo de acesso\n';
-    }
-
-    return '';
-  }
 }

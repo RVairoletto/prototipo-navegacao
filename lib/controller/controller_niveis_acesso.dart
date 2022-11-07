@@ -66,8 +66,11 @@ class ControllerNiveisAcesso {
   //Excluir nível de acesso
   Future<String?> deleteNivelAcesso(NivelAcessoModel nivel) async {
     //confirmar endpoint
-    ApiResponse response = await ApiClient().delete(
-      endPoint: 'accessLevel/${nivel.id}',
+    ApiResponse response = await ApiClient().post(
+      endPoint: 'accessLevel/delete',
+      data: {
+        'id': nivel.id
+      }
     );
 
     //confirmar código de sucesso
