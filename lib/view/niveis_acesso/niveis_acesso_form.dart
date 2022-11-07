@@ -19,6 +19,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
 
   dynamic args;
   bool isAlteracao = false;
+  bool? vl1 = false;
 
   fetchNivelAcesso() async {
     nivel = await ctrNiveisAcesso.getNivelAcessoById(widget.id!);
@@ -66,6 +67,28 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                 controller: ctrDescricao,
                 decoration: const InputDecoration(label: Text('Descrição')),
               ),
+              //Listagem dos menus
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Center(
+                    child: ListView(
+                      children: [
+                        CheckboxListTile(
+                          value: vl1,
+                          title: const Text('skibidibop'),
+                          onChanged: ((value) {
+                            setState(() {
+                              vl1 = value;
+                            });
+                          })
+                        ),
+                      ],
+                    )
+                  ),
+                ),
+              ),
+              //Linha com os botões de cancelar e confirmar
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
