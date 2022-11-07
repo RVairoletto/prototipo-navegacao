@@ -32,14 +32,14 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
   @override
   Widget build(BuildContext context) {
     return Menu(
-      user: prefs == null ? {
+      user: prefs != null ? {
         'profilePicture':'https://picsum.photos/200',
         'name': 'Nome',
-        'email': 'Email',
+        'email': 'Email'
       } : {
         'profilePicture':'https://picsum.photos/200',
-        'name': jsonDecode(prefs!.getString('usuario_atual')?? '')['name'],
-        'email': jsonDecode(prefs!.getString('usuario_atual')?? '')['email'],
+        'name': jsonDecode(prefs!.getString('usuario_atual') ?? '')['name'],
+        'email': jsonDecode(prefs!.getString('usuario_atual') ?? '')['email'],
       },
       pages: MenuItemsList.itens,
       footer: ElevatedButton(

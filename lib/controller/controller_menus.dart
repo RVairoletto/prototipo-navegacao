@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/widgets/drawer_menu_items.dart';
@@ -19,8 +17,8 @@ class ControllerMenus {
     return null;
   }
 
-  //Get menu
-  Future<List<DrawerMenuItem>?> getMenu() async {
+  //Get menus
+  Future<List<DrawerMenuItem>?> getMenus() async {
     ApiResponse response = await ApiClient().get(
       endPoint: 'menu',
     );

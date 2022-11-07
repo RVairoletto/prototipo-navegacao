@@ -59,7 +59,7 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
                         title: value == null ? const Text('Sucesso') : const Text('Aviso'),
                         content: value == null
                           ? const Text('O nível de acesso foi excluído com sucesso')
-                          : const Text('Não foi possível excluir o nível de acesso'),
+                          : Text(value),
                         actions: [
                           TextButton(
                             onPressed: (() {
@@ -119,6 +119,8 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
                       DataColumn(label: Text('Nome')),
                       //Alterar
                       DataColumn(label: Text('Alterar')),
+                      //Excluir
+                      DataColumn(label: Text('Excluir')),
                     ],
                     rows: [
                       //grid gerado dinamicamente no controller de niveis de acesso
