@@ -32,7 +32,7 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
   @override
   Widget build(BuildContext context) {
     return Menu(
-      user: prefs != null ? {
+      user: prefs == null ? {
         'profilePicture':'https://picsum.photos/200',
         'name': 'Nome',
         'email': 'Email'
