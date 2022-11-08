@@ -71,6 +71,7 @@ class MenuItemsList {
 }
 
 class DrawerMenuItem {
+  final int? id;
   final Text? text;
   final Icon? icon;
   final String pageRoute;
@@ -78,6 +79,7 @@ class DrawerMenuItem {
   final List<DrawerMenuItem> children;
 
   DrawerMenuItem({
+    this.id,
     this.text,
     this.icon,
     this.pageRoute = '',
@@ -99,7 +101,8 @@ class DrawerMenuItem {
 
   factory DrawerMenuItem.fromJson(Map<String, dynamic> json) {
     return DrawerMenuItem(
-      text: json['text'],
+      id: json['id'],
+      text: Text(json['text'] ?? 'MenuItem'),
       //icon: json['icon'],
       pageRoute: json['pageRoute'],
       description: json['description'],
