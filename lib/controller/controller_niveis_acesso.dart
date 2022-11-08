@@ -1,10 +1,12 @@
+import 'dart:convert';
+
 import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/model/nivel_acesso.dart';
 
 class ControllerNiveisAcesso {
   //Post nível de acesso
-  Future<String?> postNivelAcesso(String description) async {
+  Future<Map<String, dynamic>> postNivelAcesso(String description) async {
     ApiResponse response = await ApiClient().post(
       endPoint: 'accessLevel',
       data: {
@@ -13,10 +15,15 @@ class ControllerNiveisAcesso {
     );
 
     if(response.statusCode != 204){
-      return response.body['error'] ?? 'Não foi possível cadastrar o nível de acesso';
+      return {
+        'error': response.body['error'] ?? 'Não foi possível cadastrar o nível de acesso'
+      };
     }
 
-    return null;
+    //retorno do objeto salvo
+    return {
+      'nivelAcesso': NivelAcessoModel.fromJson(response.body)
+    };
   }
 
   //Get níveis de acesso
@@ -50,17 +57,19 @@ class ControllerNiveisAcesso {
   }
 
   //Editar nível de acesso
-  Future<String?> editNivelAcesso(NivelAcessoModel nivel) async {
+  Future<Map<String, dynamic>> editNivelAcesso(NivelAcessoModel nivel) async {
     ApiResponse response = await ApiClient().post(
       endPoint: 'accessLevel/edit',
       data: nivel.toJson()
     );
 
     if(response.statusCode != 204){
-      return response.body['error'] ?? 'Não foi possível alterar o nível de acesso';
+      return {
+        'error': response.body['error'] ?? 'Não foi possível alterar o nível de acesso'
+      };
     }
 
-    return null;
+    return {};
   }
 
   //Excluir nível de acesso

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_menus.dart';
 import 'package:prototipo_navegacao/controller/controller_niveis_acesso.dart';
+import 'package:prototipo_navegacao/controller/controller_permissions.dart';
 import 'package:prototipo_navegacao/model/nivel_acesso.dart';
+import 'package:prototipo_navegacao/model/permissions.dart';
 import 'package:prototipo_navegacao/widgets/drawer_menu_items.dart';
 
 class NiveisAcessoFormView extends StatefulWidget {
@@ -17,6 +19,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
 
   ControllerNiveisAcesso ctrNiveisAcesso = ControllerNiveisAcesso();
   ControllerMenus ctrMenus = ControllerMenus();
+  ControllerPermissions ctrPermissions = ControllerPermissions();
 
   NivelAcessoModel nivel = NivelAcessoModel();
 
@@ -32,6 +35,24 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
 
     for (int i = 0; i < menus.length; i++) {
       permissions[menus[i].description] = false;
+    }
+
+    setState(() {
+      //
+    });
+  }
+
+  fetchPermissions() async {
+    List<Permission> listPermissions = await ctrPermissions.getPermissions(nivel.id);
+
+    for(int i = 0; i < menus.length; i++){
+      for(int x = 0; x < listPermissions.length; x++){
+        if(menus[i].id == listPermissions[x].menuId){
+          permissions[menus[i].description] == true;
+
+          break;
+        }
+      }
     }
 
     setState(() {
@@ -64,6 +85,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
     if (args.runtimeType == int) {
       isAlteracao = true;
       fetchNivelAcesso();
+      fetchPermissions();
     }
 
     super.didChangeDependencies();
@@ -122,7 +144,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                   //Botão de confirmar
                   ElevatedButton(
                       onPressed: () async {
-                        final String? respNivel;
+                        final Map<String, dynamic> respNivel;
                         String titulo;
                         String conteudo;
 
@@ -136,12 +158,22 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                               .postNivelAcesso(ctrDescricao.text);
                         }
 
-                        if (respNivel == null) {
+                        if (!respNivel.containsKey('error')) {
                           //sucesso
                           titulo = 'Sucesso';
                           conteudo = isAlteracao
                               ? 'Nível de acesso alterado com sucesso'
                               : 'Nível de acesso salvo com sucesso';
+
+                          final NivelAcessoModel nivelAcesso =
+                              respNivel['nivelAcesso'];
+
+                          for (int i = 0; i < menus.length; i++) {
+                            if (permissions[menus[i].description] == true) {
+                              ctrPermissions.postPermission(
+                                  nivelAcesso.id, menus[i].id);
+                            }
+                          }
                         } else {
                           titulo = 'Aviso';
                           conteudo = 'A operação não pôde ser realizada';
@@ -162,7 +194,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                                 ],
                               );
                             }).then((value) {
-                          if (respNivel == null) {
+                          if (!respNivel.containsKey('error')) {
                             Navigator.pop(context);
                           }
                         });

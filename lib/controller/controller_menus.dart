@@ -5,13 +5,12 @@ import 'package:prototipo_navegacao/widgets/drawer_menu_items.dart';
 class ControllerMenus {
   //Post menu
   Future<String?> postMenu(DrawerMenuItem menuItem) async {
-    ApiResponse response = await ApiClient().post(
-      endPoint: 'menu',
-      data: menuItem.toJson()
-    );
+    ApiResponse response =
+        await ApiClient().post(endPoint: 'menu', data: menuItem.toJson());
 
-    if(response.statusCode != 204) {
-      return response.body['error'] ?? 'Não foi possível cadastrar o item de menu';
+    if (response.statusCode != 204) {
+      return response.body['error'] ??
+          'Não foi possível cadastrar o item de menu';
     }
 
     return null;
@@ -19,11 +18,13 @@ class ControllerMenus {
 
   //Get menus
   Future<List<DrawerMenuItem>?> getMenus() async {
+    return MenuItemsList.itens;
+    
     ApiResponse response = await ApiClient().get(
       endPoint: 'menu',
     );
 
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       return null;
     }
 
@@ -34,12 +35,10 @@ class ControllerMenus {
 
   //Edit menu
   Future<String?> editMenu(DrawerMenuItem menuItem) async {
-    ApiResponse response = await ApiClient().post(
-      endPoint: 'menu/edit',
-      data: menuItem.toJson()
-    );
+    ApiResponse response =
+        await ApiClient().post(endPoint: 'menu/edit', data: menuItem.toJson());
 
-    if(response.statusCode != 204) {
+    if (response.statusCode != 204) {
       return response.body['error'] ?? 'Não foi possível editar o item de menu';
     }
 
@@ -52,7 +51,7 @@ class ControllerMenus {
       endPoint: 'menu/$id',
     );
 
-    if(response.statusCode != 204) {
+    if (response.statusCode != 204) {
       return null;
     }
 
