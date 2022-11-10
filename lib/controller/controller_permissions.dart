@@ -22,32 +22,16 @@ class ControllerPermissions {
     return null;
   }
 
-  //Post permissão
+  //Get permissions
   Future<List<Permission>> getPermissions(int? levelId) async {
     ApiResponse response = await ApiClient().get(
-      endPoint: 'permission',
-      filters: {
-        'levelId': levelId
-      }
+      endPoint: 'permission/$levelId',
     );
 
     if(response.statusCode != 204) {
-      return response.body['error'] ?? 'Não foi possível buscar as permissões';
+      throw Exception(response.body['error'] ?? 'Não foi possível buscar as permissões');
     }
 
     return response.body.map<Permission>((permission) => Permission.fromJson(permission)).toList();
-  }
-
-  //Get permissão by id
-  Future<Map<String, dynamic>?> getPermissionById(int id) async {
-    ApiResponse response = await ApiClient().get(
-      endPoint: 'permission/$id',
-    );
-
-    if(response.statusCode != 204) {
-      return null;
-    }
-
-    return jsonDecode(response.body);
   }
 }
