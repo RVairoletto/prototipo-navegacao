@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:prototipo_navegacao/controller/controller_permissions.dart';
+import 'package:prototipo_navegacao/model/permissions.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,15 +19,40 @@ class DefaultUserDrawer extends StatefulWidget {
 class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
   SharedPreferences? prefs;
 
-  getPreferences() async{
+  List<DrawerMenuItem> menuItems = [];
+
+  fetchPreferences() async{
     prefs = await SharedPreferences.getInstance();
 
-    setState(() {});
+    setState(() {
+      //
+    });
+  }
+
+  fetchPermissions() async {
+    ControllerPermissions ctrPermissions = ControllerPermissions();
+    List<Permission> listPermissions = await ctrPermissions.getPermissions(jsonDecode(prefs!.getString('usuario_atual') ?? '')['levelId']);
+
+    for(int i = 0; i < MenuItemsList.itens.length; i++){
+      for(int x = 0; x < listPermissions.length; x++){
+        if(MenuItemsList.itens[i].id == listPermissions[x].menuId){
+          menuItems.add(MenuItemsList.itens[i]);
+
+          break;
+        }
+      }
+    }
+
+    setState(() {
+      //
+    });
   }
 
   @override
   void initState() {
-    getPreferences();
+    fetchPreferences();
+    fetchPermissions();
+
     super.initState();
   }
 
@@ -41,7 +68,7 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
         'name': jsonDecode(prefs!.getString('usuario_atual') ?? '')['name'],
         'email': jsonDecode(prefs!.getString('usuario_atual') ?? '')['email'],
       },
-      pages: MenuItemsList.itens,
+      pages: menuItems,
       footer: ElevatedButton(
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(0),
