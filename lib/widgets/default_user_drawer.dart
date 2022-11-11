@@ -24,6 +24,8 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
   fetchPreferences() async{
     prefs = await SharedPreferences.getInstance();
 
+    fetchPermissions();
+
     setState(() {
       //
     });
@@ -51,7 +53,6 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
   @override
   void initState() {
     fetchPreferences();
-    fetchPermissions();
 
     super.initState();
   }

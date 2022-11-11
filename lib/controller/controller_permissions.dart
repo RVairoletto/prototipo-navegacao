@@ -22,13 +22,13 @@ class ControllerPermissions {
     return null;
   }
 
-  //Get permissions
+  //Get permissões por levelId
   Future<List<Permission>> getPermissions(int? levelId) async {
     ApiResponse response = await ApiClient().get(
       endPoint: 'permission/$levelId',
     );
 
-    if(response.statusCode != 204) {
+    if(response.statusCode != 200) {
       throw Exception(response.body['error'] ?? 'Não foi possível buscar as permissões');
     }
 

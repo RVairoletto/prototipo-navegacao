@@ -43,7 +43,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
   }
 
   fetchPermissions() async {
-    List<Permission> listPermissions = await ctrPermissions.getPermissions(nivel.id);
+    List<Permission> listPermissions = await ctrPermissions.getPermissions(widget.id);
 
     for(int i = 0; i < menus.length; i++){
       for(int x = 0; x < listPermissions.length; x++){
@@ -72,6 +72,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
 
   @override
   void initState() {
+    fetchNivelAcesso();
     fetchMenus();
 
     super.initState();
@@ -162,11 +163,10 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                           //sucesso
                           titulo = 'Sucesso';
                           conteudo = isAlteracao
-                              ? 'Nível de acesso alterado com sucesso'
-                              : 'Nível de acesso salvo com sucesso';
+                            ? 'Nível de acesso alterado com sucesso'
+                            : 'Nível de acesso salvo com sucesso';
 
-                          final NivelAcessoModel nivelAcesso =
-                              respNivel['nivelAcesso'];
+                          final NivelAcessoModel nivelAcesso = respNivel['nivelAcesso'];
 
                           for (int i = 0; i < menus.length; i++) {
                             if (permissions[menus[i].description] == true) {
