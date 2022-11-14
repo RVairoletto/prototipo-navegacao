@@ -29,7 +29,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
   List<NivelAcessoModel> niveisAcesso = [];
 
-  NivelAcessoModel dropdownValue = NivelAcessoModel();
+  Map<String, dynamic> mapNiveis = {};
 
   dynamic args;
 
@@ -41,7 +41,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
     for (int i = 0; i < niveisAcesso.length; i++) {
       if (niveisAcesso[i].id == usuario.levelId) {
-        dropdownValue = niveisAcesso[i];
+        //dropdownValue = niveisAcesso[i];
       }
     }
 
@@ -52,8 +52,6 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
   fetchNiveisAcesso() async {
     niveisAcesso = await ctrNiveisAcesso.getNiveisAcesso();
-
-    dropdownValue = niveisAcesso.first;
 
     setState(() {
       //
@@ -138,28 +136,6 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                             ),
                           ),
                         ),
-                        //Combobox de níveis de acesso
-                        Flexible(
-                            child: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: DropdownButton<NivelAcessoModel>(
-                                    value: dropdownValue,
-                                    onChanged: (value) {
-                                      dropdownValue = value!;
-
-                                      setState(() {
-                                        //
-                                      });
-                                    },
-                                    items: [
-                                      for (int i = 0;
-                                          i < niveisAcesso.length;
-                                          i++)
-                                        DropdownMenuItem(
-                                            value: niveisAcesso[i],
-                                            child: Text(
-                                                niveisAcesso[i].description))
-                                    ]))),
                       ],
                     ),
                     //Linha com os campos de senha e confirmar senha
@@ -249,6 +225,29 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                         ),
                       ],
                     ),
+                    //Listagem de níveis de acesso
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Center(
+                            child: ListView(
+                          children: [
+                            for (int i = 0; i < niveisAcesso.length; i++)
+                              CheckboxListTile(
+                                title: Text(niveisAcesso[i].description),
+                                value: false,
+                                onChanged: (value) {
+                                  //permissions[menus[i].description] = value!;
+
+                                  setState(() {
+                                    //
+                                  });
+                                },
+                              )
+                          ],
+                        )),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -288,7 +287,6 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                             usuario.name = ctrNomeUsuario.text;
                             usuario.email = ctrEmail.text;
                             usuario.password = ctrSenha.text;
-                            usuario.levelId = dropdownValue.id;
 
                             if (isAlteracao) {
                               if (ctrNomeUsuario.text.isEmpty) {

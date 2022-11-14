@@ -17,15 +17,15 @@ class ControllerMenus {
   }
 
   //Get menus
-  Future<List<DrawerMenuItem>?> getMenus() async {
-    return MenuItemsList.itens;
-    
+  Future<List<DrawerMenuItem>> getMenus() async {
+    //return MenuItemsList.itens;
+
     ApiResponse response = await ApiClient().get(
       endPoint: 'menu',
     );
 
     if (response.statusCode != 200) {
-      return null;
+      throw Exception(response.body['error'] ?? 'Não foi possível buscar os itens de menu');
     }
 
     return response.body.map<DrawerMenuItem>((menuItem) {

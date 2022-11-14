@@ -110,9 +110,9 @@ class _LoginViewState extends State<LoginView> {
                             context, dadosLogin);
 
                         if (retornoLogin.containsKey('user')) {
-                          // for (int i = 0; i < MenuItemsList.itens.length; i++) {
-                          //   controllerMenus.postMenu(MenuItemsList.itens[i]);
-                          // }
+                          for (int i = 0; i < MenuItemsList.itens.length; i++) {
+                            controllerMenus.postMenu(MenuItemsList.itens[i]);
+                          }
 
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();

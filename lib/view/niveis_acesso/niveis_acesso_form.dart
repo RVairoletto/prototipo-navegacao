@@ -31,7 +31,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
   Map<String, bool> permissions = {};
 
   fetchMenus() async {
-    menus = await ctrMenus.getMenus() ?? [];
+    menus = await ctrMenus.getMenus();
 
     for (int i = 0; i < menus.length; i++) {
       permissions[menus[i].description] = false;
@@ -61,7 +61,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
   }
 
   fetchNivelAcesso() async {
-    nivel = await ctrNiveisAcesso.getNivelAcessoById(widget.id!);
+    nivel = await ctrNiveisAcesso.getNivelAcessoById(args);
 
     ctrDescricao.text = nivel.description;
 
@@ -72,7 +72,6 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
 
   @override
   void initState() {
-    fetchNivelAcesso();
     fetchMenus();
 
     super.initState();
@@ -83,10 +82,12 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
     args = widget.id;
 
     //Alteração de nível de acesso
-    if (args.runtimeType == int) {
-      isAlteracao = true;
-      fetchNivelAcesso();
-      fetchPermissions();
+    if (args != null) {
+      if (args.runtimeType == int) {
+        isAlteracao = true;
+        fetchNivelAcesso();
+        fetchPermissions();
+      }
     }
 
     super.didChangeDependencies();
@@ -138,7 +139,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                   //Botão de cancelar
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pop(context, true);
                         return;
                       },
                       child: const Text('Cancelar')),
@@ -195,7 +196,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                               );
                             }).then((value) {
                           if (!respNivel.containsKey('error')) {
-                            Navigator.pop(context);
+                            Navigator.pop(context, true);
                           }
                         });
                       },

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/model/nivel_acesso.dart';
@@ -12,15 +14,17 @@ class ControllerNiveisAcesso {
       }
     );
 
-    if(response.statusCode != 204){
+    if(response.statusCode != 200){
       return {
         'error': response.body['error'] ?? 'Não foi possível cadastrar o nível de acesso'
       };
     }
 
+    NivelAcessoModel nivel = NivelAcessoModel.fromJson(response.body[0]);
+
     //retorno do objeto salvo
     return {
-      'nivelAcesso': NivelAcessoModel.fromJson(response.body)
+      'nivelAcesso': nivel
     };
   }
 
@@ -67,7 +71,9 @@ class ControllerNiveisAcesso {
       };
     }
 
-    return {};
+    return {
+      'nivelAcesso': nivel
+    };
   }
 
   //Excluir nível de acesso
