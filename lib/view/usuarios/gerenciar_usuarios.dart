@@ -38,45 +38,49 @@ class _UsuariosViewState extends State<UsuariosView> {
           IconButton(
         icon: const Icon(Icons.app_registration),
         onPressed: () {
-          Navigator.pushNamed(context, Routes.usuariosForm,arguments: usuario.id).then((value) {
-            fetchUsuarios();
-          });
+          if (usuario.email != 'admin@email.com') {
+            Navigator.pushNamed(context, Routes.usuariosForm,arguments: usuario.id).then((value) {
+              fetchUsuarios();
+            });
+          }
         },
       )),
       DataCell(IconButton(
         //Excuir
         icon: const Icon(Icons.remove_circle),
         onPressed: () async {
-          final confirmarExclusao = await showDialog(
-            context: context,
-            builder: (context) {
-              return const DefaultAlertDialog();
-            },
-          );
-
-          if (confirmarExclusao) {
-            await ctrUsuarios.disableUsuario(usuario).then((value) {
-              showDialog(
-                context: context,
-                builder: ((context) {
-                  return AlertDialog(
-                    title: value ? const Text('Sucesso') : const Text('Aviso'),
-                    content: value
-                      ? const Text('O usuário foi desabilitado com sucesso')
-                      : const Text('Não foi possível desabilitar o usuário'),
-                    actions: [
-                      TextButton(
-                        onPressed: (() {
-                          Navigator.pop(context);
-                          fetchUsuarios();
-                        }),
-                        child: const Text('Ok')
-                      )
-                    ],
-                  );
-                })
-              );
-            });
+          if (usuario.email != 'admin@email.com') {
+            final confirmarExclusao = await showDialog(
+              context: context,
+              builder: (context) {
+                return const DefaultAlertDialog();
+              },
+            );
+            
+            if (confirmarExclusao) {
+              await ctrUsuarios.disableUsuario(usuario).then((value) {
+                showDialog(
+                  context: context,
+                  builder: ((context) {
+                    return AlertDialog(
+                      title: value ? const Text('Sucesso') : const Text('Aviso'),
+                      content: value
+                        ? const Text('O usuário foi desabilitado com sucesso')
+                        : const Text('Não foi possível desabilitar o usuário'),
+                      actions: [
+                        TextButton(
+                          onPressed: (() {
+                            Navigator.pop(context);
+                            fetchUsuarios();
+                          }),
+                          child: const Text('Ok')
+                        )
+                      ],
+                    );
+                  })
+                );
+              });
+            }
           }
         },
       )),

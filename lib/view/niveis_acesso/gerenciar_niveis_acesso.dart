@@ -29,14 +29,16 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
         IconButton(
           icon: const Icon(Icons.app_registration),
           onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return NiveisAcessoFormView(id: nivelAcesso.id);
-              }
-            ).then((value) => {
-              fetchNiveisAcesso()
-            });
+            if (nivelAcesso.description != 'admin') {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return NiveisAcessoFormView(id: nivelAcesso.id);
+                }
+              ).then((value) => {
+                fetchNiveisAcesso()
+              });
+            }
           },
         )
       ),
@@ -45,37 +47,39 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
         IconButton(
           icon: const Icon(Icons.remove_circle),
           onPressed: () async {
-            await showDialog(
-              context: context,
-              builder: (context) {
-                return const DefaultAlertDialog();
-              },
-            ).then((value) async {
-              if(value == true) {
-                await ctrNiveisAcesso.deleteNivelAcesso(nivelAcesso).then((value) async {
-                  await showDialog(
-                    context: context,
-                    builder: ((context) {
-                      return AlertDialog(
-                        title: value == null ? const Text('Sucesso') : const Text('Aviso'),
-                        content: value == null
-                          ? const Text('O nível de acesso foi excluído com sucesso')
-                          : Text(value),
-                        actions: [
-                          TextButton(
-                            onPressed: (() {
-                              Navigator.pop(context);
-                              fetchNiveisAcesso();
-                            }),
-                            child: const Text('Ok')
-                          )
-                        ],
-                      );
-                    })
-                  );
-                });
-              }
-            });
+            if (nivelAcesso.description != 'admin') {
+              await showDialog(
+                context: context,
+                builder: (context) {
+                  return const DefaultAlertDialog();
+                },
+              ).then((value) async {
+                if(value == true) {
+                  await ctrNiveisAcesso.deleteNivelAcesso(nivelAcesso).then((value) async {
+                    await showDialog(
+                      context: context,
+                      builder: ((context) {
+                        return AlertDialog(
+                          title: value == null ? const Text('Sucesso') : const Text('Aviso'),
+                          content: value == null
+                            ? const Text('O nível de acesso foi excluído com sucesso')
+                            : Text(value),
+                          actions: [
+                            TextButton(
+                              onPressed: (() {
+                                Navigator.pop(context);
+                                fetchNiveisAcesso();
+                              }),
+                              child: const Text('Ok')
+                            )
+                          ],
+                        );
+                      })
+                    );
+                  });
+                }
+              });
+            }
           },
         )
       ),
