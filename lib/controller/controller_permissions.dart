@@ -10,8 +10,8 @@ class ControllerPermissions {
     ApiResponse response = await ApiClient().post(
       endPoint: 'permission',
       data: {
-        'levelId': levelId,
-        'menuId': menuId,
+        'levelid': levelId,
+        'menuid': menuId,
       }
     );
 
