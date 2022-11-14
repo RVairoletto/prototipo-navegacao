@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/controller/controller_niveis_acesso.dart';
@@ -28,6 +30,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
   bool isAlteracao = false;
 
   List<NivelAcessoModel> niveisAcesso = [];
+  List<dynamic> niveisAcessoUser = [];
 
   Map<String, dynamic> mapNiveis = {};
 
@@ -35,13 +38,18 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
   fetchUsuario() async {
     usuario = await ctrUsuario.getUsuarioById(args);
+    niveisAcessoUser = await ctrUsuario.getNiveisAcesso(args);
 
     ctrNomeUsuario.text = usuario.name;
     ctrEmail.text = usuario.email;
 
     for (int i = 0; i < niveisAcesso.length; i++) {
-      if (niveisAcesso[i].id == usuario.levelId) {
-        //dropdownValue = niveisAcesso[i];
+      for (int x = 0; x < niveisAcessoUser.length; x++) {
+        if (niveisAcesso[i].id == niveisAcessoUser[x]['id']) {
+          mapNiveis[niveisAcesso[i].description] = true;
+
+          break;
+        }
       }
     }
 
@@ -52,6 +60,10 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
   fetchNiveisAcesso() async {
     niveisAcesso = await ctrNiveisAcesso.getNiveisAcesso();
+
+    for (int i = 0; i < niveisAcesso.length; i++) {
+      mapNiveis[niveisAcesso[i].description] = false;
+    }
 
     setState(() {
       //
@@ -226,18 +238,18 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                       ],
                     ),
                     //Listagem de níveis de acesso
-                    Flexible(
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.5,
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: Center(
-                            child: ListView(
+                        child: ListView(
                           children: [
                             for (int i = 0; i < niveisAcesso.length; i++)
                               CheckboxListTile(
                                 title: Text(niveisAcesso[i].description),
-                                value: false,
+                                value: mapNiveis[niveisAcesso[i].description],
                                 onChanged: (value) {
-                                  //permissions[menus[i].description] = value!;
+                                  mapNiveis[niveisAcesso[i].description] = value!;
 
                                   setState(() {
                                     //
@@ -245,7 +257,7 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                                 },
                               )
                           ],
-                        )),
+                        ),
                       ),
                     ),
                   ],
@@ -338,6 +350,13 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
                               //Salvar
                               await ctrUsuario.postUsuario(usuario);
+                            }
+
+                            //Vincular níveis de acesso
+                            for(int i = 0; i < niveisAcesso.length; i++){
+                              if(mapNiveis[niveisAcesso[i].description] == true){
+                                await ctrNiveisAcesso.userLevel(usuario.id, niveisAcesso[i].id);
+                              }
                             }
 
                             String title =

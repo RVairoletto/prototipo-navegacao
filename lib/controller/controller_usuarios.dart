@@ -77,7 +77,7 @@ class ControllerUsuarios {
       throw Exception(response.body['error']);
     }
 
-    UsuarioModel user = UsuarioModel.fromJson(response.body);
+    UsuarioModel user = UsuarioModel.fromJson(response.body[0]);
 
     return user;
   }
@@ -95,6 +95,21 @@ class ControllerUsuarios {
     }
 
     return true;
+  }
+
+  //Buscar níveis de acesso
+  Future<List<dynamic>> getNiveisAcesso(int userId) async {
+    ApiResponse response = await ApiClient().get(
+        endPoint: 'userLevel/$userId',
+      );
+
+    if (response.statusCode != 200) {
+      throw Exception(response.body['error'] ?? 'Não foi possível buscar os níveis de acesso do usuário');
+    }
+
+    List<dynamic> retorno = response.body.toList();
+
+    return retorno;
   }
 
   //Validar Senha

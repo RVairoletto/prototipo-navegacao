@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/model/nivel_acesso.dart';
@@ -78,7 +76,6 @@ class ControllerNiveisAcesso {
 
   //Excluir nível de acesso
   Future<String?> deleteNivelAcesso(NivelAcessoModel nivel) async {
-    //confirmar endpoint
     ApiResponse response = await ApiClient().post(
       endPoint: 'accessLevel/delete',
       data: {
@@ -86,9 +83,26 @@ class ControllerNiveisAcesso {
       }
     );
 
-    //confirmar código de sucesso
     if(response.statusCode != 204){
       return response.body['error'] ?? 'Não foi possível excluir o nível de acesso';
+    }
+
+    return null;
+  }
+
+  //Vincular nível de acesso a usuário
+  Future<String?> userLevel(int? userId, int? levelId) async {
+    ApiResponse response = await ApiClient().post(
+      endPoint: 'userLevel',
+      data: {
+        'userid': userId,
+        'levelid': levelId
+      }
+    );
+
+    //confirmar código de sucesso
+    if(response.statusCode != 204){
+      return response.body['error'] ?? 'Não foi possível vincular o nível de acesso';
     }
 
     return null;

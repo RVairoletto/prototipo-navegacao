@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/model/permissions.dart';
