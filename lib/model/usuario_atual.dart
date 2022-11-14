@@ -23,7 +23,6 @@ class UsuarioAtualModel extends UsuarioModel {
     password: password,
     admin: admin,
     disabled: disabled,
-    levelId: levelId,
   );
 
   @override
@@ -37,7 +36,6 @@ class UsuarioAtualModel extends UsuarioModel {
       'disabled': disabled,
       'exp': exp,
       'iat': iat,
-      'levelId': levelId,
     };
 
     if (serializeId) {
@@ -58,7 +56,6 @@ class UsuarioAtualModel extends UsuarioModel {
       disabled: json['disabled'] ?? false,
       exp: json['exp'] ?? 0,
       iat: json['iat'] ?? 0,
-      levelId: json['levelId'],
     );
   }
 }

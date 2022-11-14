@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:prototipo_navegacao/controller/controller_niveis_acesso.dart';
 import 'package:prototipo_navegacao/controller/controller_permissions.dart';
+import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
+import 'package:prototipo_navegacao/model/nivel_acesso.dart';
 import 'package:prototipo_navegacao/model/permissions.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,20 +35,28 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
   }
 
   fetchPermissions() async {
-    // ControllerPermissions ctrPermissions = ControllerPermissions();
-    // List<Permission> listPermissions = await ctrPermissions.getPermissions(jsonDecode(prefs!.getString('usuario_atual') ?? '')['levelId']);
+    ControllerPermissions ctrPermissions = ControllerPermissions();
+    ControllerUsuarios ctrUser = ControllerUsuarios();
 
-    // for(int i = 0; i < MenuItemsList.itens.length; i++){
-    //   for(int x = 0; x < listPermissions.length; x++){
-    //     if(MenuItemsList.itens[i].id == listPermissions[x].menuId){
-    //       menuItems.add(MenuItemsList.itens[i]);
+    List<dynamic> niveisAcesso = await ctrUser.getNiveisAcesso(jsonDecode(prefs!.getString('usuario_atual') ?? '')['id']);
 
-    //       break;
-    //     }
-    //   }
-    // }
+    List<Permission> listPermissions = [];
 
-    menuItems.addAll(MenuItemsList.itens);
+    for(int i = 0; i < niveisAcesso.length; i++){
+      listPermissions.addAll(await ctrPermissions.getPermissions(niveisAcesso[i]['id']));
+    }
+
+    for(int i = 0; i < MenuItemsList.itens.length; i++){
+      for(int x = 0; x < listPermissions.length; x++){
+        if(MenuItemsList.itens[i].description == listPermissions[x].description){
+          menuItems.add(MenuItemsList.itens[i]);
+
+          break;
+        }
+      }
+    }
+
+    //menuItems.addAll(MenuItemsList.itens);
     
     setState(() {
       //

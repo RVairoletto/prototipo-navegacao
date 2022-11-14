@@ -153,15 +153,14 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                         if (isAlteracao) {
                           nivel.description = ctrDescricao.text;
 
-                          respNivel =
-                              await ctrNiveisAcesso.editNivelAcesso(nivel);
+                          respNivel = await ctrNiveisAcesso.editNivelAcesso(nivel);
                         } else {
-                          respNivel = await ctrNiveisAcesso
-                              .postNivelAcesso(ctrDescricao.text);
+                          respNivel = await ctrNiveisAcesso.postNivelAcesso(ctrDescricao.text);
                         }
-
+                        
+                        //sucesso
                         if (!respNivel.containsKey('error')) {
-                          //sucesso
+                          
                           titulo = 'Sucesso';
                           conteudo = isAlteracao
                             ? 'Nível de acesso alterado com sucesso'
@@ -169,10 +168,12 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
 
                           final NivelAcessoModel nivelAcesso = respNivel['nivelAcesso'];
 
+                          //Limpar permissões pra evitar dados duplicados
+                          await ctrPermissions.deletePermissions(nivelAcesso.id);
+
                           for (int i = 0; i < menus.length; i++) {
                             if (permissions[menus[i].description] == true) {
-                              ctrPermissions.postPermission(
-                                  nivelAcesso.id, menus[i].id);
+                              await ctrPermissions.postPermission(nivelAcesso.id, menus[i].id);
                             }
                           }
                         } else {

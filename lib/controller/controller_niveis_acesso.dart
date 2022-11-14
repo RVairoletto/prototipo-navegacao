@@ -107,4 +107,22 @@ class ControllerNiveisAcesso {
 
     return null;
   }
+
+  //Desvincular nível de acesso a usuário
+  Future<String?> deleteUserLevel(int? userId, int? levelId) async {
+    ApiResponse response = await ApiClient().post(
+      endPoint: 'userLevel/deleteLevel',
+      data: {
+        'userid': userId,
+        'levelid': levelId
+      }
+    );
+
+    //confirmar código de sucesso
+    if(response.statusCode != 204){
+      return response.body['error'] ?? 'Não foi possível vincular o nível de acesso';
+    }
+
+    return null;
+  }
 }

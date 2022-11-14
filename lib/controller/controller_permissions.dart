@@ -32,4 +32,20 @@ class ControllerPermissions {
 
     return response.body.map<Permission>((permission) => Permission.fromJson(permission)).toList();
   }
+
+  //Excluir permissões
+  Future<String?> deletePermissions(int? levelId) async {
+    ApiResponse response = await ApiClient().post(
+      endPoint: 'permission/delete',
+      data: {
+        'levelid': levelId
+      }
+    );
+
+    if(response.statusCode != 204) {
+      return (response.body['error'] ?? 'Não foi possível excluir as permissões');
+    }
+
+    return null;
+  }
 }

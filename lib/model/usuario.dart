@@ -5,7 +5,6 @@ class UsuarioModel {
   String password;
   bool admin;
   bool disabled;
-  int? levelId;
 
   UsuarioModel({
     this.id,
@@ -14,7 +13,6 @@ class UsuarioModel {
     this.password = '',
     this.admin = false,
     this.disabled = false,
-    this.levelId,
   });
 
   Map<String, dynamic> toJson(bool serializeId) {
@@ -24,7 +22,6 @@ class UsuarioModel {
       'password': password,
       'admin': admin,
       'disabled': disabled,
-      'levelId': levelId,
     };
 
     if (serializeId) {
@@ -42,7 +39,6 @@ class UsuarioModel {
       password: (json['password']) ?? '',
       admin: json['admin'] ?? false,
       disabled: (json['disabled'] ?? false),
-      levelId: json['levelId']
     );
   }
 }

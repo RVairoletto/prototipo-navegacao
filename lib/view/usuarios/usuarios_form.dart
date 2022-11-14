@@ -357,6 +357,9 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                               if(mapNiveis[niveisAcesso[i].description] == true){
                                 await ctrNiveisAcesso.userLevel(usuario.id, niveisAcesso[i].id);
                               }
+                              else {
+                                await ctrNiveisAcesso.deleteUserLevel(usuario.id, niveisAcesso[i].id);
+                              }
                             }
 
                             String title =
