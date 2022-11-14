@@ -17,6 +17,7 @@ class AlterarSenhaView extends StatefulWidget {
 
 class _AlterarSenhaViewState extends State<AlterarSenhaView> {
   ControllerUsuarios controllerUsuario = ControllerUsuarios();
+  TextEditingController ctrSenhaAtual = TextEditingController();
   TextEditingController ctrNovaSenha = TextEditingController();
   TextEditingController ctrConfirmarSenha = TextEditingController();
 
@@ -36,6 +37,39 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
           width: MediaQuery.of(context).size.width * 0.6,
           child: Column(
             children: [
+              //Textbox com o campo de senha atual
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: ctrSenhaAtual,
+                    obscureText: !exibirSenhaAtual,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      labelText: 'Senha atual',
+                      border: InputBorder.none,
+                      suffixIcon: InkWell(
+                        onTap: () => setState(
+                          () => exibirSenhaAtual = !exibirSenhaAtual,
+                        ),
+                        child: Icon(
+                          exibirSenhaAtual
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                          color: const Color(0xFF757575),
+                        ),
+                      ),
+                    ),
+                    validator: ((value) {
+                      if (value!.isEmpty) {
+                        return 'Esse campo é obrigatório';
+                      }
+
+                      return null;
+                    }),
+                  ),
+                ),
+              ),
               //Textbox com o campo de nova senha
               Flexible(
                 child: Padding(
@@ -124,7 +158,8 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                       onPressed: () async {
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         UsuarioAtualModel usuarioAtual = UsuarioAtualModel.fromJson(
-                          jsonDecode(prefs.getString('usuario_atual') ?? ''));
+                          jsonDecode(prefs.getString('usuario_atual') ?? '')
+                        );
                         
                         //Validar se o usuario foi corretamente recuperado
                         if(usuarioAtual.toString() == ''){
@@ -148,6 +183,8 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
 
                           return;
                         }
+
+                        //Validar senha atual
                         
                         //Validar se a senha está dentro dos padrões
                         String msgErro = controllerUsuario.validarSenha(ctrNovaSenha.text);
