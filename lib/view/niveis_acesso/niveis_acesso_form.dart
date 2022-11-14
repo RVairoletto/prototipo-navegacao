@@ -47,8 +47,8 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
 
     for(int i = 0; i < menus.length; i++){
       for(int x = 0; x < listPermissions.length; x++){
-        if(menus[i].id == listPermissions[x].menuId){
-          permissions[menus[i].description] == true;
+        if(menus[i].description == listPermissions[x].description){
+          permissions[menus[i].description] = true;
 
           break;
         }
