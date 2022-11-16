@@ -183,8 +183,6 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
 
                           return;
                         }
-
-                        //Validar senha atual
                         
                         //Validar se a senha está dentro dos padrões
                         String msgErro = controllerUsuario.validarSenha(ctrNovaSenha.text);
@@ -212,7 +210,7 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                         }
 
                         //Alterar senha
-                        await controllerUsuario.alterarSenha(usuarioAtual, ctrNovaSenha.text);
+                        await controllerUsuario.alterarSenha(usuarioAtual, ctrNovaSenha.text, ctrSenhaAtual.text);
 
                         //Caso a senha tenha sido alterada com sucesso
                         if(controllerUsuario.error == ''){

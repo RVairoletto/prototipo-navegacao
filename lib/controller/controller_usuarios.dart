@@ -166,16 +166,21 @@ class ControllerUsuarios {
   }
 
   //Alterar Senha
-  alterarSenha(UsuarioAtualModel usuarioAtual, String senhaNova) async {
+  alterarSenha(UsuarioAtualModel usuarioAtual, String senhaNova, String senhaAtual) async {
     error = '';
 
     ApiResponse response = await ApiClient().post(
-        endPoint: 'users/newPassword',
-        token: '',
-        data: {'id': usuarioAtual.id, 'password': senhaNova});
+      endPoint: 'users/newPassword',
+      token: '',
+      data: {
+        'id': usuarioAtual.id,
+        'password': senhaNova,
+        'oldPassword': senhaAtual
+      }
+    );
 
     if (response.statusCode != 204) {
-      error += 'Não foi possível alterar sua senha';
+      error += response.body['error'] ?? 'Não foi possível alterar sua senha';
     }
   }
 }
