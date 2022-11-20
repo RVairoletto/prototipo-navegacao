@@ -354,12 +354,14 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
 
                             //Vincular níveis de acesso
                             for(int i = 0; i < niveisAcesso.length; i++){
-                              if(mapNiveis[niveisAcesso[i].description] == true){
-                                await ctrNiveisAcesso.userLevel(usuario.id, niveisAcesso[i].id);
-                              }
-                              else {
-                                if(isAlteracao){
-                                  await ctrNiveisAcesso.deleteUserLevel(usuario.id, niveisAcesso[i].id);
+                              for (int x = 0; x < niveisAcessoUser.length; x++) {
+                                if(mapNiveis[niveisAcesso[i].description] == true  && niveisAcessoUser[x]['description'] != niveisAcesso[i].description){
+                                  await ctrNiveisAcesso.userLevel(usuario.id, niveisAcesso[i].id);
+                                }
+                                else {
+                                  if(mapNiveis[niveisAcesso[i].description] == false && niveisAcessoUser[x]['description'] == niveisAcesso[i].description){
+                                    await ctrNiveisAcesso.deleteUserLevel(usuario.id, niveisAcesso[i].id);
+                                  }
                                 }
                               }
                             }
