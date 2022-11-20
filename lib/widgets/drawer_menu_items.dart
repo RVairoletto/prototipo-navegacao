@@ -92,7 +92,7 @@ class DrawerMenuItem {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> retorno = {
       'text': text?.data,
-      'pageRoute': pageRoute,
+      'pageroute': pageRoute,
       'description': description,
     };
 
@@ -104,7 +104,7 @@ class DrawerMenuItem {
       id: json['id'],
       text: Text(json['text'] ?? 'MenuItem'),
       //icon: json['icon'],
-      pageRoute: json['pageRoute'],
+      pageRoute: json['pageroute'],
       description: json['description'],
       //children: json['children'],
     );

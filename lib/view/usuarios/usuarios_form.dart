@@ -358,7 +358,9 @@ class _UsuariosFormViewState extends State<UsuariosFormView> {
                                 await ctrNiveisAcesso.userLevel(usuario.id, niveisAcesso[i].id);
                               }
                               else {
-                                await ctrNiveisAcesso.deleteUserLevel(usuario.id, niveisAcesso[i].id);
+                                if(isAlteracao){
+                                  await ctrNiveisAcesso.deleteUserLevel(usuario.id, niveisAcesso[i].id);
+                                }
                               }
                             }
 
