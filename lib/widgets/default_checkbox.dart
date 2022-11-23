@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+//Widget de checkbox com label criado a partir de exemplo
+//da ducumentação do flutter
 class LabeledCheckbox extends StatelessWidget {
   const LabeledCheckbox({
     super.key,

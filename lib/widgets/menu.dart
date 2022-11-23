@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'drawer_menu_items.dart';
 
+//Widget de menu
 class Menu extends StatelessWidget {
-  Widget menuItemToTile(List<DrawerMenuItem> arrayMenu, context)
-  {
+  Widget menuItemToTile(List<DrawerMenuItem> arrayMenu, context) {
     List drawerItens = arrayMenu.map((item) {
-      if(item.children.isEmpty)
-      {
+      if(item.children.isEmpty) {
         return ListTile(
           title: item.text,
           leading: item.icon,
           onTap: () => Navigator.of(context).pushReplacementNamed(item.pageRoute),
         );
       }
-      else
-      {
+      else {
         return ExpansionTile(
           leading: item.icon,
           title: item.text ?? const SizedBox.shrink(),
@@ -26,10 +24,6 @@ class Menu extends StatelessWidget {
               child: menuItemToTile(item.children, context),
             )
           ],
-          /*trailing: const Icon(
-            Icons.keyboard_arrow_down,
-            color: Colors.blue,
-          ),*/
         );
       }
     }).toList();
@@ -92,13 +86,6 @@ class Menu extends StatelessWidget {
               ],
             ),
           ),
-          // UserAccountsDrawerHeader(
-          //   currentAccountPicture: ClipOval(
-          //     child: Image.network(user['profilePicture']),
-          //   ),
-          //   accountName: Text(user['name']),
-          //   accountEmail: Text(user['email']),
-          // ),
           Expanded(
             child: SingleChildScrollView(
               child: menuItemToTile(pages, context),

@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:prototipo_navegacao/controller/controller_niveis_acesso.dart';
 import 'package:prototipo_navegacao/controller/controller_permissions.dart';
 import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
-import 'package:prototipo_navegacao/model/nivel_acesso.dart';
 import 'package:prototipo_navegacao/model/permissions.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'drawer_menu_items.dart';
 import 'menu.dart';
 
+
+//Widget de menu lateral customizado para permitir
+//Ocultar entradas de menu por nível de usuário
 class DefaultUserDrawer extends StatefulWidget {
   const DefaultUserDrawer({Key? key}) : super(key: key);
 
@@ -39,7 +40,6 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
     ControllerUsuarios ctrUser = ControllerUsuarios();
 
     List<dynamic> niveisAcesso = await ctrUser.getNiveisAcesso(jsonDecode(prefs!.getString('usuario_atual') ?? '')['id']);
-
     List<Permission> listPermissions = [];
 
     for(int i = 0; i < niveisAcesso.length; i++){
@@ -55,8 +55,6 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
         }
       }
     }
-
-    //menuItems.addAll(MenuItemsList.itens);
     
     setState(() {
       //
@@ -74,25 +72,22 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
   Widget build(BuildContext context) {
     return Menu(
       user: prefs == null
-          ? {
-              'profilePicture': 'https://picsum.photos/200',
-              'name': 'Nome',
-              'email': 'Email'
-            }
-          : {
-              'profilePicture': 'https://picsum.photos/200',
-              'name':
-                  jsonDecode(prefs!.getString('usuario_atual') ?? '')['name'],
-              'email':
-                  jsonDecode(prefs!.getString('usuario_atual') ?? '')['email'],
-            },
+        ? {
+            'profilePicture': 'https://picsum.photos/200',
+            'name': 'Nome',
+            'email': 'Email'
+          }
+        : {
+            'profilePicture': 'https://picsum.photos/200',
+            'name': jsonDecode(prefs!.getString('usuario_atual') ?? '')['name'],
+            'email': jsonDecode(prefs!.getString('usuario_atual') ?? '')['email'],
+          },
       pages: menuItems,
       footer: ElevatedButton(
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(0),
           backgroundColor: MaterialStateProperty.all(Colors.transparent),
-          minimumSize:
-              MaterialStateProperty.all(const Size(double.infinity, 70)),
+          minimumSize: MaterialStateProperty.all(const Size(double.infinity, 70)),
         ),
         child: Row(
           children: [
@@ -111,8 +106,7 @@ class _DefaultUserDrawerState extends State<DefaultUserDrawer> {
           ],
         ),
         onPressed: () async {
-          await prefs!.clear().then(
-              (value) => Navigator.pushReplacementNamed(context, Routes.login));
+          await prefs!.clear().then((value) => Navigator.pushReplacementNamed(context, Routes.login));
         },
       ),
     );

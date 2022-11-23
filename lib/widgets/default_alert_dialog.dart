@@ -7,6 +7,7 @@ class DefaultAlertDialog extends StatefulWidget {
   State<DefaultAlertDialog> createState() => _DefaultAlertDialogState();
 }
 
+//Widget de modal de exclusão padrão
 class _DefaultAlertDialogState extends State<DefaultAlertDialog> {
   @override
   Widget build(BuildContext context) {

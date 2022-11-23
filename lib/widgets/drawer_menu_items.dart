@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototipo_navegacao/util/routes.dart';
 
+//Itens de menu do sistema
 class MenuItemsList {
   static List<DrawerMenuItem> itens = [
     //HomePage
@@ -51,6 +52,7 @@ class MenuItemsList {
       icon: const Icon(Icons.person, color: Colors.blue),
       pageRoute: Routes.telaTestes,
     ),
+    //Exemplo de menu expandido
     DrawerMenuItem(
       text: const Text('Menu Expandido', style: TextStyle(color: Colors.blue)),
       icon: const Icon(Icons.home, color: Colors.blue),
@@ -103,10 +105,8 @@ class DrawerMenuItem {
     return DrawerMenuItem(
       id: json['id'],
       text: Text(json['text'] ?? 'MenuItem'),
-      //icon: json['icon'],
       pageRoute: json['pageroute'],
       description: json['description'],
-      //children: json['children'],
     );
   }
 }
