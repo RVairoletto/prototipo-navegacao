@@ -2,6 +2,7 @@ import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/model/permissions.dart';
 
+//Classe de controller responsável pelas operações de permissões
 class ControllerPermissions {
   //Post permissão
   Future<String?> postPermission(int? levelId, int? menuId) async {
@@ -21,6 +22,7 @@ class ControllerPermissions {
   }
 
   //Get permissões por levelId
+  //Essa função retorna todas as permissões vinculadas a um determinado nível de acesso
   Future<List<Permission>> getPermissions(int? levelId) async {
     ApiResponse response = await ApiClient().get(
       endPoint: 'permission/$levelId',

@@ -3,19 +3,18 @@ import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/model/usuario_atual.dart';
 
+//Classe de controller responsável pelas operações de login
 class ControllerLogin {
   //Efetuar login
-  Future<Map<String, dynamic>> efetuarLogin(
-      BuildContext context, Map<String, String> dadosLogin) async {
+  Future<Map<String, dynamic>> efetuarLogin(BuildContext context, Map<String, String> dadosLogin) async {
     ApiResponse response = await ApiClient().post(
       endPoint: 'signin',
-      token: '',
       data: dadosLogin
     );
     
     if (response.statusCode != 200) {
       return {
-        'error': response.body['error']
+        'error': response.body['error'] ?? 'Não foi possível efetuar o login'
       };
     }
 
@@ -26,24 +25,10 @@ class ControllerLogin {
     };
   }
 
-  Future<bool> validarToken(Map<String, dynamic> token) async {
-    ApiResponse response = await ApiClient()
-        .post(endPoint: 'validateToken', token: '', data: token);
-    //confirmar códigos de sucesso e erro
-    if (response.statusCode != 200) {
-      throw Exception(response.body['error']);
-    }
-
-    //confirmar
-    // print('resposta da rotina de validação de token: ' +
-    //     response.body.toString());
-    return true;
-  }
-
+  //Esqueci minha senha
   Future<String?> forgotPassword(String email) async {
     ApiResponse response = await ApiClient().post(
       endPoint: 'forgotPassword',
-      token: '',
       data: {
         'email': email
       }

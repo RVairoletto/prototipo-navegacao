@@ -6,6 +6,7 @@ import '../api/api_client.dart';
 import '../api/api_response.dart';
 import '../model/usuario_atual.dart';
 
+//Classe de controller responsável pelas operações de usuário
 class ControllerUsuarios {
   //Declaração de variáveis
   final RegExp regExpLetras = RegExp('[a-zA-Z]');
@@ -19,7 +20,6 @@ class ControllerUsuarios {
 
     ApiResponse response = await ApiClient().post(
       endPoint: 'signup',
-      token: '',
       data: usuario.toJson(false),
     );
 
@@ -32,6 +32,7 @@ class ControllerUsuarios {
     return usuario;
   }
 
+  //Editar usuário
   void editUsuario(UsuarioModel usuario) async {
     error = '';
 
@@ -41,7 +42,6 @@ class ControllerUsuarios {
 
     ApiResponse response = await ApiClient().post(
       endPoint: 'users/edit',
-      token: '',
       data: user,
     );
 
@@ -54,29 +54,26 @@ class ControllerUsuarios {
   Future<List<UsuarioModel>> getUsuarios() async {
     ApiResponse response = await ApiClient().get(
       endPoint: 'users',
-      token: '',
     );
 
     if (response.statusCode != 200) {
       throw Exception(response.body['error']);
     }
 
-    return response.body
-        .map<UsuarioModel>((usuario) => UsuarioModel.fromJson(usuario))
-        .toList();
+    return response.body.map<UsuarioModel>((usuario) => UsuarioModel.fromJson(usuario)).toList();
   }
 
   //Get usuário by id
   Future<UsuarioModel> getUsuarioById(int id) async {
     ApiResponse response = await ApiClient().get(
       endPoint: 'users/$id',
-      token: '',
     );
 
     if (response.statusCode != 200) {
       throw Exception(response.body['error']);
     }
 
+    //O objeto está sendo retornado como o primeiro item de uma lista
     UsuarioModel user = UsuarioModel.fromJson(response.body[0]);
 
     return user;
@@ -85,10 +82,12 @@ class ControllerUsuarios {
   //Desabilitar usuário
   Future<bool> disableUsuario(UsuarioModel usuario) async {
     ApiResponse response = await ApiClient().post(
-        endPoint: 'users/disable',
-        token: '',
-        data: {'id': usuario.id, 'disabled': true}
-      );
+      endPoint: 'users/disable',
+      data: {
+        'id': usuario.id,
+        'disabled': true
+      }
+    );
 
     if (response.statusCode != 204) {
       return false;
@@ -100,8 +99,8 @@ class ControllerUsuarios {
   //Buscar níveis de acesso
   Future<List<dynamic>> getNiveisAcesso(int userId) async {
     ApiResponse response = await ApiClient().get(
-        endPoint: 'userLevel/$userId',
-      );
+      endPoint: 'userLevel/$userId',
+    );
 
     if (response.statusCode != 200) {
       throw Exception(response.body['error'] ?? 'Não foi possível buscar os níveis de acesso do usuário');
@@ -113,6 +112,8 @@ class ControllerUsuarios {
   }
 
   //Validar Senha
+  //A função retorna uma string contendo todos os erros da senha validada
+  //Se a string estiver vazia, a senha está correta
   String validarSenha(String senha) {
     if (senha.length < 8) {
       return 'A senha deve conter pelo menos 8 caracteres';
@@ -130,12 +131,9 @@ class ControllerUsuarios {
   }
 
   //Validar dados de cadastro
-  String validarCadastro(
-    String usuario,
-    String email,
-    String senha,
-    String confirmarSenha,
-  ) {
+  //A função retorna uma string contendo todos os erros do cadastro validado
+  //Se a string estiver vazia, o cadastro está correto
+  String validarCadastro(String usuario, String email, String senha, String confirmarSenha,) {
     String msgErro = '';
 
     if (usuario == '') {
@@ -144,7 +142,7 @@ class ControllerUsuarios {
 
     if (email == '') {
       msgErro += 'Insira um e-mail\n';
-    } else if (!EmailValidator.validate(email)) {
+    } else if (!EmailValidator.validate(email)) { //O e-mail está sendo validado com um plugin de regex
       msgErro += 'Insira um e-mail válido\n';
     }
 
@@ -171,7 +169,6 @@ class ControllerUsuarios {
 
     ApiResponse response = await ApiClient().post(
       endPoint: 'users/newPassword',
-      token: '',
       data: {
         'id': usuarioAtual.id,
         'password': senhaNova,

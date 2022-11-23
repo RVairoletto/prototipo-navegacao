@@ -2,6 +2,7 @@ import 'package:prototipo_navegacao/api/api_client.dart';
 import 'package:prototipo_navegacao/api/api_response.dart';
 import 'package:prototipo_navegacao/model/nivel_acesso.dart';
 
+//Classe de controller responsável pelas operações de níveis de acesso
 class ControllerNiveisAcesso {
   //Post nível de acesso
   Future<Map<String, dynamic>> postNivelAcesso(String description) async {
@@ -18,6 +19,7 @@ class ControllerNiveisAcesso {
       };
     }
 
+    //O objeto salvo está sendo retornado como o primeiro item de uma lista
     NivelAcessoModel nivel = NivelAcessoModel.fromJson(response.body[0]);
 
     //retorno do objeto salvo
@@ -36,9 +38,7 @@ class ControllerNiveisAcesso {
       throw Exception(response.body['error'] ?? 'Não foi possível listar os níveis de acesso');
     }
 
-    return response.body
-        .map<NivelAcessoModel>((nivelAcesso) => NivelAcessoModel.fromJson(nivelAcesso))
-        .toList();
+    return response.body.map<NivelAcessoModel>((nivelAcesso) => NivelAcessoModel.fromJson(nivelAcesso)).toList();
   }
 
   //Get nivel de acesso by id
@@ -48,7 +48,7 @@ class ControllerNiveisAcesso {
     );
 
     if(response.statusCode != 200){
-      throw Exception(response.body['error'] ?? 'Não foi possível realizar a operação');
+      throw Exception(response.body['error'] ?? 'Não foi possível buscar o nível de acesso');
     }
 
     NivelAcessoModel nivel = NivelAcessoModel.fromJson(response.body);
@@ -100,7 +100,6 @@ class ControllerNiveisAcesso {
       }
     );
 
-    //confirmar código de sucesso
     if(response.statusCode != 204){
       return response.body['error'] ?? 'Não foi possível vincular o nível de acesso';
     }
@@ -118,9 +117,8 @@ class ControllerNiveisAcesso {
       }
     );
 
-    //confirmar código de sucesso
     if(response.statusCode != 204){
-      return response.body['error'] ?? 'Não foi possível vincular o nível de acesso';
+      return response.body['error'] ?? 'Não foi possível desvincular o nível de acesso';
     }
 
     return null;
