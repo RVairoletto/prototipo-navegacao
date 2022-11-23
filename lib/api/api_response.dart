@@ -1,3 +1,4 @@
+//Classe para receber as respostas de API
 class ApiResponse {
   int statusCode;
   dynamic body;

@@ -13,6 +13,7 @@ enum RequestType {
   PUT,
 }
 
+//Classe para realizar as chamadas de API
 class ApiRequest {
   String url;
   RequestType requestType;

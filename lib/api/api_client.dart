@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'api_request.dart';
 import 'api_response.dart';
 
+//Classe responsável por gerenciar as chamadas e respostas de API
 class ApiClient {
   final String baseUrl = r'http://localhost:3000/';
 
@@ -44,7 +45,7 @@ class ApiClient {
 
     request.header = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
+      //'Authorization': 'Bearer $token',
       'Access-Control-Allow-Origin': '*',
     };
     
@@ -60,7 +61,7 @@ class ApiClient {
 
     request.header = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
+      //'Authorization': 'Bearer $token',
       'Access-Control-Allow-Origin': '*',
     };
 
@@ -74,7 +75,7 @@ class ApiClient {
     
     request.header = {
       'Content-Type': 'application/json',
-      'x-reset-token': token,
+      //'x-reset-token': token,
       'Access-Control-Allow-Origin': '*',
     };
 

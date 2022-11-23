@@ -13,6 +13,9 @@ import 'package:prototipo_navegacao/view/usuarios/usuarios_form.dart';
 
 import '../view/login/login.dart';
 
+//Classe de rotas de navegação
+//Toda vez que uma nova tela for criada, sua rota deve ser criada nesse arquivo
+//E sua chamada adicionada ao retorno
 class Routes {
   static const String login = '/login';
   static const String homePage = '/homePage';
