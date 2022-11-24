@@ -10,6 +10,7 @@ class RecuperarSenhaView extends StatefulWidget {
   State<RecuperarSenhaView> createState() => _RecuperarSenhaViewState();
 }
 
+//View de recuperação de senha
 class _RecuperarSenhaViewState extends State<RecuperarSenhaView> {
   TextEditingController ctrEmail = TextEditingController();
 
@@ -24,6 +25,7 @@ class _RecuperarSenhaViewState extends State<RecuperarSenhaView> {
       body: Center(
         child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.6,
+          //Coluna com tudo
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: Column(
@@ -62,6 +64,7 @@ class _RecuperarSenhaViewState extends State<RecuperarSenhaView> {
                           onPressed: () async {
                             //Validar e-mail
                             if(!EmailValidator.validate(ctrEmail.text)){
+                              //Aviso de e-mail inválido
                               await showDialog(
                                 context: context,
                                 builder: (context) {
@@ -69,6 +72,7 @@ class _RecuperarSenhaViewState extends State<RecuperarSenhaView> {
                                     title: const Text('Aviso'),
                                     content: const Text('Insira um e-mail válido'),
                                     actions: [
+                                      //Botão de ok
                                       TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
@@ -82,8 +86,7 @@ class _RecuperarSenhaViewState extends State<RecuperarSenhaView> {
 
                               return;
                             }
-
-                            //Enviar e-mail pro backend
+                            
                             final String? respForgotPassword = await ctrLogin.forgotPassword(ctrEmail.text);
 
                             if(respForgotPassword == null){
