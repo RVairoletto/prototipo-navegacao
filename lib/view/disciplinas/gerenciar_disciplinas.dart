@@ -8,8 +8,10 @@ class DisciplinasView extends StatefulWidget {
   State<DisciplinasView> createState() => _DisciplinasViewState();
 }
 
+//View de gerenciar discipinas
+//Componentes pendentes
 class _DisciplinasViewState extends State<DisciplinasView> {
-  final TextEditingController _ctrPesquisa = TextEditingController();
+  final TextEditingController ctrPesquisa = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class _DisciplinasViewState extends State<DisciplinasView> {
                   child: Padding(
                     padding: const EdgeInsets.all(17),
                     child: TextFormField(
-                      controller: _ctrPesquisa,
+                      controller: ctrPesquisa,
                       decoration: InputDecoration(
                         //Botão de pesquisa
                         suffixIcon: IconButton(
@@ -51,6 +53,7 @@ class _DisciplinasViewState extends State<DisciplinasView> {
             ),
             //Grid com as disciplinas
             //todo widget de grid
+            //Se basear no grid de gerenciar usuários
           ],         
         )
       )
