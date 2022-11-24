@@ -14,6 +14,7 @@ class NiveisAcessoFormView extends StatefulWidget {
   State<NiveisAcessoFormView> createState() => _NiveisAcessoFormViewState();
 }
 
+//View de formulário de nível de acesso
 class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
   TextEditingController ctrDescricao = TextEditingController();
 
@@ -30,9 +31,11 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
 
   Map<String, bool> permissions = {};
 
+  //Buscar menus
   fetchMenus() async {
     menus = await ctrMenus.getMenus();
 
+    //Inicializar as permissões como falsas
     for (int i = 0; i < menus.length; i++) {
       permissions[menus[i].description] = false;
     }
@@ -42,9 +45,11 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
     });
   }
 
+  //Buscar permissões
   fetchPermissions() async {
     List<Permission> listPermissions = await ctrPermissions.getPermissions(widget.id);
 
+    //Marcar as permissões atuais deste nível de acesso como verdadeiras
     for(int i = 0; i < menus.length; i++){
       for(int x = 0; x < listPermissions.length; x++){
         if(menus[i].description == listPermissions[x].description){
@@ -60,6 +65,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
     });
   }
 
+  //Buscar o nível de acesso caso seja alteração
   fetchNivelAcesso() async {
     nivel = await ctrNiveisAcesso.getNivelAcessoById(args);
 
@@ -73,21 +79,19 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
   @override
   void initState() {
     fetchMenus();
-
     super.initState();
   }
 
   @override
+  //Função chamada automaticamente após o init}State
   void didChangeDependencies() {
     args = widget.id;
 
-    //Alteração de nível de acesso
-    if (args != null) {
-      if (args.runtimeType == int) {
-        isAlteracao = true;
-        fetchNivelAcesso();
-        fetchPermissions();
-      }
+    //Caso seja alteração
+    if (args != null && args.runtimeType == int) {
+      isAlteracao = true;
+      fetchNivelAcesso();
+      fetchPermissions();
     }
 
     super.didChangeDependencies();
@@ -96,27 +100,34 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Nível de Acesso')),
+      appBar: AppBar(
+        title: const Text('Nível de Acesso')
+      ),
       body: SizedBox(
         child: Padding(
           padding: const EdgeInsets.all(8),
+          //Coluna com tudo
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              //Textbox de descrição
+              //Textfield de descrição
               TextFormField(
                 autofocus: true,
                 controller: ctrDescricao,
-                decoration: const InputDecoration(label: Text('Descrição')),
+                decoration: const InputDecoration(
+                  label: Text('Descrição')
+                ),
               ),
               //Listagem dos menus
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: Center(
-                      child: ListView(
+                    child: ListView(
                     children: [
+                      //Geração dinâmica das linhas do grid
                       for (int i = 0; i < menus.length; i++)
+                        //Componente de lista com checkbox
                         CheckboxListTile(
                           title: menus[i].text,
                           value: permissions[menus[i].description],
@@ -128,8 +139,9 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                             });
                           },
                         )
-                    ],
-                  )),
+                      ],
+                    )
+                  ),
                 ),
               ),
               //Linha com os botões de cancelar e confirmar
@@ -138,70 +150,73 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
                 children: [
                   //Botão de cancelar
                   ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                        return;
-                      },
-                      child: const Text('Cancelar')),
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                      return;
+                    },
+                    child: const Text('Cancelar')
+                  ),
                   //Botão de confirmar
                   ElevatedButton(
-                      onPressed: () async {
-                        final Map<String, dynamic> respNivel;
-                        String titulo;
-                        String conteudo;
+                    onPressed: () async {
+                      final Map<String, dynamic> respNivel;
+                      String titulo;
+                      String conteudo;
 
-                        if (isAlteracao) {
-                          nivel.description = ctrDescricao.text;
+                      if (isAlteracao) {
+                        nivel.description = ctrDescricao.text;
 
-                          respNivel = await ctrNiveisAcesso.editNivelAcesso(nivel);
-                        } else {
-                          respNivel = await ctrNiveisAcesso.postNivelAcesso(ctrDescricao.text);
-                        }
+                        respNivel = await ctrNiveisAcesso.editNivelAcesso(nivel);
+                      } else {
+                        respNivel = await ctrNiveisAcesso.postNivelAcesso(ctrDescricao.text);
+                      }
+                      
+                      //sucesso
+                      if (!respNivel.containsKey('error')) {
                         
-                        //sucesso
-                        if (!respNivel.containsKey('error')) {
-                          
-                          titulo = 'Sucesso';
-                          conteudo = isAlteracao
-                            ? 'Nível de acesso alterado com sucesso'
-                            : 'Nível de acesso salvo com sucesso';
+                        titulo = 'Sucesso';
+                        conteudo = isAlteracao
+                          ? 'Nível de acesso alterado com sucesso'
+                          : 'Nível de acesso salvo com sucesso';
 
-                          final NivelAcessoModel nivelAcesso = respNivel['nivelAcesso'];
+                        final NivelAcessoModel nivelAcesso = respNivel['nivelAcesso'];
 
-                          //Limpar permissões pra evitar dados duplicados
-                          await ctrPermissions.deletePermissions(nivelAcesso.id);
+                        //Limpar permissões pra evitar dados duplicados
+                        await ctrPermissions.deletePermissions(nivelAcesso.id);
 
-                          for (int i = 0; i < menus.length; i++) {
-                            if (permissions[menus[i].description] == true) {
-                              await ctrPermissions.postPermission(nivelAcesso.id, menus[i].id);
-                            }
+                        for (int i = 0; i < menus.length; i++) {
+                          if (permissions[menus[i].description] == true) {
+                            await ctrPermissions.postPermission(nivelAcesso.id, menus[i].id);
                           }
-                        } else {
-                          titulo = 'Aviso';
-                          conteudo = 'A operação não pôde ser realizada';
                         }
+                      } else {
+                        titulo = 'Aviso';
+                        conteudo = 'A operação não pôde ser realizada';
+                      }
 
-                        await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(titulo),
-                                content: Text(conteudo),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Ok'))
-                                ],
-                              );
-                            }).then((value) {
-                          if (!respNivel.containsKey('error')) {
-                            Navigator.pop(context, true);
-                          }
-                        });
-                      },
-                      child: const Text('Confirmar')),
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(titulo),
+                            content: Text(conteudo),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Ok')
+                              )
+                            ],
+                          );
+                      }).then((value) {
+                        if (!respNivel.containsKey('error')) {
+                          Navigator.pop(context, true);
+                        }
+                      });
+                    },
+                    child: const Text('Confirmar')
+                  ),
                 ],
               )
             ],
