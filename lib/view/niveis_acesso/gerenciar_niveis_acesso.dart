@@ -35,7 +35,7 @@ class _NiveisAcessoViewState extends State<NiveisAcessoView> {
             onPressed: () {
               //Restrição para bloquear alterações no nível de acesso admin
               if (nivelAcesso.description != 'admin') {
-                Navigator.pushNamed(context, Routes.niveisAcessoForm).then((value) => {
+                Navigator.pushNamed(context, Routes.niveisAcessoForm, arguments: nivelAcesso.id).then((value) => {
                   fetchNiveisAcesso()
                 });
               }

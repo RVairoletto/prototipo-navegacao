@@ -7,8 +7,7 @@ import 'package:prototipo_navegacao/model/permissions.dart';
 import 'package:prototipo_navegacao/widgets/drawer_menu_items.dart';
 
 class NiveisAcessoFormView extends StatefulWidget {
-  final int? id;
-  const NiveisAcessoFormView({super.key, this.id});
+  const NiveisAcessoFormView({super.key});
 
   @override
   State<NiveisAcessoFormView> createState() => _NiveisAcessoFormViewState();
@@ -47,7 +46,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
 
   //Buscar permissões
   fetchPermissions() async {
-    List<Permission> listPermissions = await ctrPermissions.getPermissions(widget.id);
+    List<Permission> listPermissions = await ctrPermissions.getPermissions(args);
 
     //Marcar as permissões atuais deste nível de acesso como verdadeiras
     for(int i = 0; i < menus.length; i++){
@@ -85,7 +84,7 @@ class _NiveisAcessoFormViewState extends State<NiveisAcessoFormView> {
   @override
   //Função chamada automaticamente após o init}State
   void didChangeDependencies() {
-    args = widget.id;
+    args = ModalRoute.of(context)!.settings.arguments;
 
     //Caso seja alteração
     if (args != null && args.runtimeType == int) {
