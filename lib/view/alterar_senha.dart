@@ -5,8 +5,8 @@ import 'package:prototipo_navegacao/controller/controller_usuarios.dart';
 import 'package:prototipo_navegacao/model/usuario_atual.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../util/routes.dart';
-import '../widgets/default_user_drawer.dart';
+import 'package:prototipo_navegacao/util/routes.dart';
+import 'package:prototipo_navegacao/widgets/default_user_drawer.dart';
 
 class AlterarSenhaView extends StatefulWidget {
   const AlterarSenhaView({super.key});
@@ -15,6 +15,7 @@ class AlterarSenhaView extends StatefulWidget {
   State<AlterarSenhaView> createState() => _AlterarSenhaViewState();
 }
 
+//View de alteração de senha
 class _AlterarSenhaViewState extends State<AlterarSenhaView> {
   ControllerUsuarios controllerUsuario = ControllerUsuarios();
   TextEditingController ctrSenhaAtual = TextEditingController();
@@ -37,7 +38,7 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
           width: MediaQuery.of(context).size.width * 0.6,
           child: Column(
             children: [
-              //Textbox com o campo de senha atual
+              //Textfield com o campo de senha atual
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -49,9 +50,7 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                       labelText: 'Senha atual',
                       border: InputBorder.none,
                       suffixIcon: InkWell(
-                        onTap: () => setState(
-                          () => exibirSenhaAtual = !exibirSenhaAtual,
-                        ),
+                        onTap: () => setState(() => exibirSenhaAtual = !exibirSenhaAtual),
                         child: Icon(
                           exibirSenhaAtual
                             ? Icons.visibility_outlined
@@ -70,7 +69,7 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                   ),
                 ),
               ),
-              //Textbox com o campo de nova senha
+              //Textfield com o campo de nova senha
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -86,13 +85,11 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                       labelText: 'Nova senha',
                       border: InputBorder.none,
                       suffixIcon: InkWell(
-                        onTap: () => setState(
-                          () => exibirNovaSenha = !exibirNovaSenha,
-                        ),
+                        onTap: () => setState(() => exibirNovaSenha = !exibirNovaSenha),
                         child: Icon(
                           exibirNovaSenha
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
                           color: const Color(0xFF757575),
                         ),
                       ),
@@ -113,7 +110,7 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                   ),
                 ),
               ),
-              //Campo de confirmar senha
+              //Textfield de confirmar senha
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -132,14 +129,11 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                       labelText: 'Confirmar senha',
                       border: InputBorder.none,
                       suffixIcon: InkWell(
-                        onTap: () => setState(
-                          () => exibirConfirmarSenha =
-                              !exibirConfirmarSenha,
-                        ),
+                        onTap: () => setState(() => exibirConfirmarSenha = !exibirConfirmarSenha),
                         child: Icon(
                           exibirConfirmarSenha
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
                           color: const Color(0xFF757575),
                         ),
                       ),
@@ -162,8 +156,8 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                         );
                         
                         //Validar se o usuario foi corretamente recuperado
-                        if(usuarioAtual.toString() == ''){
-                          showDialog(
+                        if(usuarioAtual.toString() == '') {
+                          await showDialog(
                             context: context,
                             builder: (context){
                               return AlertDialog(
@@ -184,11 +178,11 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                           return;
                         }
                         
-                        //Validar se a senha está dentro dos padrões
+                        //Validar senha
                         String msgErro = controllerUsuario.validarSenha(ctrNovaSenha.text);
 
                         if (msgErro.isNotEmpty) {
-                          showDialog(
+                          await showDialog(
                             context: context,
                             builder: (context) {
                               return AlertDialog(
@@ -196,7 +190,7 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                                 content: Text(msgErro),
                                 actions: [
                                   TextButton(
-                                    onPressed: (){
+                                    onPressed: () {
                                       Navigator.pop(context);
                                     },
                                     child: const Text('Ok')
@@ -212,46 +206,32 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                         //Alterar senha
                         await controllerUsuario.alterarSenha(usuarioAtual, ctrNovaSenha.text, ctrSenhaAtual.text);
 
-                        //Caso a senha tenha sido alterada com sucesso
-                        if(controllerUsuario.error == ''){
-                          //mensagem de sucesso
-                          await showDialog(
-                            context: context,
-                            builder: (context){
-                              return AlertDialog(
-                                title: const Text('Sucesso'),
-                                content: const Text('Sua senha foi alterada com sucesso'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: (){
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Ok'))
-                                ],
-                              );
-                            }
-                          ).then((value) {
-                            Navigator.pushNamed(context, Routes.homePage);
-                          });
-                        } 
-                        else {
-                          showDialog(
-                            context: context,
-                            builder: (context){
-                              return AlertDialog(
-                                title: const Text('Algo deu errado'),
-                                content: Text(controllerUsuario.error),
-                                actions: [
-                                  TextButton(
-                                    onPressed: (){
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Ok'))
-                                ],
-                              );
-                            }
-                          );
-                        }
+                        await showDialog(
+                          context: context,
+                          builder: (context){
+                            return AlertDialog(
+                              title: controllerUsuario.error.isEmpty
+                                ? const Text('Sucesso')
+                                : const Text('Algo deu errado'),
+                              content: controllerUsuario.error.isEmpty
+                                ? const Text('Sua senha foi alterada com sucesso')
+                                : Text(controllerUsuario.error),
+                              actions: [
+                                TextButton(
+                                  onPressed: (){
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Ok')
+                                )
+                              ],
+                            );
+                          }
+                        ).then((value) {
+                          controllerUsuario.error.isEmpty
+                          ? Navigator.pushNamed(context, Routes.homePage)
+                          : null;
+                        });
+                        
                       },
                       child: const Text('Confirmar')
                     ),
