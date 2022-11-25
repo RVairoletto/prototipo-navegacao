@@ -228,8 +228,8 @@ class _AlterarSenhaViewState extends State<AlterarSenhaView> {
                           }
                         ).then((value) {
                           controllerUsuario.error.isEmpty
-                          ? Navigator.pushNamed(context, Routes.homePage)
-                          : null;
+                            ? Navigator.pushNamed(context, Routes.homePage)
+                            : null;
                         });
                         
                       },
