@@ -23,7 +23,7 @@ class ControllerUsuarios {
       data: usuario.toJson(false),
     );
 
-    if (response.statusCode != 204) {
+    if (response.statusCode == 500) {
       error = response.body['error'] ?? 'Não foi possível salvar seu cadastro';
 
       return null;
@@ -60,7 +60,9 @@ class ControllerUsuarios {
       throw Exception(response.body['error']);
     }
 
-    return response.body.map<UsuarioModel>((usuario) => UsuarioModel.fromJson(usuario)).toList();
+    return response.body
+        .map<UsuarioModel>((usuario) => UsuarioModel.fromJson(usuario))
+        .toList();
   }
 
   //Get usuário by id
@@ -82,12 +84,7 @@ class ControllerUsuarios {
   //Desabilitar usuário
   Future<bool> disableUsuario(UsuarioModel usuario) async {
     ApiResponse response = await ApiClient().post(
-      endPoint: 'users/disable',
-      data: {
-        'id': usuario.id,
-        'disabled': true
-      }
-    );
+        endPoint: 'users/disable', data: {'id': usuario.id, 'disabled': true});
 
     if (response.statusCode != 204) {
       return false;
@@ -103,7 +100,8 @@ class ControllerUsuarios {
     );
 
     if (response.statusCode != 200) {
-      throw Exception(response.body['error'] ?? 'Não foi possível buscar os níveis de acesso do usuário');
+      throw Exception(response.body['error'] ??
+          'Não foi possível buscar os níveis de acesso do usuário');
     }
 
     List<dynamic> retorno = response.body.toList();
@@ -133,7 +131,12 @@ class ControllerUsuarios {
   //Validar dados de cadastro
   //A função retorna uma string contendo todos os erros do cadastro validado
   //Se a string estiver vazia, o cadastro está correto
-  String validarCadastro(String usuario, String email, String senha, String confirmarSenha,) {
+  String validarCadastro(
+    String usuario,
+    String email,
+    String senha,
+    String confirmarSenha,
+  ) {
     String msgErro = '';
 
     if (usuario == '') {
@@ -142,7 +145,8 @@ class ControllerUsuarios {
 
     if (email == '') {
       msgErro += 'Insira um e-mail\n';
-    } else if (!EmailValidator.validate(email)) { //O e-mail está sendo validado com um plugin de regex
+    } else if (!EmailValidator.validate(email)) {
+      //O e-mail está sendo validado com um plugin de regex
       msgErro += 'Insira um e-mail válido\n';
     }
 
@@ -164,17 +168,17 @@ class ControllerUsuarios {
   }
 
   //Alterar Senha
-  alterarSenha(UsuarioAtualModel usuarioAtual, String senhaNova, String senhaAtual) async {
+  alterarSenha(UsuarioAtualModel usuarioAtual, String senhaNova,
+      String senhaAtual) async {
     error = '';
 
     ApiResponse response = await ApiClient().post(
-      endPoint: 'users/newPassword',
-      data: {
-        'id': usuarioAtual.id,
-        'password': senhaNova,
-        'oldPassword': senhaAtual
-      }
-    );
+        endPoint: 'users/newPassword',
+        data: {
+          'id': usuarioAtual.id,
+          'password': senhaNova,
+          'oldPassword': senhaAtual
+        });
 
     if (response.statusCode != 204) {
       error += response.body['error'] ?? 'Não foi possível alterar sua senha';
